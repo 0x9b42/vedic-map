@@ -3,126 +3,413 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vedic Astrology - Zoomable Map</title>
-    <!-- Import Panzoom from CDN -->
-    <script src="https://unpkg.com/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
+    <title>Vedic Astrology (Jyotish) - The Complete Map</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; overflow: hidden; background-color: #f0f2f5; font-family: sans-serif; }
+        /* --- RESET & BASIC SETUP --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: #0B0C10;
+            color: #E6E6E6;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+        }
         
-        /* The Container */
-        .map-container {
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-image: radial-gradient(#d1d5db 1px, transparent 1px);
-            background-size: 20px 20px; /* Grid background */
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3, h4 { font-family: 'Cinzel', serif; color: #FAFAFA; }
+        h1 { 
+            text-align: center; 
+            font-size: 2.5rem; 
+            letter-spacing: 2px; 
+            margin-bottom: 10px;
+            background: linear-gradient(180deg, #D4AF37 0%, #FFD700 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-
-        /* The Image */
-        #zoomable-map {
-            max-width: 80%;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            border-radius: 8px;
-            cursor: grab;
-        }
-        #zoomable-map:active { cursor: grabbing; }
-
-        /* Floating Toolbar */
-        .toolbar {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            background: white;
-            padding: 10px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 10;
-        }
-        .btn {
-            width: 40px;
-            height: 40px;
-            border: none;
-            background: #fff;
-            border-radius: 8px;
-            font-size: 20px;
+        h2 { 
+            font-size: 1.25rem; 
+            border-bottom: 2px solid #D4AF37; 
+            padding-bottom: 10px; 
+            margin-bottom: 15px; 
             cursor: pointer;
-            transition: 0.2s;
-            color: #333;
-        }
-        .btn:hover { background: #f3f4f6; color: #d97706; } /* Orange hover */
-        .btn:active { transform: scale(0.95); }
-
-        /* Title Header */
-        .header {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            padding: 15px 25px;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(5px);
-            border-bottom: 1px solid #eee;
-            z-index: 5;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        h1 { margin: 0; font-size: 1.2rem; color: #333; }
-        .reset-link { color: #d97706; text-decoration: none; font-weight: bold; font-size: 0.9rem; cursor: pointer; }
+        .subtitle {
+            text-align: center;
+            color: #A0A0A0;
+            font-size: 0.9rem;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        /* --- LAYOUT --- */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: #16171D;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid #2A2C38;
+            transition: transform 0.2s ease, border-color 0.3s;
+        }
+        .card:hover { border-color: #D4AF37; transform: translateY(-2px); }
+
+        .card-content {
+            display: none;
+            margin-top: 15px;
+        }
+        .card.active .card-content { display: block; }
+        .card.active h2::after { content: "▲"; font-size: 0.8rem; }
+        .card h2::after { content: "▼"; font-size: 0.8rem; color: #D4AF37; }
+
+        /* --- SPECIFIC CATEGORY STYLES --- */
+        /* Grids for small items (Planets, Signs, Houses) */
+        .mini-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .mini-item {
+            background: #20222B;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.8rem;
+            transition: 0.2s;
+        }
+        .mini-item:hover { background: #D4AF37; color: #0B0C10; font-weight: bold; }
+        .mini-item .symbol { font-size: 1.5rem; display: block; margin-bottom: 5px; color: #D4AF37; }
+        .mini-item:hover .symbol { color: #0B0C10; }
+
+        /* List styles */
+        ul { list-style: none; padding: 0; }
+        ul li {
+            padding: 8px 0;
+            border-bottom: 1px solid #242630;
+            display: flex;
+            justify-content: space-between;
+        }
+        ul li:last-child { border-bottom: none; }
+        .highlight { color: #D4AF37; font-weight: bold; }
+
+        /* --- HEADER & FOOTER --- */
+        .header-section {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+        .header-mandala {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #D4AF37 1px, transparent 1px);
+            background-size: 10px 10px;
+            opacity: 0.3;
+            border-radius: 50%;
+            border: 2px solid #D4AF37;
+            margin-bottom: 20px;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.1);
+        }
+        .header-mandala::after {
+            content: "🕉";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            color: #D4AF37;
+            opacity: 1;
+        }
+
+        .footer-quick-ref {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            padding: 20px;
+            background: #16171D;
+            border-radius: 12px;
+            border: 1px solid #2A2C38;
+            text-align: center;
+        }
+        .footer-item {
+            background: #20222B;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+        .footer-item strong { display: block; color: #D4AF37; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .mini-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-quick-ref { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 480px) {
+            .mini-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
+    <div class="container">
+        
+        <!-- HEADER -->
+        <header class="header-section">
+            <div class="header-mandala"></div>
+            <h1>VEDIC ASTROLOGY (JYOTISH)</h1>
+            <div class="subtitle">The Complete Map - The Science of Light, Time &amp; Destiny</div>
+        </header>
 
-    <!-- Header -->
-    <div class="header">
-        <h1> Vedic Astrology (Jyotish) - The Complete Map</h1>
-        <span class="reset-link" id="reset-btn">Reset View</span>
-    </div>
+        <!-- MAIN GRID -->
+        <main class="grid-layout">
+            
+            <!-- 1. GRAHAS (PLANETS) -->
+            <section class="card" id="grahas">
+                <h2>1. Grahas (The 9 Planets)</h2>
+                <div class="card-content">
+                    <div class="mini-grid">
+                        <div class="mini-item"><span class="symbol">☉</span>Surya (Sun)<br><small>Soul, Authority</small></div>
+                        <div class="mini-item"><span class="symbol">☽</span>Chandra (Moon)<br><small>Mind, Emotions</small></div>
+                        <div class="mini-item"><span class="symbol">♂</span>Mangal (Mars)<br><small>Energy, Courage</small></div>
+                        <div class="mini-item"><span class="symbol">☿</span>Budha (Mercury)<br><small>Speech, Logic</small></div>
+                        <div class="mini-item"><span class="symbol">♃</span>Guru (Jupiter)<br><small>Wisdom, Fortune</small></div>
+                        <div class="mini-item"><span class="symbol">♀</span>Shukra (Venus)<br><small>Love, Beauty</small></div>
+                        <div class="mini-item"><span class="symbol">♄</span>Shani (Saturn)<br><small>Discipline, Karma</small></div>
+                        <div class="mini-item"><span class="symbol">☊</span>Rahu<br><small>Desires, Illusion</small></div>
+                        <div class="mini-item"><span class="symbol">☋</span>Ketu<br><small>Detachment, Wisdom</small></div>
+                    </div>
+                </div>
+            </section>
 
-    <!-- Map Container -->
-    <div class="map-container">
-        <!-- REPLACE 'map.jpg' WITH YOUR FILENAME -->
-        <img id="zoomable-map" src="map.jpg" alt="Vedic Astrology Map">
-    </div>
+            <!-- 2. RASHIS (ZODIAC SIGNS) -->
+            <section class="card" id="rashis">
+                <h2>2. Rashis (Zodiac Signs)</h2>
+                <div class="card-content">
+                    <div class="mini-grid">
+                        <div class="mini-item"><span class="symbol">♈</span>Aries<br><small>Fire (Movable)</small></div>
+                        <div class="mini-item"><span class="symbol">♉</span>Taurus<br><small>Earth (Fixed)</small></div>
+                        <div class="mini-item"><span class="symbol">♊</span>Gemini<br><small>Air (Dual)</small></div>
+                        <div class="mini-item"><span class="symbol">♋</span>Cancer<br><small>Water (Movable)</small></div>
+                        <div class="mini-item"><span class="symbol">♌</span>Leo<br><small>Fire (Fixed)</small></div>
+                        <div class="mini-item"><span class="symbol">♍</span>Virgo<br><small>Earth (Dual)</small></div>
+                        <div class="mini-item"><span class="symbol">♎</span>Libra<br><small>Air (Movable)</small></div>
+                        <div class="mini-item"><span class="symbol">♏</span>Scorpio<br><small>Water (Fixed)</small></div>
+                        <div class="mini-item"><span class="symbol">♐</span>Sagittarius<br><small>Fire (Dual)</small></div>
+                        <div class="mini-item"><span class="symbol">♑</span>Capricorn<br><small>Earth (Movable)</small></div>
+                        <div class="mini-item"><span class="symbol">♒</span>Aquarius<br><small>Air (Fixed)</small></div>
+                        <div class="mini-item"><span class="symbol">♓</span>Pisces<br><small>Water (Dual)</small></div>
+                    </div>
+                </div>
+            </section>
 
-    <!-- Controls -->
-    <div class="toolbar">
-        <button class="btn" id="zoom-in" title="Zoom In">+</button>
-        <button class="btn" id="zoom-out" title="Zoom Out">-</button>
-        <button class="btn" id="full-screen" title="Full Screen"></button>
+            <!-- 3. BHAVAS (HOUSES) -->
+            <section class="card" id="bhavas">
+                <h2>3. Bhavas (The 12 Houses)</h2>
+                <div class="card-content">
+                    <ul>
+                        <li><span>1st House (Self)</span> <span class="highlight">Body, Personality, Life</span></li>
+                        <li><span>2nd House (Wealth)</span> <span class="highlight">Family, Speech, Resources</span></li>
+                        <li><span>3rd House (Courage)</span> <span class="highlight">Siblings, Communication, Skills</span></li>
+                        <li><span>4th House (Happiness)</span> <span class="highlight">Mother, Home, Comfort</span></li>
+                        <li><span>5th House (Creativity)</span> <span class="highlight">Children, Romance, Knowledge</span></li>
+                        <li><span>6th House (Service)</span> <span class="highlight">Enemies, Health, Daily Routine</span></li>
+                        <li><span>7th House (Relationships)</span> <span class="highlight">Marriage, Partner, Business</span></li>
+                        <li><span>8th House (Transformation)</span> <span class="highlight">Death, Secrets, Occult</span></li>
+                        <li><span>9th House (Dharma)</span> <span class="highlight">Higher Learning, Travel, Beliefs</span></li>
+                        <li><span>10th House (Career)</span> <span class="highlight">Profession, Reputation, Status</span></li>
+                        <li><span>11th House (Gains)</span> <span class="highlight">Desires, Networks, Income</span></li>
+                        <li><span>12th House (Liberation)</span> <span class="highlight">Losses, Subconscious, Enlightenment</span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- 4. NAKSHATRAS (LUNAR MANSIONS) -->
+            <section class="card" id="nakshatras">
+                <h2>4. Nakshatras (27 Lunar Mansions)</h2>
+                <div class="card-content">
+                    <p>Each Nakshatra covers 13°20'. The 27 mansions are:</p>
+                    <div class="mini-grid" style="grid-template-columns: repeat(3, 1fr);">
+                        <div class="mini-item">Ashwini</div>
+                        <div class="mini-item">Bharani</div>
+                        <div class="mini-item">Krittika</div>
+                        <div class="mini-item">Rohini</div>
+                        <div class="mini-item">Mrigashira</div>
+                        <div class="mini-item">Ardra</div>
+                        <div class="mini-item">Punarvasu</div>
+                        <div class="mini-item">Pushya</div>
+                        <div class="mini-item">Ashlesha</div>
+                        <div class="mini-item">Magha</div>
+                        <div class="mini-item">Purva Ph.</div>
+                        <div class="mini-item">Uttara Ph.</div>
+                        <div class="mini-item">Hasta</div>
+                        <div class="mini-item">Chitra</div>
+                        <div class="mini-item">Swati</div>
+                        <div class="mini-item">Vishakha</div>
+                        <div class="mini-item">Anuradha</div>
+                        <div class="mini-item">Jyeshtha</div>
+                        <div class="mini-item">Mula</div>
+                        <div class="mini-item">Purva As.</div>
+                        <div class="mini-item">Uttara As.</div>
+                        <div class="mini-item">Shravana</div>
+                        <div class="mini-item">Dhanishtha</div>
+                        <div class="mini-item">Shatabhisha</div>
+                        <div class="mini-item">Purva Bha.</div>
+                        <div class="mini-item">Uttara Bha.</div>
+                        <div class="mini-item">Revati</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. KALA (TIME) & DASHA SYSTEMS -->
+            <section class="card" id="kala">
+                <h2>5. Kala (Time - The Dasha Systems)</h2>
+                <div class="card-content">
+                    <ul>
+                        <li><span class="highlight">Vimshottari Dasha</span> (120 years system)</li>
+                        <li><span class="highlight">Ashtottari Dasha</span> (108 years)</li>
+                        <li><span class="highlight">Yogini Dasha</span> (Lunar based)</li>
+                        <li><span class="highlight">Kalachakra Dasha</span></li>
+                        <li><span class="highlight">Chara Dasha</span> (Based on Rashi)</li>
+                    </ul>
+                    <p style="margin-top: 10px; font-size: 0.8rem; color: #A0A0A0;">
+                        <strong>Time is the key:</strong> Dasha systems determine the result of Karma through planetary periods.
+                    </p>
+                </div>
+            </section>
+
+            <!-- 6. CHARTS (KUNDALI) -->
+            <section class="card" id="charts">
+                <h2>6. Charts (Kundalis - Blueprints)</h2>
+                <div class="card-content">
+                    <ul>
+                        <li><span class="highlight">Main Chart (D1 - Rashi)</span> - The Body</li>
+                        <li><span class="highlight">Hora (D2)</span> - Wealth</li>
+                        <li><span class="highlight">Drekkana (D3)</span> - Siblings</li>
+                        <li><span class="highlight">Chaturthamsa (D4)</span> - Home</li>
+                        <li><span class="highlight">Saptamsa (D7)</span> - Children/Progeny</li>
+                        <li><span class="highlight">Navamsa (D9)</span> - Marriage</li>
+                        <li><span class="highlight">Dasamsa (D10)</span> - Career</li>
+                        <li><span class="highlight">Upapada Lagna (UL)</span> - Spouse</li>
+                    </ul>
+                    <p style="margin-top: 10px; font-size: 0.8rem; color: #A0A0A0;">The 16 Divisional Charts reveal specific aspects of life.</p>
+                </div>
+            </section>
+
+            <!-- 7. TOOLS & TECHNIQUES -->
+            <section class="card" id="tools">
+                <h2>7. Tools &amp; Techniques</h2>
+                <div class="card-content">
+                    <div class="mini-grid">
+                        <div class="mini-item">Shadbala (Strength)</div>
+                        <div class="mini-item">Aspects (Drishti)</div>
+                        <div class="mini-item">Special Planetary Positions</div>
+                        <div class="mini-item">Yogini &amp; Astakavarga</div>
+                        <div class="mini-item">Dignity &amp; Exaltation</div>
+                        <div class="mini-item">Tithi &amp; Karana</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 8. YOGAS (SPECIAL COMBINATIONS) -->
+            <section class="card" id="yogas">
+                <h2>8. Yogas (Special Combinations)</h2>
+                <div class="card-content">
+                    <ul>
+                        <li><span class="highlight">Pancha Mahapurusha Yogas</span> - The 5 Great Person Yogas</li>
+                        <li><span class="highlight">Neechabhanga Yoga</span> - Cancellation of Debilitation</li>
+                        <li><span class="highlight">Raj Yogas</span> - Royal/Wealth Combinations</li>
+                        <li><span class="highlight">Dhana Yogas</span> - Wealth Indicators</li>
+                        <li><span class="highlight">Vipreet Raja Yoga</span> - Turning negatives into positives</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- 9. BRANCHES OF JYOTISH -->
+            <section class="card" id="branches">
+                <h2>9. Branches of Jyotish (9 Divisions)</h2>
+                <div class="card-content">
+                    <div class="mini-grid">
+                        <div class="mini-item"><strong>Natal</strong><br>Birth charts</div>
+                        <div class="mini-item"><strong>Muhurta</strong><br>Electional astrology</div>
+                        <div class="mini-item"><strong>Prashna</strong><br>Horary</div>
+                        <div class="mini-item"><strong>Anukula</strong><br>Matching charts</div>
+                        <div class="mini-item"><strong>Gola</strong><br>Spherical</div>
+                        <div class="mini-item"><strong>Nadi</strong><br>Palm leaf reading</div>
+                        <div class="mini-item"><strong>Samhita</strong><br>Medicinal</div>
+                        <div class="mini-item"><strong>Vastu</strong><br>Architecture</div>
+                        <div class="mini-item"><strong>Shakuna</strong><br>Omens</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 10. HIGHER WISDOM -->
+            <section class="card" id="wisdom">
+                <h2>10. Higher Wisdom</h2>
+                <div class="card-content">
+                    <p style="margin-bottom: 15px;">Jyotish is the eye of the Vedas, revealing the path of Dharma and Karma.</p>
+                    <div class="mini-grid">
+                        <div class="mini-item">Karma (Action)</div>
+                        <div class="mini-item">Dharma (Righteousness)</div>
+                        <div class="mini-item">Moksha (Liberation)</div>
+                        <div class="mini-item">Upaya (Remedies)</div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- QUICK REFERENCE FOOTER -->
+        <footer class="footer-quick-ref">
+            <div class="footer-item"><strong>Planets</strong> 9</div>
+            <div class="footer-item"><strong>Signs</strong> 12</div>
+            <div class="footer-item"><strong>Houses</strong> 12</div>
+            <div class="footer-item"><strong>Nakshatras</strong> 27</div>
+            <div class="footer-item"><strong>Vargas</strong> 16</div>
+            <div class="footer-item"><strong>Yogas</strong> 100+</div>
+            <div class="footer-item"><strong>Dasha</strong> 100+</div>
+            <div class="footer-item"><strong>Branches</strong> 9</div>
+        </footer>
+
+        <p style="text-align: center; margin-top: 40px; color: #555; font-size: 0.7rem; border-top: 1px solid #222; padding-top: 20px;">
+            Vedic Astrology (Jyotish) • The Sacred Science of Light and Time
+        </p>
     </div>
 
     <script>
-        const elem = document.getElementById('zoomable-map');
-        const panzoom = Panzoom(elem, {
-            maxScale: 5,
-            minScale: 0.5,
-            contain: 'outside',
-            cursor: 'default'
+        // Simple Accordion Script
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card');
+            
+            cards.forEach(card => {
+                const header = card.querySelector('h2');
+                header.addEventListener('click', function() {
+                    // Close other cards if open (optional, user preference)
+                    // cards.forEach(c => {
+                    //     if(c !== card) c.classList.remove('active');
+                    // });
+                    
+                    // Toggle current card
+                    card.classList.toggle('active');
+                });
+            });
         });
-
-        // Enable Mouse Wheel Zoom
-        elem.parentElement.addEventListener('wheel', panzoom.zoomWithWheel);
-
-        // Button Controls
-        document.getElementById('zoom-in').addEventListener('click', () => panzoom.zoomIn());
-        document.getElementById('zoom-out').addEventListener('click', () => panzoom.zoomOut());
-        document.getElementById('reset-btn').addEventListener('click', () => panzoom.reset());
-        
-        // Full Screen Toggle
-        document.getElementById('full-screen').addEventListener('click', () => {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen();
-            } else {
-                if (document.exitFullscreen) document.exitFullscreen();
-            }
-        });
-
-        // Double click to zoom
-        elem.addEventListener('dblclick', panzoom.zoomIn);
     </script>
 </body>
 </html>
