@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vedic Astrology - Zoomable Map</title>
+    <!-- Import Panzoom from CDN -->
+    <script src="https://unpkg.com/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #f0f2f5; font-family: sans-serif; }
+        
+        /* The Container */
+        .map-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: radial-gradient(#d1d5db 1px, transparent 1px);
+            background-size: 20px 20px; /* Grid background */
+        }
+
+        /* The Image */
+        #zoomable-map {
+            max-width: 80%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-radius: 8px;
+            cursor: grab;
+        }
+        #zoomable-map:active { cursor: grabbing; }
+
+        /* Floating Toolbar */
+        .toolbar {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: white;
+            padding: 10px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 10;
+        }
+        .btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: #fff;
+            border-radius: 8px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #333;
+        }
+        .btn:hover { background: #f3f4f6; color: #d97706; } /* Orange hover */
+        .btn:active { transform: scale(0.95); }
+
+        /* Title Header */
+        .header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            padding: 15px 25px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid #eee;
+            z-index: 5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        h1 { margin: 0; font-size: 1.2rem; color: #333; }
+        .reset-link { color: #d97706; text-decoration: none; font-weight: bold; font-size: 0.9rem; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <h1> Vedic Astrology (Jyotish) - The Complete Map</h1>
+        <span class="reset-link" id="reset-btn">Reset View</span>
+    </div>
+
+    <!-- Map Container -->
+    <div class="map-container">
+        <!-- REPLACE 'map.jpg' WITH YOUR FILENAME -->
+        <img id="zoomable-map" src="map.jpg" alt="Vedic Astrology Map">
+    </div>
+
+    <!-- Controls -->
+    <div class="toolbar">
+        <button class="btn" id="zoom-in" title="Zoom In">+</button>
+        <button class="btn" id="zoom-out" title="Zoom Out">-</button>
+        <button class="btn" id="full-screen" title="Full Screen"></button>
+    </div>
+
+    <script>
+        const elem = document.getElementById('zoomable-map');
+        const panzoom = Panzoom(elem, {
+            maxScale: 5,
+            minScale: 0.5,
+            contain: 'outside',
+            cursor: 'default'
+        });
+
+        // Enable Mouse Wheel Zoom
+        elem.parentElement.addEventListener('wheel', panzoom.zoomWithWheel);
+
+        // Button Controls
+        document.getElementById('zoom-in').addEventListener('click', () => panzoom.zoomIn());
+        document.getElementById('zoom-out').addEventListener('click', () => panzoom.zoomOut());
+        document.getElementById('reset-btn').addEventListener('click', () => panzoom.reset());
+        
+        // Full Screen Toggle
+        document.getElementById('full-screen').addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        });
+
+        // Double click to zoom
+        elem.addEventListener('dblclick', panzoom.zoomIn);
+    </script>
+</body>
+</html>
