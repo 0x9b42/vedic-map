@@ -2219,33 +2219,71 @@
       function renderBhavaWheel() {
         const container = document.getElementById("bhavaWheelContainer");
         const size = Math.min(460, window.innerWidth - 40);
-        const cx = size / 2,
-          cy = size / 2,
-          r = size / 2 - 30;
+        const pad = 6;
+        const cs = size - 2 * pad;
+        const sc = cs / 480;
+
+        // Helper: scale a base-480 coordinate to canvas space
+        const pt = (px, py) => [+(px * sc + pad).toFixed(2), +(py * sc + pad).toFixed(2)];
+
+        // Key structural points
+        const TL = pt(0,0),   T = pt(240,0),   TR = pt(480,0);
+        const L  = pt(0,240), C = pt(240,240),  R  = pt(480,240);
+        const BL = pt(0,480), B = pt(240,480),  BR = pt(480,480);
+        // Inner-diamond edge midpoints (intersection of corner diagonals with inner diamond sides)
+        const TLm = pt(120,120), TRm = pt(360,120);
+        const BRm = pt(360,360), BLm = pt(120,360);
+
+        const toPS  = pts => pts.map(p => p.join(',')).join(' ');
+        const ctr   = pts => [
+          pts.reduce((s,p) => s + p[0], 0) / pts.length,
+          pts.reduce((s,p) => s + p[1], 0) / pts.length
+        ];
+
+        // 12 house polygons — H1 at top, counter-clockwise
+        const housePolys = [
+          [T,  TRm, C,  TLm],   // H1  — top kite       (Lagna)
+          [TL, T,   TLm],        // H2  — top-left △
+          [TL, TLm, L  ],        // H3  — left-upper △
+          [L,  BLm, C,  TLm],   // H4  — left kite
+          [BL, L,   BLm],        // H5  — left-lower △
+          [BL, BLm, B  ],        // H6  — bottom-left △
+          [B,  BLm, C,  BRm],   // H7  — bottom kite
+          [BR, B,   BRm],        // H8  — bottom-right △
+          [BR, BRm, R  ],        // H9  — right-lower △
+          [R,  BRm, C,  TRm],   // H10 — right kite
+          [TR, R,   TRm],        // H11 — right-upper △
+          [TR, TRm, T  ],        // H12 — top-right △
+        ];
+
+        const nSz = Math.max(9,  Math.round(size * 0.036));
+        const lSz = Math.max(5,  Math.round(size * 0.021));
+
         let svg = `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" style="display:block">`;
-        // Outer circle
-        svg += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--border)" stroke-width="1"/>`;
-        svg += `<circle cx="${cx}" cy="${cy}" r="${r * 0.35}" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/>`;
-        // Lines and nodes
-        for (let i = 0; i < 12; i++) {
-          const a = ((i * 30 - 90) * Math.PI) / 180;
-          const x1 = cx + r * 0.35 * Math.cos(a),
-            y1 = cy + r * 0.35 * Math.sin(a);
-          const x2 = cx + r * Math.cos(a),
-            y2 = cy + r * Math.sin(a);
-          svg += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--border)" stroke-width="0.5" stroke-opacity="0.5"/>`;
-          const nx = cx + r * Math.cos(a),
-            ny = cy + r * Math.sin(a);
-          svg += `<circle cx="${nx}" cy="${ny}" r="20" fill="var(--card)" stroke="var(--border)" stroke-width="1.5" class="bhava-node" data-idx="${i}" style="cursor:pointer;transition:all 0.3s" onclick="selectBhava(${i})"/>`;
-          svg += `<text x="${nx}" y="${ny}" text-anchor="middle" dominant-baseline="central" fill="var(--teal)" font-size="12" font-family="Cinzel,serif" font-weight="700" style="pointer-events:none">${i + 1}</text>`;
-          // Label outside
-          const lx = cx + (r + 22) * Math.cos(a),
-            ly = cy + (r + 22) * Math.sin(a);
-          svg += `<text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="central" fill="var(--muted)" font-size="7" font-family="Cinzel,serif" style="pointer-events:none">${BHAVAS[i].name.split(" ")[0]}</text>`;
-        }
-        // Center
-        svg += `<text x="${cx}" y="${cy - 4}" text-anchor="middle" fill="var(--teal)" font-size="10" font-family="Cinzel,serif" font-weight="700">12</text>`;
-        svg += `<text x="${cx}" y="${cy + 10}" text-anchor="middle" fill="var(--muted)" font-size="7" font-family="Cinzel,serif">BHAVAS</text>`;
+        svg += `<rect width="${size}" height="${size}" fill="var(--bg2)" rx="6"/>`;
+
+        housePolys.forEach((pts, i) => {
+          const ps = toPS(pts);
+          const [cx, cy] = ctr(pts);
+          // First word of Sanskrit name (skip the '/' alternate name)
+          const sName = BHAVAS[i].name.split('/')[0].trim().split(' ')[0];
+          // Is this a kite (4 pts) or triangle (3 pts)?
+          const isKite = pts.length === 4;
+
+          svg += `<polygon points="${ps}" fill="var(--card)" stroke="var(--border)" stroke-width="0.75" class="bhava-node" data-idx="${i}" style="cursor:pointer;transition:all 0.3s" onclick="selectBhava(${i})"/>`;
+
+          // House number
+          svg += `<text x="${cx}" y="${cy}" text-anchor="middle" font-family="Cinzel,serif" style="pointer-events:none">`;
+          svg += `<tspan x="${cx}" dy="-0.38em" fill="var(--teal)" font-size="${isKite ? nSz : nSz * 0.9}" font-weight="700">${i + 1}</tspan>`;
+          svg += `<tspan x="${cx}" dy="${isKite ? '1.25em' : '1.1em'}" fill="var(--muted)" font-size="${isKite ? lSz : lSz * 0.85}">${sName}</tspan>`;
+          svg += `</text>`;
+
+          // "ASC" badge on H1
+          if (i === 0) {
+            svg += `<text x="${cx}" y="${+(cy + nSz * 1.7).toFixed(1)}" text-anchor="middle" fill="var(--teal)" font-size="${Math.max(5, lSz - 1)}" font-family="Cinzel,serif" opacity="0.6" style="pointer-events:none">ASC</text>`;
+          }
+        });
+
         svg += `</svg>`;
         container.innerHTML = svg;
       }
