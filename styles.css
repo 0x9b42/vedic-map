@@ -121,6 +121,7 @@ nav.hidden {
   transition: color var(--transition-base);
   white-space: nowrap;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .nav-link:hover,
@@ -237,6 +238,15 @@ nav.hidden {
   }
   50% {
     opacity: 0.8;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
@@ -378,8 +388,21 @@ nav.hidden {
 }
 
 /* ============ SECTIONS ============ */
-.section {
+section {
+  display: none;
+  min-height: 100vh;
   padding: 6rem 1rem;
+}
+
+section.active {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  animation: fadeIn 0.3s ease-in;
+}
+
+section.active > * {
+  width: 100%;
 }
 
 .section-header {
@@ -703,7 +726,7 @@ nav.hidden {
     padding: 1.25rem;
   }
 
-  .section {
+  section {
     padding: 4rem 1rem;
   }
 
