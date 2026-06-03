@@ -80,9 +80,10 @@
         position: relative;
         z-index: 1;
       }
-      nav {
+      /* Tab Navigation Styles */
+      .tab-nav {
         position: fixed;
-        top: 0;
+        bottom: 0;
         left: 0;
         right: 0;
         z-index: 100;
@@ -91,24 +92,34 @@
         border-bottom: 1px solid var(--border);
         transition: transform 0.3s;
       }
-      nav.hidden {
-        transform: translateY(-100%);
+      /* .tab-nav.hidden { */
+      /*   transform: translateY(-100%); */
+      /* } */
+      .tab-container {
+        max-width: 7xl;
+        margin: 0 auto;
+        display: flex;
+        overflow-x: auto;
       }
-      .nav-link {
+      .tab-btn {
         position: relative;
-        padding: 0.5rem 0;
-        font-size: 0.75rem;
-        letter-spacing: 0.12em;
+        padding: 0.75rem 1.25rem;
+        font-size: 0.85rem;
+        letter-spacing: 0.1em;
         text-transform: uppercase;
         color: var(--muted);
-        transition: color 0.3s;
+        background: transparent;
+        border: none;
+        cursor: pointer;
         white-space: nowrap;
+        transition: color 0.3s;
+        font-family: "Nunito Sans", sans-serif;
       }
-      .nav-link:hover,
-      .nav-link.active {
+      .tab-btn:hover,
+      .tab-btn.active {
         color: var(--gold);
       }
-      .nav-link::after {
+      .tab-btn::after {
         content: "";
         position: absolute;
         bottom: 0;
@@ -118,17 +129,24 @@
         background: var(--gold);
         transition: width 0.3s;
       }
-      .nav-link.active::after {
+      .tab-btn.active::after {
         width: 100%;
       }
-      .section-num {
-        font-family: "Cinzel", serif;
-        font-size: 0.7rem;
-        letter-spacing: 0.15em;
-        color: var(--gold);
-        text-transform: uppercase;
-        opacity: 0.7;
+      /* Tab Content */
+      .tab-content {
+        display: none;
       }
+      .tab-content.active {
+        display: block;
+      }
+      /* .section-num { */
+      /*   font-family: "Cinzel", serif; */
+      /*   font-size: 0.7rem; */
+      /*   letter-spacing: 0.15em; */
+      /*   color: var(--gold); */
+      /*   text-transform: uppercase; */
+      /*   opacity: 0.7; */
+      /* } */
       .section-title {
         font-size: clamp(1.8rem, 4vw, 3rem);
         font-weight: 700;
@@ -489,9 +507,9 @@
         filter: blur(1px);
       }
       @media (max-width: 768px) {
-        .nav-link {
-          font-size: 0.6rem;
-          padding: 0.4rem 0;
+        .tab-btn {
+          padding: 0.6rem 0.8rem;
+          font-size: 0.7rem;
         }
         .planet-card {
           padding: 1rem;
@@ -513,32 +531,27 @@
       }
     </style>
   </head>
-  <body>
+  <body class="flex items-center min-h-90% overflow-x-hidden">
     <canvas id="starfield"></canvas>
-    <div class="z-content">
-      <!-- Navigation -->
-      <nav id="mainNav">
-        <div
-          class="max-w-7xl mx-auto px-4 flex items-center justify-cebter h-14"
-        >
-          <div class="flex gap-4 md:gap-6 overflow-x-auto" id="navLinks">
-            <a class="nav-link active" href="#hero">Home</a>
-            <a class="nav-link" href="#grahas">Grahas</a>
-            <a class="nav-link" href="#rashis">Rashis</a>
-            <a class="nav-link" href="#bhavas">Bhavas</a>
-            <a class="nav-link" href="#nakshatras">Nakshatras</a>
-            <a class="nav-link" href="#kala">Kala</a>
-            <a class="nav-link" href="#tools">Tools</a>
-            <a class="nav-link" href="#branches">Branches</a>
-          </div>
+    <div class="z-content p-5">
+      <!-- Tab Navigation -->
+      <nav class="tab-nav" id="tabNav">
+        <div class="tab-container px-4">
+          <button class="tab-btn active" data-tab="hero">Sum</button>
+          <button class="tab-btn" data-tab="grahas">Grahas</button>
+          <button class="tab-btn" data-tab="rashis">Rashis</button>
+          <button class="tab-btn" data-tab="bhavas">Bhavas</button>
+          <button class="tab-btn" data-tab="nakshatras">Nakshatras</button>
+          <button class="tab-btn" data-tab="kala">Kala</button>
+          <button class="tab-btn" data-tab="tools">Tools</button>
+          <button class="tab-btn" data-tab="branches">Branches</button>
         </div>
       </nav>
 
-      <!-- Hero -->
-      <section
-        id="hero"
-        class="min-h-screen flex flex-col items-center justify-center relative px-4 text-center"
-      >
+      <!-- Tab Contents -->
+
+      <!-- Hero Tab -->
+      <div id="hero" class="tab-content active px-4 text-center py-24">
         <div class="relative">
           <div
             class="mandala-ring"
@@ -587,7 +600,7 @@
             ॐ
           </div>
         </div>
-        <p class="section-num mb-4 reveal">The Ancient Science of Light</p>
+        <!-- <p class="section-num mb-4 reveal">The Ancient Science of Light</p> -->
         <h1
           class="section-title reveal"
           style="
@@ -616,48 +629,59 @@
         <div class="flex flex-wrap gap-3 justify-center mt-8 reveal">
           <span
             class="tag"
-            style="color: var(--gold); border-color: var(--gold)"
-            >9 Grahas</span
+            style="color: var(--gold3); border-color: var(--gold3)"
           >
+            9 Grahas
+          </span>
           <span
             class="tag"
             style="color: var(--fire); border-color: var(--fire)"
-            >12 Rashis</span
           >
+            12 Rashis
+          </span>
           <span
             class="tag"
             style="color: var(--teal); border-color: var(--teal)"
-            >12 Bhavas</span
           >
+            12 Bhavas
+          </span>
           <span
             class="tag"
             style="color: var(--rose); border-color: var(--rose)"
-            >27 Nakshatras</span
           >
+            27 Nakshatras
+          </span>
           <span
             class="tag"
             style="color: var(--copper); border-color: var(--copper)"
-            >Time Principles</span
           >
+            Time Principles
+          </span>
           <span
             class="tag"
             style="color: var(--sage); border-color: var(--sage)"
-            >Tools & Branches</span
           >
+            Tools & Techniques
+          </span>
+          <span
+            class="tag"
+            style="color: var(--gold); border-color: var(--gold)"
+          >
+            Branches
+          </span>
         </div>
-        <div class="mt-16 reveal float-anim">
-          <i
-            class="fas fa-chevron-down text-lg"
-            style="color: var(--gold); opacity: 0.5"
-          ></i>
+        <div class="mt-10">
+          <p class="mt-2" style="color: var(--border); font-size: 0.75rem">
+            Made with GLM-5 by ignoramus.
+          </p>
         </div>
-      </section>
+      </div>
 
-      <!-- Section 1: Grahas -->
-      <section id="grahas" class="py-24 px-4">
+      <!-- Grahas Tab -->
+      <div id="grahas" class="tab-content py-24 px-4">
         <div class="max-w-7xl mx-auto">
           <div class="text-center mb-16 reveal">
-            <span class="section-num">Section 01</span>
+            <!-- <span class="section-num">Section 01</span> -->
             <h2 class="section-title mt-2">GRAHAS — THE NINE PLANETS</h2>
             <p class="section-sub mx-auto mt-3">
               The word <em>Graha</em> means "to seize" or "to grasp." These nine
@@ -670,15 +694,18 @@
             class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 stagger"
           ></div>
           <div id="grahaDetail" class="detail-panel"></div>
+          <div class="text-center py-16" style="color: var(--muted)">
+            <i class="fas fa-hand-pointer mr-2"></i>Click the planet to see its
+            details.
+          </div>
         </div>
-      </section>
-      <div class="glow-line max-w-4xl mx-auto"></div>
+      </div>
 
-      <!-- Section 2: Rashis -->
-      <section id="rashis" class="py-24 px-4">
+      <!-- Rashis Tab -->
+      <div id="rashis" class="tab-content py-24 px-4">
         <div class="max-w-7xl mx-auto">
           <div class="text-center mb-16 reveal">
-            <span class="section-num">Section 02</span>
+            <!-- <span class="section-num">Section 02</span> -->
             <h2 class="section-title mt-2">RASHIS — THE ZODIAC</h2>
             <p class="section-sub mx-auto mt-3">
               The twelve signs of the zodiac form the fixed backdrop through
@@ -686,7 +713,7 @@
               pattern, element, and modality of expression.
             </p>
           </div>
-          <div class="flex flex-col lg:flex-row items-start gap-12">
+          <div class="flex flex-col lg:flex-row items-center gap-12">
             <div
               class="relative flex-shrink-0 mx-auto"
               id="zodiacWheelContainer"
@@ -703,14 +730,13 @@
             </div>
           </div>
         </div>
-      </section>
-      <div class="glow-line max-w-4xl mx-auto"></div>
+      </div>
 
-      <!-- Section 3: Bhavas -->
-      <section id="bhavas" class="py-24 px-4">
+      <!-- Bhavas Tab -->
+      <div id="bhavas" class="tab-content py-24 px-4">
         <div class="max-w-7xl mx-auto">
           <div class="text-center mb-16 reveal">
-            <span class="section-num">Section 03</span>
+            <!-- <span class="section-num">Section 03</span> -->
             <h2 class="section-title mt-2">BHAVAS — THE AREAS OF LIFE</h2>
             <p class="section-sub mx-auto mt-3">
               The twelve houses (Bhavas) represent the twelve fundamental areas
@@ -719,7 +745,7 @@
               inhabit each domain of life.
             </p>
           </div>
-          <div class="flex flex-col lg:flex-row items-start gap-12">
+          <div class="flex flex-col lg:flex-row items-center gap-11">
             <div
               class="relative flex-shrink-0 mx-auto"
               id="bhavaWheelContainer"
@@ -736,14 +762,13 @@
             </div>
           </div>
         </div>
-      </section>
-      <div class="glow-line max-w-4xl mx-auto"></div>
+      </div>
 
-      <!-- Section 4: Nakshatras -->
-      <section id="nakshatras" class="py-24 px-4">
+      <!-- Nakshatras Tab -->
+      <div id="nakshatras" class="tab-content py-24 px-4">
         <div class="max-w-7xl mx-auto">
           <div class="text-center mb-16 reveal">
-            <span class="section-num">Section 04</span>
+            <!-- <span class="section-num">Section 04</span> -->
             <h2 class="section-title mt-2">NAKSHATRAS — THE LUNAR MANSIONS</h2>
             <p class="section-sub mx-auto mt-3">
               The 27 (traditionally 28 with Abhijit) Nakshatras are lunar
@@ -757,14 +782,13 @@
             class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 stagger"
           ></div>
         </div>
-      </section>
-      <div class="glow-line max-w-4xl mx-auto"></div>
+      </div>
 
-      <!-- Section 5: Kala -->
-      <section id="kala" class="py-24 px-4">
+      <!-- Kala Tab -->
+      <div id="kala" class="tab-content py-24 px-4">
         <div class="max-w-7xl mx-auto">
           <div class="text-center mb-16 reveal">
-            <span class="section-num">Section 05</span>
+            <!-- <span class="section-num">Section 05</span> -->
             <h2 class="section-title mt-2">KALA — THE TIME PRINCIPLES</h2>
             <p class="section-sub mx-auto mt-3">
               Jyotish is fundamentally a science of time (<em>Kala</em>). The
@@ -800,14 +824,13 @@
             <div id="dashaTimeline" class="reveal"></div>
           </div>
         </div>
-      </section>
-      <div class="glow-line max-w-4xl mx-auto"></div>
+      </div>
 
-      <!-- Section 6: Tools -->
-      <section id="tools" class="py-24 px-4">
+      <!-- Tools Tab -->
+      <div id="tools" class="tab-content py-24 px-4">
         <div class="max-w-7xl mx-auto">
           <div class="text-center mb-16 reveal">
-            <span class="section-num">Section 06</span>
+            <!-- <span class="section-num">Section 06</span> -->
             <h2 class="section-title mt-2">TOOLS & TECHNIQUES</h2>
             <p class="section-sub mx-auto mt-3">
               The analytical instruments of Jyotish — from divisional charts
@@ -820,14 +843,13 @@
             class="max-w-3xl mx-auto space-y-3 stagger"
           ></div>
         </div>
-      </section>
-      <div class="glow-line max-w-4xl mx-auto"></div>
+      </div>
 
-      <!-- Section 7: Branches -->
-      <section id="branches" class="py-24 px-4">
+      <!-- Branches Tab -->
+      <div id="branches" class="tab-content py-24 px-4">
         <div class="max-w-7xl mx-auto">
           <div class="text-center mb-16 reveal">
-            <span class="section-num">Section 07</span>
+            <!-- <span class="section-num">Section 07</span> -->
             <h2 class="section-title mt-2">APPLICATION BRANCHES</h2>
             <p class="section-sub mx-auto mt-3">
               Jyotish encompasses multiple specialized branches, each applying
@@ -840,23 +862,67 @@
             class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 stagger"
           ></div>
         </div>
-      </section>
+      </div>
 
       <!-- Footer -->
-      <footer
-        class="py-16 px-4 text-center"
-        style="border-top: 1px solid var(--border)"
-      >
-        <p style="color: var(--muted); font-size: 0.85rem">
-          VEDIC ASTROLOGY (JYOTISH) — THE COMPLETE MAP
-        </p>
-        <p class="mt-2" style="color: var(--border); font-size: 0.75rem">
-          Made with GLM-5 by ignoramus. Jai Shri Ganesha.
-        </p>
-      </footer>
+      <!-- <footer -->
+      <!--   class="py-16 px-4 text-center" -->
+      <!--   style="border-top: 1px solid var(--border)" -->
+      <!-- > -->
+      <!--   <p style="color: var(--muted); font-size: 0.85rem"> -->
+      <!--     VEDIC ASTROLOGY (JYOTISH) — THE COMPLETE MAP -->
+      <!--   </p> -->
+      <!--   <p class="mt-2" style="color: var(--border); font-size: 0.75rem"> -->
+      <!--     Made with GLM-5 by ignoramus. Jai Shri Ganesha. -->
+      <!--   </p> -->
+      <!-- </footer> -->
     </div>
 
     <script>
+      /* ============ TAB NAVIGATION ============ */
+      const tabBtns = document.querySelectorAll(".tab-btn");
+      const tabContents = document.querySelectorAll(".tab-content");
+      let lastScroll = 0;
+
+      // Tab switching
+      tabBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const tabId = btn.getAttribute("data-tab");
+
+          // Update active tab button
+          tabBtns.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+
+          // Show active tab content
+          tabContents.forEach((content) => {
+            content.classList.remove("active");
+            if (content.id === tabId) {
+              content.classList.add("active");
+            }
+          });
+
+          // Reset scroll position to top when switching tabs
+          window.scrollTo(0, 0);
+
+          // Re-trigger reveal animations for the new tab
+          setTimeout(() => {
+            document.querySelectorAll(".reveal, .stagger").forEach((el) => {
+              if (el.closest(".tab-content.active")) {
+                el.classList.add("visible");
+              }
+            });
+          }, 1000);
+        });
+      });
+
+      // Hide tab nav on scroll down
+      // window.addEventListener('scroll', () => {
+      //   const st = window.scrollY;
+      //   const tabNav = document.getElementById('tabNav');
+      // tabNav.classList.toggle('hidden', st > lastScroll && st > 100);
+      // lastScroll = st;
+      // });
+
       /* ============ DATA ============ */
       const GRAHAS = [
         {
@@ -1985,46 +2051,6 @@
       drawStars();
       window.addEventListener("resize", initStars);
 
-      /* ============ NAVIGATION ============ */
-      const nav = document.getElementById("mainNav");
-      const navLinks = document.querySelectorAll(".nav-link");
-      let lastScroll = 0;
-      window.addEventListener("scroll", () => {
-        const st = window.scrollY;
-        nav.classList.toggle("hidden", st > lastScroll && st > 100);
-        lastScroll = st;
-        // Active section
-        const sections = [
-          "hero",
-          "grahas",
-          "rashis",
-          "bhavas",
-          "nakshatras",
-          "kala",
-          "tools",
-          "branches",
-        ];
-        let current = "hero";
-        for (const id of sections) {
-          const el = document.getElementById(id);
-          if (el && el.offsetTop - 200 <= st) current = id;
-        }
-        navLinks.forEach((l) => {
-          l.classList.toggle(
-            "active",
-            l.getAttribute("href") === "#" + current,
-          );
-        });
-      });
-      navLinks.forEach((l) =>
-        l.addEventListener("click", (e) => {
-          e.preventDefault();
-          const target = document.querySelector(l.getAttribute("href"));
-          if (target)
-            target.scrollIntoView({ behavior: "smooth", block: "start" });
-        }),
-      );
-
       /* ============ REVEAL ANIMATIONS ============ */
       const observer = new IntersectionObserver(
         (entries) => {
@@ -2053,7 +2079,7 @@
   `,
         ).join("");
       }
-      function toggleGraha(idx) {
+      window.toggleGraha = function (idx) {
         const panel = document.getElementById("grahaDetail");
         const cards = document.querySelectorAll(".planet-card");
         if (activeGraha === idx) {
@@ -2108,7 +2134,7 @@
           () => panel.scrollIntoView({ behavior: "smooth", block: "nearest" }),
           100,
         );
-      }
+      };
       renderGrahas();
 
       /* ============ SECTION 2: RASHIS (ZODIAC WHEEL) ============ */
@@ -2162,7 +2188,7 @@
         container.innerHTML = svg;
       }
       let activeRashi = -1;
-      function selectRashi(idx) {
+      window.selectRashi = function (idx) {
         if (activeRashi === idx) return;
         activeRashi = idx;
         document.querySelectorAll(".rashi-seg").forEach((s, i) => {
@@ -2206,7 +2232,7 @@
         </div>
       </div>
     </div>`;
-      }
+      };
       renderZodiacWheel();
       window.addEventListener("resize", renderZodiacWheel);
 
@@ -2294,7 +2320,7 @@
         container.innerHTML = svg;
       }
       let activeBhava = -1;
-      function selectBhava(idx) {
+      window.selectBhava = function (idx) {
         if (activeBhava === idx) return;
         activeBhava = idx;
         document.querySelectorAll(".bhava-node").forEach((n, i) => {
@@ -2320,7 +2346,7 @@
         ${b.signif.map((s) => `<div class="flex items-start gap-2 text-sm" style="color:var(--muted)"><span style="color:var(--teal)">▸</span>${s}</div>`).join("")}
       </div>
     </div>`;
-      }
+      };
       renderBhavaWheel();
       window.addEventListener("resize", renderBhavaWheel);
 
@@ -2384,7 +2410,7 @@
     </div>`;
         grid.innerHTML = html;
       }
-      function toggleNakshatra(el, idx) {
+      window.toggleNakshatra = function (el, idx) {
         const detail = el.querySelector(".nakshatra-detail");
         const wasOpen = detail.classList.contains("open");
         // Close all
@@ -2398,7 +2424,7 @@
           detail.classList.add("open");
           el.classList.add("active");
         }
-      }
+      };
       renderNakshatras();
 
       /* ============ SECTION 5: KALA ============ */
@@ -2457,7 +2483,7 @@
   `,
         ).join("");
       }
-      function toggleAccordion(idx) {
+      window.toggleAccordion = function (idx) {
         const body = document.getElementById("toolBody" + idx);
         const icon = document.getElementById("toolIcon" + idx);
         const wasOpen = body.classList.contains("open");
@@ -2471,7 +2497,7 @@
           body.classList.add("open");
           icon.style.transform = "rotate(180deg)";
         }
-      }
+      };
       renderTools();
 
       /* ============ SECTION 7: BRANCHES ============ */
