@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Vedic Astrology (Jyotish) – The Complete Map. An interactive guide to the 9 Grahas, 12 Rashis, 12 Bhavas, 27 Nakshatras, and time principles."
+    />
+    <meta name="theme-color" content="#0c0a0e" />
+    <title>Vedic Astrology (Jyotish) – The Complete Map</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,400;0,6..12,600;0,6..12,700;1,6..12,300&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      integrity="sha512-QWW089NSTIq3UmIREr7rvxrChAjc472ZhzIkjuKqF63JZvNzMaY80E3KJrd4IwMzlX+TTozDE8NjoPj60RLAJA=="
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <canvas id="starfield" aria-label="Animated starfield background"></canvas>
+    <div class="z-content">
+      <!-- Navigation -->
+      <nav id="mainNav" role="navigation" aria-label="Main navigation">
+        <div class="max-w-7xl mx-auto px-4 flex items-center justify-between h-14">
+          <div class="flex gap-4 md:gap-6 overflow-x-auto" id="navLinks" role="menubar">
+            <a class="nav-link active" href="#hero" role="menuitem">Home</a>
+            <a class="nav-link" href="#grahas" role="menuitem">Grahas</a>
+            <a class="nav-link" href="#rashis" role="menuitem">Rashis</a>
+            <a class="nav-link" href="#bhavas" role="menuitem">Bhavas</a>
+            <a class="nav-link" href="#nakshatras" role="menuitem">Nakshatras</a>
+            <a class="nav-link" href="#kala" role="menuitem">Kala</a>
+            <a class="nav-link" href="#tools" role="menuitem">Tools</a>
+            <a class="nav-link" href="#branches" role="menuitem">Branches</a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Hero -->
+      <section id="hero" class="hero">
+        <div class="mandala-container">
+          <div class="mandala-ring" style="width: 300px; height: 300px; animation-duration: 60s; --opacity: 0.1"></div>
+          <div class="mandala-ring" style="width: 400px; height: 400px; animation-duration: 90s; animation-direction: reverse; --opacity: 0.07"></div>
+          <div class="mandala-ring" style="width: 500px; height: 500px; animation-duration: 120s; --opacity: 0.05"></div>
+          <div class="hero-om">ॐ</div>
+        </div>
+        <p class="section-num mb-4 reveal">The Ancient Science of Light</p>
+        <h1 class="section-title reveal">VEDIC ASTROLOGY<br><span class="accent">(JYOTISH)</span></h1>
+        <p class="hero-subtitle reveal">THE COMPLETE MAP</p>
+        <p class="section-sub mt-6 mx-auto reveal">
+          The foundational elements of Jyotish — the Vedic science of light, time, and cosmic order.
+        </p>
+        <div class="tags-container reveal">
+          <span class="tag tag--gold">9 Grahas</span>
+          <span class="tag tag--fire">12 Rashis</span>
+          <span class="tag tag--teal">12 Bhavas</span>
+          <span class="tag tag--rose">27 Nakshatras</span>
+          <span class="tag tag--copper">Time Principles</span>
+          <span class="tag tag--sage">Tools & Branches</span>
+        </div>
+        <div class="scroll-indicator reveal float-anim">
+          <i class="fas fa-chevron-down"></i>
+        </div>
+      </section>
+
+      <!-- Section 1: Grahas -->
+      <section id="grahas" class="section">
+        <div class="max-w-7xl mx-auto">
+          <div class="section-header reveal">
+            <span class="section-num">Section 01</span>
+            <h2 class="section-title">GRAHAS — THE NINE PLANETS</h2>
+            <p class="section-sub">
+              The word <em>Graha</em> means "to seize" or "to grasp." These nine celestial forces influence all
+              aspects of human experience — from the soul's purpose to the body's health.
+            </p>
+          </div>
+          <div id="grahasGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 stagger"></div>
+          <div id="grahaDetail" class="detail-panel"></div>
+        </div>
+      </section>
+      <div class="glow-line max-w-4xl mx-auto"></div>
+
+      <!-- Section 2: Rashis -->
+      <section id="rashis" class="section">
+        <div class="max-w-7xl mx-auto">
+          <div class="section-header reveal">
+            <span class="section-num">Section 02</span>
+            <h2 class="section-title">RASHIS — THE ZODIAC</h2>
+            <p class="section-sub">
+              The twelve signs of the zodiac form the fixed backdrop through which the planets move. Each Rashi
+              represents a specific energy pattern, element, and modality of expression.
+            </p>
+          </div>
+          <div class="flex flex-col lg:flex-row items-start gap-12">
+            <div class="relative flex-shrink-0 mx-auto" id="zodiacWheelContainer"></div>
+            <div id="rashiDetail" class="flex-1 min-w-0 reveal" style="min-height: 300px">
+              <div class="placeholder">
+                <i class="fas fa-hand-pointer mr-2"></i>Click a sign on the wheel to explore
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div class="glow-line max-w-4xl mx-auto"></div>
+
+      <!-- Section 3: Bhavas -->
+      <section id="bhavas" class="section">
+        <div class="max-w-7xl mx-auto">
+          <div class="section-header reveal">
+            <span class="section-num">Section 03</span>
+            <h2 class="section-title">BHAVAS — THE AREAS OF LIFE</h2>
+            <p class="section-sub">
+              The twelve houses (Bhavas) represent the twelve fundamental areas of human experience. Unlike Western
+              astrology, in Jyotish the houses are fixed — the sign positions determine which energies inhabit each
+              domain of life.
+            </p>
+          </div>
+          <div class="flex flex-col lg:flex-row items-start gap-12">
+            <div class="relative flex-shrink-0 mx-auto" id="bhavaWheelContainer"></div>
+            <div id="bhavaDetail" class="flex-1 min-w-0 reveal" style="min-height: 300px">
+              <div class="placeholder">
+                <i class="fas fa-hand-pointer mr-2"></i>Click a house to explore its significations
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div class="glow-line max-w-4xl mx-auto"></div>
+
+      <!-- Section 4: Nakshatras -->
+      <section id="nakshatras" class="section">
+        <div class="max-w-7xl mx-auto">
+          <div class="section-header reveal">
+            <span class="section-num">Section 04</span>
+            <h2 class="section-title">NAKSHATRAS — THE LUNAR MANSIONS</h2>
+            <p class="section-sub">
+              The 27 (traditionally 28 with Abhijit) Nakshatras are lunar constellations spanning 13°20' each. They
+              form the most ancient layer of Vedic astrology, deeply tied to the Moon's rhythm and the soul's subtle
+              desires.
+            </p>
+          </div>
+          <div id="nakshatraGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 stagger"></div>
+        </div>
+      </section>
+      <div class="glow-line max-w-4xl mx-auto"></div>
+
+      <!-- Section 5: Kala -->
+      <section id="kala" class="section">
+        <div class="max-w-7xl mx-auto">
+          <div class="section-header reveal">
+            <span class="section-num">Section 05</span>
+            <h2 class="section-title">KALA — THE TIME PRINCIPLES</h2>
+            <p class="section-sub">
+              Jyotish is fundamentally a science of time (<em>Kala</em>). The Panchanga and Dasha systems decode the
+              qualitative nature of each moment and life period.
+            </p>
+          </div>
+          <div class="mb-16">
+            <h3 class="subsection-title reveal">The Panchanga — Five Limbs of Time</h3>
+            <div id="panchangaGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 stagger"></div>
+          </div>
+          <div>
+            <h3 class="subsection-title reveal">Vimshottari Dasha System</h3>
+            <p class="text-sm mb-6 reveal">
+              The 120-year planetary period system based on the Moon's Nakshatra at birth. Each planet governs a
+              specific number of years.
+            </p>
+            <div id="dashaTimeline" class="reveal"></div>
+          </div>
+        </div>
+      </section>
+      <div class="glow-line max-w-4xl mx-auto"></div>
+
+      <!-- Section 6: Tools -->
+      <section id="tools" class="section">
+        <div class="max-w-7xl mx-auto">
+          <div class="section-header reveal">
+            <span class="section-num">Section 06</span>
+            <h2 class="section-title">TOOLS & TECHNIQUES</h2>
+            <p class="section-sub">
+              The analytical instruments of Jyotish — from divisional charts that magnify specific life areas to
+              planetary strength systems and yogic combinations.
+            </p>
+          </div>
+          <div id="toolsAccordion" class="max-w-3xl mx-auto space-y-3 stagger"></div>
+        </div>
+      </section>
+      <div class="glow-line max-w-4xl mx-auto"></div>
+
+      <!-- Section 7: Branches -->
+      <section id="branches" class="section">
+        <div class="max-w-7xl mx-auto">
+          <div class="section-header reveal">
+            <span class="section-num">Section 07</span>
+            <h2 class="section-title">APPLICATION BRANCHES</h2>
+            <p class="section-sub">
+              Jyotish encompasses multiple specialized branches, each applying the same foundational principles to
+              different questions and domains of life.
+            </p>
+          </div>
+          <div id="branchesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 stagger"></div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <p>VEDIC ASTROLOGY (JYOTISH) — THE COMPLETE MAP</p>
+        <p class="footer-credit">Made with GLM-5 by ignoramus. Jai Shri Ganesha.</p>
+      </footer>
+    </div>
+
+    <script src="data.js" defer></script>
+    <script src="script.js" defer></script>
+  </body>
+</html>
