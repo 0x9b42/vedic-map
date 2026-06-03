@@ -34,6 +34,60 @@ const observer = createObserver();
 // Observe all reveal elements
 $$(".reveal, .stagger").forEach((el) => observer.observe(el));
 
+// ============ SECTION SWITCHER ============
+class SectionSwitcher {
+  constructor() {
+    this.navLinks = $$(".nav-link");
+    this.sections = $$("section");
+    this.init();
+  }
+
+  init() {
+    // Show hero section on load
+    this.switchSection("hero");
+
+    // Add click listeners to nav links
+    this.navLinks.forEach((link) => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute("href").slice(1); // Remove the #
+        this.switchSection(targetId);
+      });
+    });
+  }
+
+  switchSection(targetId) {
+    // Hide all sections
+    this.sections.forEach((section) => {
+      section.classList.remove("active");
+    });
+
+    // Remove active class from all nav links
+    this.navLinks.forEach((link) => {
+      link.classList.remove("active");
+    });
+
+    // Show the target section
+    const targetSection = $(`section#${targetId}`);
+    if (targetSection) {
+      targetSection.classList.add("active");
+    }
+
+    // Highlight the active nav link
+    const activeLink = $(`a[href="#${targetId}"]`);
+    if (activeLink) {
+      activeLink.classList.add("active");
+    }
+
+    // Re-observe reveal elements in the new section
+    $$(".reveal, .stagger").forEach((el) => {
+      if (!el.classList.contains("visible")) {
+        observer.observe(el);
+      }
+    });
+  }
+}
+
 // ============ NAVIGATION ============
 class NavHandler {
   constructor() {
@@ -45,9 +99,6 @@ class NavHandler {
 
   init() {
     document.addEventListener("scroll", () => this.handleScroll());
-    this.navLinks.forEach((link) => {
-      link.addEventListener("click", (e) => this.handleNavClick(e));
-    });
   }
 
   handleScroll() {
@@ -61,36 +112,6 @@ class NavHandler {
     }
 
     this.lastScroll = currentScroll;
-
-    // Update active nav link
-    this.updateActiveLink();
-  }
-
-  updateActiveLink() {
-    const sections = $$("section[id]");
-    const scrollPos = window.scrollY + 100;
-
-    sections.forEach((section) => {
-      const sectionTop = section.offsetTop;
-      const sectionHeight = section.clientHeight;
-
-      if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-        this.navLinks.forEach((link) => link.classList.remove("active"));
-        const activeLink = $(`a[href="#${section.id}"]`);
-        if (activeLink) activeLink.classList.add("active");
-      }
-    });
-  }
-
-  handleNavClick(e) {
-    const href = e.target.getAttribute("href");
-    if (href && href.startsWith("#")) {
-      e.preventDefault();
-      const target = $(href);
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth" });
-      }
-    }
   }
 }
 
@@ -358,6 +379,7 @@ const initEventListeners = () => {
 // ============ INITIALIZATION ============
 document.addEventListener("DOMContentLoaded", () => {
   // Initialize components
+  new SectionSwitcher();
   new NavHandler();
   new AccordionHandler("#toolsAccordion");
   new Starfield("#starfield");
