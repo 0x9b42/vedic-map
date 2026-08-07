@@ -8,7 +8,7 @@
     "debug": "DEBUG=Eleventy* eleventy --serve"
   },
   "license": "MIT",
-  "author": "",
+  "author": "ignoramus",
   "devDependencies": {
     "@11ty/eleventy": "^2.0.1"
   }
