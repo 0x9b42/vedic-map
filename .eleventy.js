@@ -10,15 +10,7 @@ module.exports = function (eleventyConfig) {
       layouts: "_layouts",
       data: "_data",
     },
-
-    templateFormats: ["njk", "md", "html"],
-
-    htmlTemplateEngine: "njk",
-    markdownTemplateEngine: "njk",
-    jsDataFileEngine: true,
-
+    pathPrefix: "/CW6-notes/",
     passthroughFileCopy: true,
-
-    watchIgnores: ["**/node_modules/**", "_site/**", ".git/**"],
   };
 };
