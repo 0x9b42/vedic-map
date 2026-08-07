@@ -1,0 +1,3868 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jyotish — The Complete Map</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --bg: #0b0910;
+        --bg2: #120f18;
+        --card: #1a1520;
+        --card2: #221c2c;
+        --border: #2a2435;
+        --border-soft: #211c29;
+        --gold: #d4943a;
+        --gold2: #c78d3a;
+        --gold3: #e8b960;
+        --cream: #ede4d3;
+        --muted: #8f8372;
+        --muted-dim: #675f56;
+        --vermillion: #a33b2e;
+        --teal: #2a9d8f;
+        --rose: #a33b6e;
+        --sage: #5a8a5a;
+        --copper: #b87333;
+        --fire: #e8713a;
+        --earth: #7a9e3a;
+        --air: #5a9ed4;
+        --water: #4a6ed4;
+        --sidebar-w: 232px;
+        --sidebar-w-rail: 84px;
+        --topbar-h: 56px;
+        --font-display: "Cinzel", serif;
+        --font-body: "Inter", sans-serif;
+        --font-mono: "JetBrains Mono", monospace;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        scrollbar-width: thin;
+        scrollbar-color: var(--gold) var(--bg);
+      }
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--gold);
+        border-radius: 3px;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--bg);
+        color: var(--cream);
+        font-family: var(--font-body);
+        overflow-x: hidden;
+        line-height: 1.65;
+        font-weight: 400;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5 {
+        font-family: var(--font-display);
+        letter-spacing: 0.03em;
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--gold3);
+        outline-offset: 3px;
+        border-radius: 4px;
+      }
+      .rashi-seg,
+      .bhava-node {
+        outline: none;
+      }
+      .rashi-seg:focus,
+      .bhava-node:focus {
+        outline: none;
+      }
+      .rashi-seg:focus-visible,
+      .bhava-node:focus-visible {
+        outline: 1.5px solid var(--gold3);
+        outline-offset: -2px;
+      }
+
+      #starfield {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .z-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .mono {
+        font-family: var(--font-mono);
+        font-variant-numeric: tabular-nums;
+        letter-spacing: -0.01em;
+      }
+      .readout {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        color: var(--gold3);
+        background: rgba(212, 148, 58, 0.08);
+        border: 1px solid rgba(212, 148, 58, 0.2);
+        padding: 0.1rem 0.45rem;
+        border-radius: 4px;
+        display: inline-block;
+        white-space: nowrap;
+      }
+
+      /* ===== TOP BAR ===== */
+      .topbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: var(--topbar-h);
+        z-index: 110;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1.25rem;
+        background: rgba(11, 9, 16, 0.82);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid var(--border-soft);
+      }
+      .brand {
+        font-family: var(--font-display);
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        font-size: 0.95rem;
+        color: var(--gold3);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .brand i {
+        font-size: 0.85rem;
+        color: var(--gold);
+      }
+      .topbar-current {
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+        border-left: 1px solid var(--border);
+        padding-left: 0.9rem;
+        margin-left: 0.4rem;
+        flex: 1;
+      }
+      .topbar-index {
+        font-family: var(--font-mono);
+        font-size: 0.68rem;
+        color: var(--muted-dim);
+      }
+
+      /* ===== NAVIGATION ===== */
+      .tab-nav {
+        position: fixed;
+        z-index: 100;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        backdrop-filter: blur(16px);
+        background: rgba(12, 10, 14, 0.92);
+        border-top: 1px solid var(--border-soft);
+        transition: transform 0.3s;
+      }
+      .tab-container {
+        display: flex;
+        overflow-x: auto;
+        padding: 0 0.25rem;
+      }
+      .tab-btn {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.65rem 0.85rem 0.55rem;
+        font-size: 0.62rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: color 0.25s;
+        font-family: var(--font-body);
+        font-weight: 500;
+      }
+      .tab-btn i {
+        font-size: 0.95rem;
+      }
+      .tab-btn:hover,
+      .tab-btn.active {
+        color: var(--gold3);
+      }
+      .tab-btn::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 10%;
+        width: 80%;
+        height: 2px;
+        background: var(--gold);
+        transform: scaleX(0);
+        transition: transform 0.3s;
+        transform-origin: center;
+      }
+      .tab-btn.active::after {
+        transform: scaleX(1);
+      }
+
+      @media (min-width: 1024px) {
+        .topbar {
+          left: var(--sidebar-w);
+        }
+        .tab-nav {
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: auto;
+          width: var(--sidebar-w);
+          border-top: none;
+          border-right: 1px solid var(--border-soft);
+        }
+        .tab-container {
+          flex-direction: column;
+          height: 100%;
+          overflow-y: auto;
+          overflow-x: visible;
+          padding: 5.5rem 0 1.5rem;
+        }
+        .tab-btn {
+          flex-direction: row;
+          justify-content: flex-start;
+          gap: 0.85rem;
+          padding: 0.7rem 1.4rem;
+          font-size: 0.72rem;
+        }
+        .tab-btn i {
+          width: 16px;
+          text-align: center;
+          font-size: 0.85rem;
+        }
+        .tab-btn::after {
+          bottom: auto;
+          left: 0;
+          top: 0;
+          width: 3px;
+          height: 100%;
+          transform: scaleY(0);
+        }
+        .tab-btn.active::after {
+          transform: scaleY(1);
+        }
+        .sidebar-brand {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 4.25rem;
+          display: flex;
+          align-items: center;
+          padding: 0 1.4rem;
+          border-bottom: 1px solid var(--border-soft);
+        }
+      }
+      .sidebar-brand {
+        display: none;
+      }
+      @media (min-width: 1024px) {
+        .sidebar-brand {
+          display: flex;
+        }
+      }
+
+      .app-main {
+        padding-top: calc(var(--topbar-h) + 1.5rem);
+        padding-bottom: 6rem;
+      }
+      @media (min-width: 1024px) {
+        .app-main {
+          margin-left: var(--sidebar-w);
+          padding-bottom: 3rem;
+        }
+      }
+
+      .section-title {
+        font-size: clamp(1.8rem, 4vw, 3rem);
+        font-weight: 700;
+        color: var(--cream);
+        line-height: 1.2;
+      }
+      .section-eyebrow {
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--gold);
+        display: block;
+        margin-bottom: 0.6rem;
+      }
+      .section-sub {
+        color: var(--muted);
+        max-width: 640px;
+        font-size: 0.95rem;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .stagger > * {
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.5s ease,
+          transform 0.5s ease;
+      }
+      .stagger.visible > * {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .stagger.visible > *:nth-child(1) {
+        transition-delay: 0.05s;
+      }
+      .stagger.visible > *:nth-child(2) {
+        transition-delay: 0.1s;
+      }
+      .stagger.visible > *:nth-child(3) {
+        transition-delay: 0.15s;
+      }
+      .stagger.visible > *:nth-child(4) {
+        transition-delay: 0.2s;
+      }
+      .stagger.visible > *:nth-child(5) {
+        transition-delay: 0.25s;
+      }
+      .stagger.visible > *:nth-child(6) {
+        transition-delay: 0.3s;
+      }
+      .stagger.visible > *:nth-child(7) {
+        transition-delay: 0.35s;
+      }
+      .stagger.visible > *:nth-child(8) {
+        transition-delay: 0.4s;
+      }
+      .stagger.visible > *:nth-child(9) {
+        transition-delay: 0.45s;
+      }
+      .stagger.visible > *:nth-child(n + 10) {
+        transition-delay: 0.5s;
+      }
+
+      .glow-line {
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--gold),
+          transparent
+        );
+        opacity: 0.3;
+      }
+
+      .planet-card,
+      .branch-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 1.5rem;
+        cursor: pointer;
+        transition: all 0.35s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .planet-card::before,
+      .branch-card::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--gold);
+        transform: scaleX(0);
+        transition: transform 0.35s ease;
+        transform-origin: left;
+      }
+      .branch-card::after {
+        top: auto;
+        bottom: 0;
+        background: linear-gradient(90deg, var(--copper), var(--gold));
+      }
+      .planet-card:hover,
+      .branch-card:hover {
+        border-color: var(--gold);
+        transform: translateY(-4px);
+        box-shadow: 0 14px 44px rgba(212, 148, 58, 0.12);
+      }
+      .planet-card:hover::before,
+      .branch-card:hover::after {
+        transform: scaleX(1);
+      }
+      .planet-card.active {
+        border-color: var(--gold);
+        background: var(--card2);
+      }
+      .planet-card.active::before {
+        transform: scaleX(1);
+      }
+      .planet-symbol {
+        font-size: 2.4rem;
+        line-height: 1;
+        filter: drop-shadow(0 0 8px currentColor);
+        font-family: "Noto Sans Symbols 2", "Segoe UI Symbol", "Cinzel", serif;
+        font-variant-emoji: text;
+      }
+      .glyph {
+        font-family: "Noto Sans Symbols 2", "Segoe UI Symbol", "Cinzel", serif;
+        font-variant-emoji: text;
+      }
+
+      .detail-panel {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 2rem;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: all 0.5s ease;
+      }
+      .detail-panel.open {
+        max-height: 900px;
+        opacity: 1;
+        margin-top: 1.5rem;
+      }
+
+      .nakshatra-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 1rem 1.2rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      .nakshatra-card:hover {
+        border-color: var(--rose);
+        transform: translateY(-2px);
+      }
+      .nakshatra-card.active {
+        border-color: var(--rose);
+        background: var(--card2);
+      }
+      .nakshatra-detail {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: all 0.4s ease;
+      }
+      .nakshatra-detail.open {
+        max-height: 220px;
+        opacity: 1;
+        margin-top: 0.75rem;
+      }
+
+      .accordion-item {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        transition: border-color 0.3s;
+      }
+      .accordion-item:hover {
+        border-color: var(--sage);
+      }
+      .accordion-header {
+        padding: 1rem 1.5rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        transition: background 0.3s;
+      }
+      .accordion-header:hover {
+        background: var(--card2);
+      }
+      .accordion-body {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease;
+      }
+      .accordion-body.open {
+        max-height: 640px;
+      }
+
+      .tag {
+        display: inline-block;
+        padding: 0.15rem 0.6rem;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        letter-spacing: 0.05em;
+        border: 1px solid;
+        font-family: var(--font-mono);
+      }
+
+      .dasha-bar {
+        height: 30px;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        position: relative;
+        cursor: pointer;
+        min-width: 20px;
+      }
+      .dasha-bar:hover {
+        filter: brightness(1.3);
+        transform: scaleY(1.15);
+      }
+
+      .mandala-ring {
+        position: absolute;
+        border-radius: 50%;
+        border: 1px dashed var(--border);
+        animation: spin linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+      .float-anim {
+        animation: float 4s ease-in-out infinite;
+      }
+      .hero-om {
+        font-size: clamp(4rem, 10vw, 8rem);
+        color: var(--gold);
+        opacity: 0.15;
+        position: absolute;
+        filter: blur(1px);
+      }
+
+      .info-box {
+        background: rgba(212, 148, 58, 0.05);
+        border: 1px solid rgba(212, 148, 58, 0.15);
+        border-radius: 12px;
+        padding: 1.25rem;
+      }
+      .data-card {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 1rem;
+      }
+
+      @media (max-width: 768px) {
+        .planet-card,
+        .branch-card {
+          padding: 1rem;
+        }
+        .detail-panel {
+          padding: 1.25rem;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation-duration: 0.01ms !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+
+      .tab-content {
+        display: none;
+      }
+      .tab-content.active {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="starfield"></canvas>
+
+    <!-- Top bar -->
+    <header class="topbar">
+      <span class="brand"><i class="fas fa-om"></i>JYOTISH</span>
+      <span class="topbar-current" id="topbarCurrent"
+        >History &amp; Origin</span
+      >
+      <span class="topbar-index mono" id="topbarIndex">01 / 15</span>
+    </header>
+
+    <!-- Navigation (sidebar on desktop, bottom bar on mobile) -->
+    <nav class="tab-nav" id="tabNav" aria-label="Section navigation">
+      <div class="sidebar-brand">
+        <span class="brand"><i class="fas fa-om"></i>JYOTISH</span>
+      </div>
+      <div class="tab-container" id="tabContainer">
+        <button class="tab-btn active" data-tab="hero">
+          <i class="fas fa-landmark"></i>History
+        </button>
+        <button class="tab-btn" data-tab="foundation">
+          <i class="fas fa-diagram-project"></i>Foundation
+        </button>
+        <button class="tab-btn" data-tab="grahas">
+          <i class="fas fa-sun"></i>Grahas
+        </button>
+        <button class="tab-btn" data-tab="rashis">
+          <i class="fas fa-circle-notch"></i>Rashis
+        </button>
+        <button class="tab-btn" data-tab="bhavas">
+          <i class="fas fa-house"></i>Bhavas
+        </button>
+        <button class="tab-btn" data-tab="nakshatras">
+          <i class="fas fa-star"></i>Nakshatras
+        </button>
+        <button class="tab-btn" data-tab="kala">
+          <i class="fas fa-hourglass-half"></i>Kala
+        </button>
+        <button class="tab-btn" data-tab="charts">
+          <i class="fas fa-dharmachakra"></i>Charts
+        </button>
+        <button class="tab-btn" data-tab="yogas">
+          <i class="fas fa-link"></i>Yogas
+        </button>
+        <button class="tab-btn" data-tab="tools">
+          <i class="fas fa-toolbox"></i>Tools
+        </button>
+        <button class="tab-btn" data-tab="flow">
+          <i class="fas fa-route"></i>Flow
+        </button>
+        <button class="tab-btn" data-tab="principles">
+          <i class="fas fa-scale-balanced"></i>Principles
+        </button>
+        <button class="tab-btn" data-tab="wisdom">
+          <i class="fas fa-brain"></i>Wisdom
+        </button>
+        <button class="tab-btn" data-tab="branches">
+          <i class="fas fa-sitemap"></i>Branches
+        </button>
+        <button class="tab-btn" data-tab="essence">
+          <i class="fas fa-infinity"></i>Essence
+        </button>
+      </div>
+    </nav>
+
+    <main class="z-content app-main">
+      <!-- Hero / History Tab -->
+      <div id="hero" class="tab-content active px-5 text-center py-10">
+        <div class="relative">
+          <div
+            class="mandala-ring"
+            style="
+              width: 300px;
+              height: 300px;
+              top: 50%;
+              left: 50%;
+              margin-left: -150px;
+              margin-top: -150px;
+              animation-duration: 60s;
+              border-color: rgba(212, 148, 58, 0.1);
+            "
+          ></div>
+          <div
+            class="mandala-ring"
+            style="
+              width: 400px;
+              height: 400px;
+              top: 50%;
+              left: 50%;
+              margin-left: -200px;
+              margin-top: -200px;
+              animation-duration: 90s;
+              animation-direction: reverse;
+              border-color: rgba(212, 148, 58, 0.07);
+            "
+          ></div>
+          <div
+            class="mandala-ring"
+            style="
+              width: 500px;
+              height: 500px;
+              top: 50%;
+              left: 50%;
+              margin-left: -250px;
+              margin-top: -250px;
+              animation-duration: 120s;
+              border-color: rgba(212, 148, 58, 0.05);
+            "
+          ></div>
+          <div
+            class="hero-om"
+            style="top: 50%; left: 50%; transform: translate(-50%, -50%)"
+          >
+            ॐ
+          </div>
+        </div>
+        <span class="section-eyebrow reveal"
+          >VEDIC ASTROLOGY · THE SCIENCE OF LIGHT &amp; TIME</span
+        >
+        <h1
+          class="section-title reveal"
+          style="
+            font-size: clamp(2.2rem, 6vw, 4.5rem);
+            font-weight: 900;
+            max-width: 900px;
+            margin: 0 auto;
+          "
+        >
+          JYOTISH<br /><span style="color: var(--gold)">THE COMPLETE MAP</span>
+        </h1>
+        <p class="section-sub mt-6 mx-auto reveal" style="max-width: 560px">
+          The foundational elements of Jyotish — the Vedic science of light,
+          time, and cosmic order.
+        </p>
+        <div class="flex flex-wrap gap-3 justify-center mt-8 reveal">
+          <span
+            class="tag"
+            style="color: var(--gold3); border-color: var(--gold3)"
+            >9 Grahas</span
+          >
+          <span
+            class="tag"
+            style="color: var(--fire); border-color: var(--fire)"
+            >12 Rashis</span
+          >
+          <span
+            class="tag"
+            style="color: var(--teal); border-color: var(--teal)"
+            >12 Bhavas</span
+          >
+          <span
+            class="tag"
+            style="color: var(--rose); border-color: var(--rose)"
+            >27 Nakshatras</span
+          >
+          <span
+            class="tag"
+            style="color: var(--copper); border-color: var(--copper)"
+            >Time Principles</span
+          >
+          <span
+            class="tag"
+            style="color: var(--sage); border-color: var(--sage)"
+            >Tools &amp; Techniques</span
+          >
+        </div>
+
+        <div class="reveal mx-auto mt-10 max-w-5xl text-left">
+          <div
+            class="rounded-2xl p-6 md:p-8"
+            style="background: var(--card); border: 1px solid var(--border)"
+          >
+            <div class="flex items-center gap-3 mb-5">
+              <div
+                class="w-10 h-10 rounded-full flex items-center justify-center"
+                style="
+                  background: rgba(212, 148, 58, 0.12);
+                  border: 1px solid rgba(212, 148, 58, 0.25);
+                "
+              >
+                <i class="fas fa-landmark" style="color: var(--gold)"></i>
+              </div>
+              <h3
+                style="font-family: var(--font-display)"
+                class="text-xl md:text-2xl font-bold"
+              >
+                HISTORY &amp; ORIGIN OF JYOTISH
+              </h3>
+            </div>
+            <p class="leading-relaxed mb-8" style="color: var(--muted)">
+              Jyotish did not emerge fully formed. It evolved over many
+              centuries from practical sky observation into one of the world's
+              most detailed systems of astronomical symbolism, calendar science,
+              ritual timing, and predictive interpretation.
+            </p>
+            <div class="space-y-4" id="timelineList"></div>
+            <div class="mt-8 info-box">
+              <div class="section-eyebrow" style="margin-bottom: 0.4rem">
+                KEY INSIGHT
+              </div>
+              <p class="text-sm leading-relaxed" style="color: var(--cream)">
+                The zodiac signs, houses, planets, divisional charts, and
+                predictive systems of Jyotish were built gradually over
+                centuries. The Nakshatra system is generally regarded as one of
+                the oldest surviving layers of the tradition and forms the
+                foundation upon which much of classical Jyotish was later
+                constructed.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-10">
+          <p class="mono" style="color: var(--muted-dim); font-size: 0.7rem">
+            Made with GLM-5 by ignoramus.
+          </p>
+        </div>
+      </div>
+
+      <!-- Foundation Tab -->
+      <div id="foundation" class="tab-content py-10 px-5">
+        <div class="max-w-7xl mx-auto">
+          <div class="mb-12 reveal">
+            <span class="section-eyebrow">PANCHA TATTVA</span>
+            <h2 class="section-title mt-2">FOUNDATION OF JYOTISH</h2>
+            <p class="section-sub mt-3">
+              Everything in Jyotish stands on five pillars: Grahas, Rashis,
+              Bhavas, Nakshatras, and Kala. Learn these first, and the rest of
+              the system becomes readable.
+            </p>
+          </div>
+          <div
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 stagger"
+          >
+            <div class="branch-card h-full">
+              <div class="flex items-center gap-3 mb-3">
+                <div
+                  class="w-10 h-10 rounded-lg flex items-center justify-center"
+                  style="background: rgba(212, 148, 58, 0.12)"
+                >
+                  <i class="fas fa-sun" style="color: var(--gold)"></i>
+                </div>
+                <h4
+                  class="text-sm font-bold"
+                  style="font-family: var(--font-display)"
+                >
+                  Grahas
+                </h4>
+              </div>
+              <p class="text-sm" style="color: var(--muted)">
+                The active forces: planets and nodes. They signify who or what
+                is acting.
+              </p>
+            </div>
+            <div class="branch-card h-full">
+              <div class="flex items-center gap-3 mb-3">
+                <div
+                  class="w-10 h-10 rounded-lg flex items-center justify-center"
+                  style="background: rgba(231, 113, 58, 0.12)"
+                >
+                  <i class="fas fa-circle-notch" style="color: var(--fire)"></i>
+                </div>
+                <h4
+                  class="text-sm font-bold"
+                  style="font-family: var(--font-display)"
+                >
+                  Rashis
+                </h4>
+              </div>
+              <p class="text-sm" style="color: var(--muted)">
+                The signs and elements: the style, modality, and environment of
+                expression.
+              </p>
+            </div>
+            <div class="branch-card h-full">
+              <div class="flex items-center gap-3 mb-3">
+                <div
+                  class="w-10 h-10 rounded-lg flex items-center justify-center"
+                  style="background: rgba(42, 157, 143, 0.12)"
+                >
+                  <i class="fas fa-house" style="color: var(--teal)"></i>
+                </div>
+                <h4
+                  class="text-sm font-bold"
+                  style="font-family: var(--font-display)"
+                >
+                  Bhavas
+                </h4>
+              </div>
+              <p class="text-sm" style="color: var(--muted)">
+                The 12 life fields where results manifest: self, wealth, home,
+                work, and beyond.
+              </p>
+            </div>
+            <div class="branch-card h-full">
+              <div class="flex items-center gap-3 mb-3">
+                <div
+                  class="w-10 h-10 rounded-lg flex items-center justify-center"
+                  style="background: rgba(163, 59, 110, 0.12)"
+                >
+                  <i class="fas fa-star" style="color: var(--rose)"></i>
+                </div>
+                <h4
+                  class="text-sm font-bold"
+                  style="font-family: var(--font-display)"
+                >
+                  Nakshatras
+                </h4>
+              </div>
+              <p class="text-sm" style="color: var(--muted)">
+                The lunar mansions: the subtler personality rhythm and karmic
+                tone.
+              </p>
+            </div>
+            <div class="branch-card h-full">
+              <div class="flex items-center gap-3 mb-3">
+                <div
+                  class="w-10 h-10 rounded-lg flex items-center justify-center"
+                  style="background: rgba(184, 115, 51, 0.12)"
+                >
+                  <i
+                    class="fas fa-hourglass-half"
+                    style="color: var(--copper)"
+                  ></i>
+                </div>
+                <h4
+                  class="text-sm font-bold"
+                  style="font-family: var(--font-display)"
+                >
+                  Kala
+                </h4>
+              </div>
+              <p class="text-sm" style="color: var(--muted)">
+                Time itself: dashas, transits, panchanga, and the ripening of
+                karma.
+              </p>
+            </div>
+          </div>
+          <div class="mt-8 info-box text-center">
+            <p class="text-sm" style="color: var(--muted)">
+              Read the map this way: what acts, where it acts, through which
+              mansion, and when it ripens.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grahas Tab -->
+      <div id="grahas" class="tab-content py-10 px-5">
+        <div class="max-w-7xl mx-auto">
+          <div class="mb-12 reveal">
+            <span class="section-eyebrow">SECTION 01</span>
+            <h2 class="section-title mt-2">GRAHAS — THE NINE PLANETS</h2>
+            <p class="section-sub mt-3">
+              The word <em>Graha</em> means "to seize" or "to grasp." These nine
+              celestial forces influence all aspects of human experience — from
+              the soul's purpose to the body's health.
+            </p>
+          </div>
+          <div
+            id="grahasGrid"
+            class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 stagger"
+          ></div>
+          <div id="grahaDetail" class="detail-panel"></div>
+          <p class="text-center py-10 text-sm" style="color: var(--muted-dim)">
+            <i class="fas fa-hand-pointer mr-2"></i>Select a planet to view its
+            full profile.
+          </p>
+        </div>
+
+        <div class="max-w-7xl mx-auto mt-10 reveal">
+          <h3
+            class="text-xl font-bold mb-3"
+            style="font-family: var(--font-display); color: var(--gold2)"
+          >
+            COSMIC MOTIONS
+          </h3>
+          <p class="text-sm mb-6" style="color: var(--muted)">
+            Jyotish is read from an Earth-centered perspective. The table below
+            separates physical astronomy from apparent zodiac motion so the
+            difference is clear.
+          </p>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div
+              class="rounded-xl overflow-hidden"
+              style="border: 1px solid var(--border); background: var(--card)"
+            >
+              <div
+                class="px-4 py-3"
+                style="
+                  background: var(--card2);
+                  border-bottom: 1px solid var(--border);
+                "
+              >
+                <h4
+                  class="font-bold"
+                  style="font-family: var(--font-display); color: var(--cream)"
+                >
+                  Astronomical Reality
+                </h4>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                  <thead>
+                    <tr
+                      style="
+                        border-bottom: 1px solid var(--border);
+                        color: var(--gold);
+                      "
+                    >
+                      <th class="text-left p-4">Graha</th>
+                      <th class="text-left p-4">Body</th>
+                      <th class="text-left p-4">Rotation</th>
+                      <th class="text-left p-4">Orbit</th>
+                    </tr>
+                  </thead>
+                  <tbody id="astroRealityBody"></tbody>
+                </table>
+              </div>
+            </div>
+            <div
+              class="rounded-xl overflow-hidden"
+              style="border: 1px solid var(--border); background: var(--card)"
+            >
+              <div
+                class="px-4 py-3"
+                style="
+                  background: var(--card2);
+                  border-bottom: 1px solid var(--border);
+                "
+              >
+                <h4
+                  class="font-bold"
+                  style="font-family: var(--font-display); color: var(--cream)"
+                >
+                  Apparent Motion in Jyotish
+                </h4>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                  <thead>
+                    <tr
+                      style="
+                        border-bottom: 1px solid var(--border);
+                        color: var(--gold);
+                      "
+                    >
+                      <th class="text-left p-4">Graha</th>
+                      <th class="text-left p-4">Time in One Sign</th>
+                      <th class="text-left p-4">Full Zodiac Cycle</th>
+                      <th class="text-left p-4">Note</th>
+                    </tr>
+                  </thead>
+                  <tbody id="apparentMotionBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <p class="text-xs mt-4" style="color: var(--muted-dim)">
+            * The Sun's rotation varies by latitude because it is a gaseous
+            body. Jyotish charts themselves are geocentric, so the second table
+            is the more directly useful one for learning planetary movement
+            through the zodiac.
+          </p>
+          <p class="text-xs mt-2" style="color: var(--muted-dim)">
+            * Rahu and Ketu are not physical planets. They are the two
+            intersection points where the Moon's orbit crosses the ecliptic,
+            producing eclipses. Their complete nodal cycle takes approximately
+            18.6 years.
+          </p>
+        </div>
+      </div>
+
+      <!-- Rashis Tab -->
+      <div id="rashis" class="tab-content py-10 px-5">
+        <div class="max-w-7xl mx-auto">
+          <div class="mb-12 reveal">
+            <span class="section-eyebrow">SECTION 02</span>
+            <h2 class="section-title mt-2">RASHIS — THE ZODIAC</h2>
+            <p class="section-sub mt-3">
+              The twelve signs of the zodiac form the fixed backdrop through
+              which the planets move. Each Rashi represents a specific energy
+              pattern, element, and modality of expression.
+            </p>
+          </div>
+          <div class="flex flex-col lg:flex-row items-center gap-12">
+            <div
+              class="relative flex-shrink-0 mx-auto"
+              id="zodiacWheelContainer"
+            ></div>
+            <div
+              id="rashiDetail"
+              class="flex-1 min-w-0 reveal"
+              style="min-height: 300px"
+            >
+              <p
+                class="text-center py-16 text-sm"
+                style="color: var(--muted-dim)"
+              >
+                <i class="fas fa-hand-pointer mr-2"></i>Select a sign on the
+                wheel to explore.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bhavas Tab -->
+      <div id="bhavas" class="tab-content py-10 px-5">
+        <div class="max-w-7xl mx-auto">
+          <div class="mb-12 reveal">
+            <span class="section-eyebrow">SECTION 03</span>
+            <h2 class="section-title mt-2">BHAVAS — THE AREAS OF LIFE</h2>
+            <p class="section-sub mt-3">
+              The twelve houses (Bhavas) represent the twelve fundamental areas
+              of human experience. Unlike Western astrology, in Jyotish the
+              houses are fixed — the sign positions determine which energies
+              inhabit each domain of life.
+            </p>
+          </div>
+          <div class="flex flex-col lg:flex-row items-center gap-11">
+            <div
+              class="relative flex-shrink-0 mx-auto"
+              id="bhavaWheelContainer"
+            ></div>
+            <div
+              id="bhavaDetail"
+              class="flex-1 min-w-0 reveal"
+              style="min-height: 300px"
+            >
+              <p
+                class="text-center py-16 text-sm"
+                style="color: var(--muted-dim)"
+              >
+                <i class="fas fa-hand-pointer mr-2"></i>Select a house to
+                explore its significations.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nakshatras Tab -->
+      <div id="nakshatras" class="tab-content py-10 px-5">
+        <div class="max-w-7xl mx-auto">
+          <div class="mb-12 reveal">
+            <span class="section-eyebrow">SECTION 04</span>
+            <h2 class="section-title mt-2">NAKSHATRAS — THE LUNAR MANSIONS</h2>
+            <p class="section-sub mt-3">
+              The 27 (traditionally 28 with Abhijit) Nakshatras are lunar
+              constellations spanning 13°20' each. They form the most ancient
+              layer of Vedic astrology, deeply tied to the Moon's rhythm and the
+              soul's subtle desires.
+            </p>
+          </div>
+          <div
+            id="nakshatraGrid"
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 stagger"
+          ></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto mt-16 reveal">
+          <h3
+            class="text-xl md:text-2xl font-bold mb-3"
+            style="font-family: var(--font-display); color: var(--gold2)"
+          >
+            PADA — THE QUARTERS OF A NAKSHATRA
+          </h3>
+          <p
+            class="text-sm md:text-base mb-6 max-w-4xl"
+            style="color: var(--muted)"
+          >
+            Each Nakshatra is divided into four equal parts called
+            <strong>Padas</strong>, meaning "quarters" or "feet." This gives
+            every Nakshatra a finer layer of meaning: the Nakshatra shows the
+            broader lunar archetype, while the Pada reveals the more specific
+            style, direction, and expression of that archetype.
+          </p>
+          <div
+            class="rounded-2xl p-6 md:p-8"
+            style="background: var(--card); border: 1px solid var(--border)"
+          >
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div class="data-card">
+                <div class="section-eyebrow" style="margin-bottom: 0.4rem">
+                  1. BASIC STRUCTURE
+                </div>
+                <p class="text-sm leading-relaxed" style="color: var(--cream)">
+                  One Nakshatra spans <span class="readout">13°20'</span>. It is
+                  divided into <span class="readout">4 Padas</span>, each
+                  spanning <span class="readout">3°20'</span>. Across 27
+                  Nakshatras, this produces
+                  <span class="readout">108 Padas</span> in total.
+                </p>
+              </div>
+              <div class="data-card">
+                <div class="section-eyebrow" style="margin-bottom: 0.4rem">
+                  2. WHY IT MATTERS
+                </div>
+                <p class="text-sm leading-relaxed" style="color: var(--cream)">
+                  The Pada adds precision. Two planets in the same Nakshatra can
+                  behave differently if they fall in different Padas. This is
+                  why experienced Jyotish readers often go beyond the Nakshatra
+                  name and look at the Pada.
+                </p>
+              </div>
+              <div class="data-card">
+                <div class="section-eyebrow" style="margin-bottom: 0.4rem">
+                  3. NAVAMSA LINK
+                </div>
+                <p class="text-sm leading-relaxed" style="color: var(--cream)">
+                  Every Pada maps directly to one Navamsa division. This makes
+                  the Pada a bridge between the <strong>Nakshatra</strong> and
+                  the <strong>D9 / Navamsa chart</strong>, which is why it is so
+                  important in deeper interpretation.
+                </p>
+              </div>
+            </div>
+            <div class="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4 stagger">
+              <div class="data-card">
+                <div class="section-eyebrow" style="margin-bottom: 0.4rem">
+                  PADA 1
+                </div>
+                <h4
+                  class="font-bold mb-2"
+                  style="font-family: var(--font-display)"
+                >
+                  Dharma
+                </h4>
+                <p class="text-sm" style="color: var(--muted)">
+                  Purpose, direction, initiation, self-expression, and the urge
+                  to act correctly.
+                </p>
+              </div>
+              <div class="data-card">
+                <div class="section-eyebrow" style="margin-bottom: 0.4rem">
+                  PADA 2
+                </div>
+                <h4
+                  class="font-bold mb-2"
+                  style="font-family: var(--font-display)"
+                >
+                  Artha
+                </h4>
+                <p class="text-sm" style="color: var(--muted)">
+                  Resources, stability, usefulness, material support, and
+                  practical building.
+                </p>
+              </div>
+              <div class="data-card">
+                <div class="section-eyebrow" style="margin-bottom: 0.4rem">
+                  PADA 3
+                </div>
+                <h4
+                  class="font-bold mb-2"
+                  style="font-family: var(--font-display)"
+                >
+                  Kama
+                </h4>
+                <p class="text-sm" style="color: var(--muted)">
+                  Desire, relationship, curiosity, pleasure, communication, and
+                  social expression.
+                </p>
+              </div>
+              <div class="data-card">
+                <div class="section-eyebrow" style="margin-bottom: 0.4rem">
+                  PADA 4
+                </div>
+                <h4
+                  class="font-bold mb-2"
+                  style="font-family: var(--font-display)"
+                >
+                  Moksha
+                </h4>
+                <p class="text-sm" style="color: var(--muted)">
+                  Depth, release, inwardness, spiritualization, and the urge to
+                  transcend.
+                </p>
+              </div>
+            </div>
+            <div class="mt-6 info-box">
+              <div class="section-eyebrow" style="margin-bottom: 0.4rem">
+                HOW TO READ A PADA
+              </div>
+              <p
+                class="text-sm md:text-base leading-relaxed"
+                style="color: var(--cream)"
+              >
+                Think of the Nakshatra as the main archetype and the Pada as its
+                expression style. For example, a planet in the same Nakshatra
+                can feel more fiery, earthy, airy, or watery depending on which
+                Pada it occupies. In practice, this makes the reading much more
+                precise: the Nakshatra tells <em>what</em> the energy is, while
+                the Pada tells <em>how</em> it manifests.
+              </p>
+            </div>
+            <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="data-card">
+                <div class="section-eyebrow" style="margin-bottom: 0.4rem">
+                  PRACTICAL USES
+                </div>
+                <ul class="text-sm space-y-2" style="color: var(--muted)">
+                  <li>• Refines planetary interpretation inside a Nakshatra</li>
+                  <li>• Helps explain why same-Nakshatra placements differ</li>
+                  <li>• Supports Navamsa (D9) understanding</li>
+                  <li>
+                    • Used in naming syllables and traditional calculations
+                  </li>
+                  <li>• Adds depth to personality and predictive analysis</li>
+                </ul>
+              </div>
+              <div class="data-card">
+                <div class="section-eyebrow" style="margin-bottom: 0.4rem">
+                  SIMPLE MEMORY LINE
+                </div>
+                <p
+                  class="text-sm md:text-base leading-relaxed"
+                  style="color: var(--cream)"
+                >
+                  <strong>Nakshatra = the story.</strong><br /><strong
+                    >Pada = the chapter of that story.</strong
+                  ><br /><strong
+                    >Navamsa = the deeper meaning behind it.</strong
+                  >
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kala Tab -->
+      <div id="kala" class="tab-content py-10 px-5">
+        <div class="max-w-7xl mx-auto">
+          <div class="mb-12 reveal">
+            <span class="section-eyebrow">SECTION 05</span>
+            <h2 class="section-title mt-2">KALA — THE TIME PRINCIPLES</h2>
+            <p class="section-sub mt-3">
+              Jyotish is fundamentally a science of time (<em>Kala</em>). The
+              Panchanga and Dasha systems decode the qualitative nature of each
+              moment and life period.
+            </p>
+          </div>
+          <div class="mb-16">
+            <h3
+              class="text-xl font-bold mb-6 reveal"
+              style="font-family: var(--font-display); color: var(--gold2)"
+            >
+              The Panchanga — Five Limbs of Time
+            </h3>
+            <div
+              id="panchangaGrid"
+              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 stagger"
+            ></div>
+          </div>
+          <div>
+            <h3
+              class="text-xl font-bold mb-2 reveal"
+              style="font-family: var(--font-display); color: var(--gold2)"
+            >
+              Vimshottari Dasha System
+            </h3>
+            <p class="text-sm mb-6 reveal" style="color: var(--muted)">
+              The 120-year planetary period system based on the Moon's Nakshatra
+              at birth. Each planet governs a specific number of years.
+            </p>
+            <div id="dashaTimeline" class="reveal"></div>
+          </div>
+          <div class="mb-16 mt-16">
+            <h3
+              class="text-xl font-bold mb-2 reveal"
+              style="font-family: var(--font-display); color: var(--gold2)"
+            >
+              Gochara — Planetary Transits
+            </h3>
+            <p class="text-sm mb-6 reveal" style="color: var(--muted)">
+              Current planetary movement is read against the natal chart and the
+              running Dasha. This is where timing becomes practical.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 stagger">
+              <div class="data-card">
+                <h4
+                  class="text-sm font-bold mb-2"
+                  style="font-family: var(--font-display); color: var(--cream)"
+                >
+                  Benefic timing cues
+                </h4>
+                <ul
+                  class="list-disc list-inside space-y-1 text-sm"
+                  style="color: var(--muted)"
+                >
+                  <li>
+                    Jupiter transits over the Moon, Lagna, 5th, or 9th can open
+                    support.
+                  </li>
+                  <li>
+                    Saturn transits over the 3rd, 6th, or 11th often reward
+                    disciplined effort.
+                  </li>
+                  <li>Strong natal planets deliver cleaner transit results.</li>
+                </ul>
+              </div>
+              <div class="data-card">
+                <h4
+                  class="text-sm font-bold mb-2"
+                  style="font-family: var(--font-display); color: var(--cream)"
+                >
+                  Watchful timing cues
+                </h4>
+                <ul
+                  class="list-disc list-inside space-y-1 text-sm"
+                  style="color: var(--muted)"
+                >
+                  <li>
+                    Rahu and Ketu often trigger sudden or unconventional
+                    developments.
+                  </li>
+                  <li>
+                    Transit results are always modified by Dasha and natal
+                    strength.
+                  </li>
+                  <li>
+                    Prediction improves when Gochara is read with Panchanga and
+                    houses.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Tab -->
+      <div id="charts" class="tab-content py-10 px-5">
+        <div class="max-w-7xl mx-auto">
+          <div class="mb-12 reveal">
+            <span class="section-eyebrow">SECTION 06</span>
+            <h2 class="section-title mt-2">
+              CHARTS (KUNDALIS) — THE COSMIC BLUEPRINTS
+            </h2>
+            <p class="section-sub mt-3">
+              A chart is the map of possibilities. The main chart shows the base
+              pattern, divisional charts magnify specific domains, and special
+              charts sharpen the question.
+            </p>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 stagger">
+            <div class="branch-card h-full">
+              <div class="flex items-center gap-3 mb-3">
+                <div
+                  class="w-10 h-10 rounded-lg flex items-center justify-center"
+                  style="background: rgba(42, 157, 143, 0.12)"
+                >
+                  <i class="fas fa-dharmachakra" style="color: var(--teal)"></i>
+                </div>
+                <div>
+                  <h4
+                    class="text-sm font-bold"
+                    style="font-family: var(--font-display)"
+                  >
+                    Main Chart
+                  </h4>
+                  <p class="text-xs mono" style="color: var(--muted)">
+                    Rashi / D1
+                  </p>
+                </div>
+              </div>
+              <p class="text-sm" style="color: var(--muted)">
+                The foundational chart based on birth date, time, and place. It
+                is the baseline for all later judgment.
+              </p>
+            </div>
+            <div class="branch-card h-full">
+              <div class="flex items-center gap-3 mb-3">
+                <div
+                  class="w-10 h-10 rounded-lg flex items-center justify-center"
+                  style="background: rgba(212, 148, 58, 0.12)"
+                >
+                  <i class="fas fa-layer-group" style="color: var(--gold)"></i>
+                </div>
+                <div>
+                  <h4
+                    class="text-sm font-bold"
+                    style="font-family: var(--font-display)"
+                  >
+                    Varga Charts
+                  </h4>
+                  <p class="text-xs mono" style="color: var(--muted)">
+                    Divisional charts
+                  </p>
+                </div>
+              </div>
+              <p class="text-sm" style="color: var(--muted)">
+                Specialized divisions such as D2, D9, D10, and D60 refine
+                wealth, marriage, career, and karmic depth.
+              </p>
+            </div>
+            <div class="branch-card h-full">
+              <div class="flex items-center gap-3 mb-3">
+                <div
+                  class="w-10 h-10 rounded-lg flex items-center justify-center"
+                  style="background: rgba(163, 59, 110, 0.12)"
+                >
+                  <i
+                    class="fas fa-compass-drafting"
+                    style="color: var(--rose)"
+                  ></i>
+                </div>
+                <div>
+                  <h4
+                    class="text-sm font-bold"
+                    style="font-family: var(--font-display)"
+                  >
+                    Special Charts
+                  </h4>
+                  <p class="text-xs mono" style="color: var(--muted)">
+                    Arudha and more
+                  </p>
+                </div>
+              </div>
+              <p class="text-sm" style="color: var(--muted)">
+                Arudha, Upapada, Hora, Ghatika, Chandra and related charts are
+                used for sharper questions and advanced judgment.
+              </p>
+            </div>
+          </div>
+          <div class="mt-8 info-box text-center">
+            <p class="text-sm" style="color: var(--muted)">
+              Analyze all charts together — never in isolation.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Yogas Tab -->
+      <div id="yogas" class="tab-content py-10 px-5">
+        <div class="max-w-7xl mx-auto">
+          <div class="mb-12 reveal">
+            <h2 class="section-title mt-2">YOGAS — SPECIAL COMBINATIONS</h2>
+            <p class="section-sub mt-3">
+              Yogas are pattern-based combinations that alter the chart's
+              expression. Some produce prominence, some produce ease, and some
+              produce pressure that must be handled carefully.
+            </p>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 stagger">
+            <div class="branch-card h-full">
+              <h4
+                class="text-sm font-bold mb-3"
+                style="font-family: var(--font-display); color: var(--gold)"
+              >
+                Supportive Yogas
+              </h4>
+              <ul
+                class="list-disc list-inside space-y-2 text-sm"
+                style="color: var(--muted)"
+              >
+                <li>
+                  <strong>Pancha Mahapurusha Yogas</strong> — Ruchaka, Bhadra,
+                  Hamsa, Malavya, Shasha.
+                </li>
+                <li>
+                  <strong>Raja Yogas</strong> — lords of Kendra and Trikona join
+                  or exchange.
+                </li>
+                <li>
+                  <strong>Dhana Yogas</strong> — wealth-giving combinations
+                  involving 2nd, 5th, 9th, and 11th houses.
+                </li>
+                <li>
+                  <strong>Gaja Kesari</strong> and <strong>Amala</strong> —
+                  wisdom and reputation through benefic structure.
+                </li>
+              </ul>
+            </div>
+            <div class="branch-card h-full">
+              <h4
+                class="text-sm font-bold mb-3"
+                style="font-family: var(--font-display); color: var(--gold)"
+              >
+                Challenging Patterns
+              </h4>
+              <ul
+                class="list-disc list-inside space-y-2 text-sm"
+                style="color: var(--muted)"
+              >
+                <li>
+                  <strong>Kemadruma</strong> — Moon isolated from support.
+                </li>
+                <li>
+                  <strong>Papa Kartari</strong> — a house hemmed in by malefics.
+                </li>
+                <li>
+                  <strong>Mangal Dosha</strong> and
+                  <strong>Kaal Sarpa</strong> — pressure around marriage or life
+                  direction.
+                </li>
+                <li>
+                  <strong>Sade Sati</strong> — Saturn's testing transit over the
+                  Moon zone.
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="mt-8 info-box text-center">
+            <p class="text-sm" style="color: var(--muted)">
+              A yoga is never judged in isolation — sign, house, strength,
+              aspect, and timing all decide the final result.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tools Tab -->
+      <div id="tools" class="tab-content py-10 px-5">
+        <div class="max-w-7xl mx-auto">
+          <div class="mb-12 reveal">
+            <span class="section-eyebrow">SECTION 07</span>
+            <h2 class="section-title mt-2">TOOLS &amp; TECHNIQUES</h2>
+            <p class="section-sub mt-3">
+              The analytical instruments of Jyotish — the methods used after the
+              foundational map is established to refine strength, aspect,
+              dignity, and house logic.
+            </p>
+          </div>
+          <div
+            id="toolsAccordion"
+            class="max-w-3xl mx-auto space-y-3 stagger"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Flow Tab -->
+      <div id="flow" class="tab-content py-10 px-5">
+        <div class="max-w-7xl mx-auto">
+          <div class="mb-12 reveal">
+            <h2 class="section-title mt-2">THE FLOW OF A JYOTISH READING</h2>
+            <p class="section-sub mt-3">
+              A good reading moves from data to structure, then from structure
+              to timing, and finally to guidance.
+            </p>
+          </div>
+          <div
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 stagger"
+          >
+            <div class="branch-card h-full">
+              <div class="mono text-2xl mb-3" style="color: var(--gold)">
+                01
+              </div>
+              <h4
+                class="text-sm font-bold mb-2"
+                style="font-family: var(--font-display)"
+              >
+                Birth Data
+              </h4>
+              <p class="text-sm" style="color: var(--muted)">
+                Collect date, time, and place accurately. Without this, the rest
+                of the map becomes weak.
+              </p>
+            </div>
+            <div class="branch-card h-full">
+              <div class="mono text-2xl mb-3" style="color: var(--gold)">
+                02
+              </div>
+              <h4
+                class="text-sm font-bold mb-2"
+                style="font-family: var(--font-display)"
+              >
+                Cast the Chart
+              </h4>
+              <p class="text-sm" style="color: var(--muted)">
+                Build the Rashi chart and note the Lagna, Moon, and Sun as the
+                primary anchors.
+              </p>
+            </div>
+            <div class="branch-card h-full">
+              <div class="mono text-2xl mb-3" style="color: var(--gold)">
+                03
+              </div>
+              <h4
+                class="text-sm font-bold mb-2"
+                style="font-family: var(--font-display)"
+              >
+                Read Structure
+              </h4>
+              <p class="text-sm" style="color: var(--muted)">
+                Study grahas, houses, signs, dignities, aspects, and key yogas
+                before making a prediction.
+              </p>
+            </div>
+            <div class="branch-card h-full">
+              <div class="mono text-2xl mb-3" style="color: var(--gold)">
+                04
+              </div>
+              <h4
+                class="text-sm font-bold mb-2"
+                style="font-family: var(--font-display)"
+              >
+                Check Strength &amp; Timing
+              </h4>
+              <p class="text-sm" style="color: var(--muted)">
+                Use Shadbala, transits, and Dashas to see when the result is
+                ready to manifest.
+              </p>
+            </div>
+            <div class="branch-card h-full">
+              <div class="mono text-2xl mb-3" style="color: var(--gold)">
+                05
+              </div>
+              <h4
+                class="text-sm font-bold mb-2"
+                style="font-family: var(--font-display)"
+              >
+                Interpret Carefully
+              </h4>
+              <p class="text-sm" style="color: var(--muted)">
+                Synthesize the chart as a whole. One factor never overrides the
+                complete context.
+              </p>
+            </div>
+            <div class="branch-card h-full">
+              <div class="mono text-2xl mb-3" style="color: var(--gold)">
+                06
+              </div>
+              <h4
+                class="text-sm font-bold mb-2"
+                style="font-family: var(--font-display)"
+              >
+                Guide &amp; Remedy
+              </h4>
+              <p class="text-sm" style="color: var(--muted)">
+                End with practical guidance, remedies, discipline, and a clearer
+                sense of direction.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Principles Tab -->
+      <div id="principles" class="tab-content py-10 px-5">
+        <div class="max-w-7xl mx-auto">
+          <div class="mb-12 reveal">
+            <h2 class="section-title mt-2">KEY PRINCIPLES &amp; ETHICS</h2>
+            <p class="section-sub mt-3">
+              Jyotish works best when the logic is clear and the practitioner is
+              responsible in how the knowledge is used.
+            </p>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 stagger">
+            <div class="branch-card h-full">
+              <h4
+                class="text-sm font-bold mb-3"
+                style="font-family: var(--font-display); color: var(--gold)"
+              >
+                Key Principles
+              </h4>
+              <ul
+                class="list-disc list-inside space-y-2 text-sm"
+                style="color: var(--muted)"
+              >
+                <li>
+                  <strong>Karma</strong> — cause and effect across lifetimes.
+                </li>
+                <li>
+                  <strong>Dharma</strong> — right action in alignment with
+                  cosmic order.
+                </li>
+                <li>
+                  <strong>Kala</strong> — timing is decisive; results ripen when
+                  time matures.
+                </li>
+                <li>
+                  <strong>Free Will</strong> — effort, choices, and awareness
+                  shape outcomes.
+                </li>
+                <li>
+                  <strong>Grace</strong> — not everything is mechanical; some
+                  outcomes exceed calculation.
+                </li>
+              </ul>
+            </div>
+            <div class="branch-card h-full">
+              <h4
+                class="text-sm font-bold mb-3"
+                style="font-family: var(--font-display); color: var(--gold)"
+              >
+                Ethics of an Astrologer
+              </h4>
+              <ul
+                class="list-disc list-inside space-y-2 text-sm"
+                style="color: var(--muted)"
+              >
+                <li><strong>Seek truth, not fear</strong>.</li>
+                <li><strong>Genuine compassion</strong> in delivery.</li>
+                <li><strong>Confidentiality</strong> and trust.</li>
+                <li><strong>Empower, do not create dependency</strong>.</li>
+                <li><strong>Continuous learning</strong> and humility.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wisdom Tab -->
+      <div id="wisdom" class="tab-content py-10 px-5">
+        <div class="max-w-7xl mx-auto">
+          <div class="mb-12 reveal">
+            <h2 class="section-title mt-2">
+              HIGHER WISDOM — BEYOND PREDICTION
+            </h2>
+            <p class="section-sub mt-3">
+              The deeper purpose of Jyotish is not only to forecast events, but
+              to point the native toward alignment, maturity, and liberation.
+            </p>
+          </div>
+          <div
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 stagger"
+          >
+            <div class="branch-card h-full text-center">
+              <div class="text-3xl mb-3">☯</div>
+              <h4
+                class="text-sm font-bold mb-2"
+                style="font-family: var(--font-display)"
+              >
+                Karma
+              </h4>
+              <p class="text-sm" style="color: var(--muted)">
+                Cause and effect across lifetimes. Jyotish reveals patterns, not
+                random events.
+              </p>
+            </div>
+            <div class="branch-card h-full text-center">
+              <div class="text-3xl mb-3">🕉</div>
+              <h4
+                class="text-sm font-bold mb-2"
+                style="font-family: var(--font-display)"
+              >
+                Dharma
+              </h4>
+              <p class="text-sm" style="color: var(--muted)">
+                Right action in alignment with cosmic order. The chart shows
+                where duty becomes natural.
+              </p>
+            </div>
+            <div class="branch-card h-full text-center">
+              <div class="text-3xl mb-3">🌙</div>
+              <h4
+                class="text-sm font-bold mb-2"
+                style="font-family: var(--font-display)"
+              >
+                Moksha
+              </h4>
+              <p class="text-sm" style="color: var(--muted)">
+                Liberation through knowledge, detachment, and inner clarity.
+              </p>
+            </div>
+            <div class="branch-card h-full text-center">
+              <div class="text-3xl mb-3">🔥</div>
+              <h4
+                class="text-sm font-bold mb-2"
+                style="font-family: var(--font-display)"
+              >
+                Upaya
+              </h4>
+              <p class="text-sm" style="color: var(--muted)">
+                Remedies, mantras, charity, discipline, and spiritual practice
+                that help redirect the path.
+              </p>
+            </div>
+          </div>
+          <div class="mt-8 info-box text-center">
+            <p class="text-sm" style="color: var(--muted)">
+              Jyotish is not fatalism; it is the science of self-awareness, wise
+              choices, and alignment with the Divine Plan.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Branches Tab -->
+      <div id="branches" class="tab-content py-10 px-5">
+        <div class="max-w-7xl mx-auto">
+          <div class="mb-12 reveal">
+            <span class="section-eyebrow">SECTION 08</span>
+            <h2 class="section-title mt-2">APPLICATION BRANCHES</h2>
+            <p class="section-sub mt-3">
+              Jyotish encompasses multiple specialized branches, each applying
+              the same foundational principles to different questions and
+              domains of life.
+            </p>
+          </div>
+          <div
+            id="branchesGrid"
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 stagger"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Essence Tab -->
+      <div id="essence" class="tab-content py-10 px-5">
+        <div class="max-w-7xl mx-auto">
+          <div class="mb-12 reveal">
+            <h2 class="section-title mt-2">THE ESSENCE</h2>
+            <p class="section-sub mt-3">
+              The shortest way to say it: Jyotish is the cosmic language of
+              light and time.
+            </p>
+          </div>
+          <div class="max-w-3xl mx-auto">
+            <div class="branch-card text-center">
+              <div
+                class="hero-om"
+                style="
+                  position: static;
+                  display: block;
+                  font-size: clamp(3rem, 8vw, 5rem);
+                  opacity: 0.18;
+                  filter: none;
+                "
+              >
+                ॐ
+              </div>
+              <p class="mt-4 text-lg" style="color: var(--cream)">
+                It reveals the map, but you still create the journey.
+              </p>
+              <p class="mt-4 text-sm" style="color: var(--muted)">
+                See clearly. Act wisely. Live aligned.
+              </p>
+            </div>
+          </div>
+
+          <div class="mt-16 mb-12 reveal">
+            <h2 class="section-title mt-2">PANDANGAN ISLAM</h2>
+            <p class="section-sub mt-3">
+              Menyikapi Astrologi Jyotish Berdasarkan Manhaj Salafush Shalih
+            </p>
+          </div>
+
+          <div class="reveal max-w-4xl">
+            <div
+              class="rounded-2xl p-6 md:p-8 mb-8"
+              style="background: var(--card); border: 1px solid var(--border)"
+            >
+              <div class="flex items-center gap-3 mb-5">
+                <div
+                  class="w-10 h-10 rounded-full flex items-center justify-center"
+                  style="
+                    background: rgba(212, 148, 58, 0.12);
+                    border: 1px solid rgba(212, 148, 58, 0.25);
+                  "
+                >
+                  <i
+                    class="fas fa-exclamation-triangle"
+                    style="color: var(--fire)"
+                  ></i>
+                </div>
+                <h3
+                  style="font-family: var(--font-display)"
+                  class="text-xl md:text-2xl font-bold"
+                >
+                  HUKUM ASTROLOGI (ILMU TANJIM)
+                </h3>
+              </div>
+              <p class="leading-relaxed mb-6" style="color: var(--muted)">
+                Dalam Islam, sikap terhadap astrologi (termasuk Jyotish) sangat
+                tegas:
+                <strong style="color: var(--cream)"
+                  >Hukumnya haram dan merupakan pintu menuju kesyirikan</strong
+                >. Meskipun dikemas dengan perhitungan matematis yang rumit atau
+                tampak ilmiah, hakikatnya tetaplah
+                <i>ilmu tanjim</i> (perbintangan) yang mencoba meramal masa
+                depan dan mengaitkan nasib manusia dengan benda langit.
+              </p>
+              <div
+                class="p-5 rounded-xl mb-2"
+                style="
+                  background: rgba(232, 113, 58, 0.05);
+                  border: 1px solid rgba(232, 113, 58, 0.15);
+                "
+              >
+                <div
+                  class="section-eyebrow"
+                  style="color: var(--fire); margin-bottom: 0.4rem"
+                >
+                  DALIL TEGAS
+                </div>
+                <p
+                  class="text-sm italic leading-relaxed"
+                  style="color: var(--cream)"
+                >
+                  "Barangsiapa yang mengambil satu ilmu dari ilmu perbintangan
+                  (untuk meramal), maka ia telah mengambil satu cabang dari ilmu
+                  sihir. Ia akan terus bertambah seiring bertambahnya ilmu
+                  tersebut."
+                  <br /><br /><span
+                    class="text-xs mono"
+                    style="color: var(--muted)"
+                    >— (HR. Abu Dawud, dinilai sahih oleh Al-Albani)</span
+                  >
+                </p>
+              </div>
+            </div>
+
+            <h3
+              class="text-xl md:text-2xl font-bold mb-6 reveal"
+              style="font-family: var(--font-display); color: var(--gold2)"
+            >
+              MENGAPA DILARANG DALAM AKIDAH SALAF?
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 stagger mb-12">
+              <div class="branch-card h-full">
+                <div class="flex items-center gap-3 mb-3">
+                  <div
+                    class="w-10 h-10 rounded-lg flex items-center justify-center"
+                    style="background: rgba(163, 59, 110, 0.12)"
+                  >
+                    <i class="fas fa-eye-slash" style="color: var(--rose)"></i>
+                  </div>
+                  <h4
+                    class="text-sm font-bold"
+                    style="font-family: var(--font-display)"
+                  >
+                    Merampas Hak Allah
+                  </h4>
+                </div>
+                <p class="text-sm leading-relaxed" style="color: var(--muted)">
+                  Mengetahui perkara ghaib (termasuk masa depan, nasib, dan
+                  jodoh) adalah hak mutlak Allah. Mengklaim bisa membacanya
+                  melalui posisi planet berarti mencoba merampas sifat khusus
+                  Allah Yang Maha Mengetahui hal ghaib.<br /><br /><span
+                    style="color: var(--rose)"
+                    >(QS. An-Naml: 65)</span
+                  >
+                </p>
+              </div>
+              <div class="branch-card h-full">
+                <div class="flex items-center gap-3 mb-3">
+                  <div
+                    class="w-10 h-10 rounded-lg flex items-center justify-center"
+                    style="background: rgba(232, 113, 58, 0.12)"
+                  >
+                    <i class="fas fa-bolt" style="color: var(--fire)"></i>
+                  </div>
+                  <h4
+                    class="text-sm font-bold"
+                    style="font-family: var(--font-display)"
+                  >
+                    Jatuh pada Kesyirikan
+                  </h4>
+                </div>
+                <p class="text-sm leading-relaxed" style="color: var(--muted)">
+                  Meyakini planet mengatur nasib adalah
+                  <strong style="color: var(--cream)">Syirik Akbar</strong>.
+                  Meyakini Allah yang mengatur nasib tapi menjadikan planet
+                  sebagai "sebab" atau indikator (padahal Allah dan Syariat
+                  tidak menjadikannya sebab) adalah
+                  <strong style="color: var(--cream)">Syirik Asghar</strong>.
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="rounded-2xl p-6 md:p-8 reveal mb-10"
+              style="background: var(--card); border: 1px solid var(--border)"
+            >
+              <div class="flex items-center gap-3 mb-5">
+                <div
+                  class="w-10 h-10 rounded-full flex items-center justify-center"
+                  style="
+                    background: rgba(42, 157, 143, 0.12);
+                    border: 1px solid rgba(42, 157, 143, 0.25);
+                  "
+                >
+                  <i
+                    class="fas fa-balance-scale"
+                    style="color: var(--teal)"
+                  ></i>
+                </div>
+                <h3
+                  style="font-family: var(--font-display)"
+                  class="text-xl md:text-2xl font-bold"
+                >
+                  QADHA &amp; QADAR: SOLUSI TAUHID
+                </h3>
+              </div>
+              <p class="leading-relaxed mb-6" style="color: var(--muted)">
+                Daripada bergantung pada ramalan, seorang Muslim diwajibkan
+                untuk mengimani takdir dengan 4 pilar kokoh:
+              </p>
+              <ul class="space-y-5 mb-8">
+                <li class="flex gap-4">
+                  <span style="color: var(--teal); font-size: 1.2rem">▸</span>
+                  <div>
+                    <strong
+                      class="text-sm block mb-1"
+                      style="
+                        color: var(--cream);
+                        font-family: var(--font-display);
+                      "
+                      >Al-'Ilm (Ilmu Allah)</strong
+                    >
+                    <p
+                      class="text-sm leading-relaxed"
+                      style="color: var(--muted)"
+                    >
+                      Allah mengetahui segala sesuatu secara detail sebelum
+                      penciptaan.
+                    </p>
+                  </div>
+                </li>
+                <li class="flex gap-4">
+                  <span style="color: var(--teal); font-size: 1.2rem">▸</span>
+                  <div>
+                    <strong
+                      class="text-sm block mb-1"
+                      style="
+                        color: var(--cream);
+                        font-family: var(--font-display);
+                      "
+                      >Al-Kitabah (Penulisan)</strong
+                    >
+                    <p
+                      class="text-sm leading-relaxed"
+                      style="color: var(--muted)"
+                    >
+                      Segala takdir telah tertulis di Lauh Mahfuzh 50.000 tahun
+                      sebelum penciptaan langit dan bumi.
+                    </p>
+                  </div>
+                </li>
+                <li class="flex gap-4">
+                  <span style="color: var(--teal); font-size: 1.2rem">▸</span>
+                  <div>
+                    <strong
+                      class="text-sm block mb-1"
+                      style="
+                        color: var(--cream);
+                        font-family: var(--font-display);
+                      "
+                      >Al-Masyi'ah (Kehendak)</strong
+                    >
+                    <p
+                      class="text-sm leading-relaxed"
+                      style="color: var(--muted)"
+                    >
+                      Tidak ada yang terjadi di alam semesta ini melainkan atas
+                      kehendak Allah secara mutlak.
+                    </p>
+                  </div>
+                </li>
+                <li class="flex gap-4">
+                  <span style="color: var(--teal); font-size: 1.2rem">▸</span>
+                  <div>
+                    <strong
+                      class="text-sm block mb-1"
+                      style="
+                        color: var(--cream);
+                        font-family: var(--font-display);
+                      "
+                      >Al-Khalq (Penciptaan)</strong
+                    >
+                    <p
+                      class="text-sm leading-relaxed"
+                      style="color: var(--muted)"
+                    >
+                      Allah adalah pencipta perbuatan hamba, namun manusia tetap
+                      diberi kebebasan berikhtiar.
+                    </p>
+                  </div>
+                </li>
+              </ul>
+              <div class="info-box">
+                <div class="section-eyebrow" style="margin-bottom: 0.4rem">
+                  SIMPUL AKIDAH
+                </div>
+                <p
+                  class="text-sm italic leading-relaxed"
+                  style="color: var(--cream)"
+                >
+                  "Hati seorang mukmin harus digantungkan hanya kepada Allah
+                  melalui tawakkal, doa, dan ikhtiar yang syar'i. Jika kita
+                  ingin masa depan yang baik, mintalah kepada Pemilik masa depan
+                  itu sendiri, yaitu Allah Azza wa Jalla, bukan dengan membaca
+                  peta bintang yang sama-sama makhluk ciptaan-Nya."
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      /* ============ TAB NAVIGATION ============ */
+      const tabBtns = document.querySelectorAll(".tab-btn");
+      const tabContents = document.querySelectorAll(".tab-content");
+      const topbarCurrent = document.getElementById("topbarCurrent");
+      const topbarIndex = document.getElementById("topbarIndex");
+      const tabLabels = {};
+      tabBtns.forEach((b, i) => {
+        tabLabels[b.dataset.tab] = b.textContent.trim();
+      });
+      const sectionTitles = {
+        hero: "History & Origin",
+        foundation: "Foundation",
+        grahas: "Grahas",
+        rashis: "Rashis",
+        bhavas: "Bhavas",
+        nakshatras: "Nakshatras",
+        kala: "Kala",
+        charts: "Charts",
+        yogas: "Yogas",
+        tools: "Tools & Techniques",
+        flow: "Flow",
+        principles: "Principles",
+        wisdom: "Wisdom",
+        branches: "Branches",
+        essence: "Essence",
+      };
+
+      tabBtns.forEach((btn, i) => {
+        btn.addEventListener("click", () => {
+          const tabId = btn.getAttribute("data-tab");
+          tabBtns.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          tabContents.forEach((content) => {
+            content.classList.toggle("active", content.id === tabId);
+          });
+          topbarCurrent.textContent = sectionTitles[tabId] || tabId;
+          topbarIndex.textContent =
+            String(i + 1).padStart(2, "0") + " / " + tabBtns.length;
+          window.scrollTo(0, 0);
+          setTimeout(() => {
+            document.querySelectorAll(".reveal, .stagger").forEach((el) => {
+              if (el.closest(".tab-content.active"))
+                el.classList.add("visible");
+            });
+          }, 300);
+        });
+      });
+
+      /* ============ DATA ============ */
+      const GRAHAS = [
+        {
+          name: "Surya",
+          en: "Sun",
+          sym: "☉︎",
+          color: "#e8a33a",
+          ruler: "Leo",
+          exalt: "Aries 10°",
+          debl: "Libra 10°",
+          mt: "Leo 0–20°",
+          friends: ["Moon", "Mars", "Jupiter"],
+          enemies: ["Saturn", "Venus"],
+          neutral: ["Mercury"],
+          nature: "Krura (Cruel)",
+          gender: "Male",
+          caste: "Kshatriya",
+          rep: [
+            "Soul (Atma)",
+            "Father",
+            "Authority & Power",
+            "Vitality & Health",
+            "Ego & Self-esteem",
+            "Government & Kingship",
+            "Right Eye",
+            "Daytime",
+          ],
+          body: ["Heart", "Eyes", "Brain", "Bones", "Stomach"],
+          day: "Sunday",
+          dir: "East",
+        },
+        {
+          name: "Chandra",
+          en: "Moon",
+          sym: "☽︎",
+          color: "#c8c8e8",
+          ruler: "Cancer",
+          exalt: "Taurus 3°",
+          debl: "Scorpio 3°",
+          mt: "Taurus 3–30°",
+          friends: ["Sun", "Mercury"],
+          enemies: [],
+          neutral: ["Mars", "Jupiter", "Venus", "Saturn"],
+          nature: "Saumya (Gentle)",
+          gender: "Female",
+          caste: "Vaishya",
+          rep: [
+            "Mind (Manas)",
+            "Mother",
+            "Emotions & Feelings",
+            "Intuition",
+            "Public & Masses",
+            "Left Eye",
+            "Water & Liquids",
+            "Females in General",
+          ],
+          body: ["Mind", "Blood", "Breast", "Lungs"],
+          day: "Monday",
+          dir: "Northwest",
+        },
+        {
+          name: "Mangala",
+          en: "Mars",
+          sym: "♂︎",
+          color: "#e85d3a",
+          ruler: "Aries & Scorpio",
+          exalt: "Capricorn 28°",
+          debl: "Cancer 28°",
+          mt: "Aries 0–12°",
+          friends: ["Sun", "Moon", "Jupiter"],
+          enemies: ["Mercury", "Ketu"],
+          neutral: ["Venus", "Saturn", "Rahu"],
+          nature: "Krura (Cruel)",
+          gender: "Male",
+          caste: "Kshatriya",
+          rep: [
+            "Energy & Courage",
+            "Action & Initiative",
+            "Brothers & Siblings",
+            "Weapons & Military",
+            "Accidents & Injuries",
+            "Land & Property",
+            "Blood",
+            "Muscular System",
+          ],
+          body: ["Blood", "Bone Marrow", "Muscles", "Bile"],
+          day: "Tuesday",
+          dir: "South",
+        },
+        {
+          name: "Budha",
+          en: "Mercury",
+          sym: "☿︎",
+          color: "#6ac47a",
+          ruler: "Gemini & Virgo",
+          exalt: "Virgo 15°",
+          debl: "Pisces 15°",
+          mt: "Virgo 15–20°",
+          friends: ["Sun", "Venus"],
+          enemies: ["Moon"],
+          neutral: ["Mars", "Jupiter", "Saturn", "Rahu", "Ketu"],
+          nature: "Saumya (Gentle)",
+          gender: "Neuter",
+          caste: "Vaishya",
+          rep: [
+            "Intellect & Speech",
+            "Commerce & Trade",
+            "Writing & Communication",
+            "Education & Learning",
+            "Mathematics",
+            "Astrology",
+            "Skin",
+            "Nervous System",
+          ],
+          body: ["Nervous System", "Skin", "Lungs", "Intestines"],
+          day: "Wednesday",
+          dir: "North",
+        },
+        {
+          name: "Guru",
+          en: "Jupiter",
+          sym: "♃︎",
+          color: "#d4a040",
+          ruler: "Sagittarius & Pisces",
+          exalt: "Cancer 5°",
+          debl: "Capricorn 5°",
+          mt: "Sagittarius 0–10°",
+          friends: ["Sun", "Moon", "Mars"],
+          enemies: ["Mercury", "Venus"],
+          neutral: ["Saturn", "Rahu", "Ketu"],
+          nature: "Saumya (Gentle)",
+          gender: "Male",
+          caste: "Brahmin",
+          rep: [
+            "Wisdom & Knowledge",
+            "Children & Progeny",
+            "Teacher & Guide",
+            "Dharma & Religion",
+            "Wealth & Prosperity",
+            "Husband (for women)",
+            "Liver",
+            "Fat Tissue",
+          ],
+          body: ["Liver", "Fat", "Pancreas", "Ears"],
+          day: "Thursday",
+          dir: "Northeast",
+        },
+        {
+          name: "Shukra",
+          en: "Venus",
+          sym: "♀︎",
+          color: "#e88ab0",
+          ruler: "Taurus & Libra",
+          exalt: "Pisces 27°",
+          debl: "Virgo 27°",
+          mt: "Libra 0–15°",
+          friends: ["Mercury", "Saturn"],
+          enemies: ["Sun", "Moon"],
+          neutral: ["Mars", "Jupiter", "Rahu", "Ketu"],
+          nature: "Saumya (Gentle)",
+          gender: "Female",
+          caste: "Brahmin",
+          rep: [
+            "Love & Romance",
+            "Beauty & Art",
+            "Luxury & Comfort",
+            "Wife (for men)",
+            "Sexual Pleasure",
+            "Vehicles",
+            "Fine Arts & Music",
+            "Reproductive System",
+          ],
+          body: ["Reproductive Organs", "Semen", "Kidneys", "Eyes"],
+          day: "Friday",
+          dir: "Southeast",
+        },
+        {
+          name: "Shani",
+          en: "Saturn",
+          sym: "♄︎",
+          color: "#6a7a9a",
+          ruler: "Capricorn & Aquarius",
+          exalt: "Libra 20°",
+          debl: "Aries 20°",
+          mt: "Aquarius 0–20°",
+          friends: ["Mercury", "Venus"],
+          enemies: ["Sun", "Moon", "Mars"],
+          neutral: ["Jupiter", "Rahu", "Ketu"],
+          nature: "Krura (Cruel)",
+          gender: "Neuter",
+          caste: "Shudra",
+          rep: [
+            "Karma & Duty",
+            "Discipline & Hard Work",
+            "Sorrow & Suffering",
+            "Longevity",
+            "Service & Labor",
+            "Old Age",
+            "Foreign Lands",
+            "Lower Classes",
+          ],
+          body: ["Bones", "Teeth", "Hair", "Nails", "Joints"],
+          day: "Saturday",
+          dir: "West",
+        },
+        {
+          name: "Rahu",
+          en: "North Node",
+          sym: "☊︎",
+          color: "#8a5aa0",
+          ruler: "(Co-ruler Aquarius)",
+          exalt: "Taurus / Gemini",
+          debl: "Scorpio / Sagittarius",
+          mt: "—",
+          friends: ["Mercury", "Saturn", "Venus"],
+          enemies: ["Sun", "Moon", "Mars"],
+          neutral: ["Jupiter"],
+          nature: "Krura (Cruel)",
+          gender: "Female",
+          caste: "Outcaste",
+          rep: [
+            "Worldly Desires & Obsession",
+            "Illusion (Maya)",
+            "Foreign Lands & Travel",
+            "Technology & Innovation",
+            "Mass Movements",
+            "Epidemics",
+            "Insanity",
+            "Unconventional Paths",
+          ],
+          body: ["Lungs", "Legs", "Skin Diseases"],
+          day: "—",
+          dir: "Southwest",
+        },
+        {
+          name: "Ketu",
+          en: "South Node",
+          sym: "☋︎",
+          color: "#b07040",
+          ruler: "(Co-ruler Scorpio)",
+          exalt: "Scorpio / Sagittarius",
+          debl: "Taurus / Gemini",
+          mt: "—",
+          friends: ["Sun", "Moon", "Mars", "Jupiter"],
+          enemies: ["Mercury", "Venus", "Saturn"],
+          neutral: ["Rahu"],
+          nature: "Krura (Cruel)",
+          gender: "Male",
+          caste: "Outcaste",
+          rep: [
+            "Liberation (Moksha)",
+            "Detachment & Renunciation",
+            "Spirituality & Mysticism",
+            "Past Life Karma",
+            "Occult Knowledge",
+            "Meditation",
+            "Shadow Self",
+            "Sudden Events",
+          ],
+          body: ["Feet", "Brain", "Navel"],
+          day: "—",
+          dir: "Northwest",
+        },
+      ];
+
+      const RASHIS = [
+        {
+          name: "Mesha",
+          en: "Aries",
+          sym: "♈︎",
+          elem: "Fire",
+          mode: "Cardinal (Chara)",
+          ruler: "Mars",
+          exalt: "Sun",
+          debl: "Saturn",
+          theme:
+            "Initiative, courage, new beginnings, leadership, physical energy, pioneering spirit",
+          body: "Head, brain, eyes",
+        },
+        {
+          name: "Vrishabha",
+          en: "Taurus",
+          sym: "♉︎",
+          elem: "Earth",
+          mode: "Fixed (Sthira)",
+          ruler: "Venus",
+          exalt: "Moon",
+          debl: "—",
+          theme:
+            "Stability, wealth accumulation, sensory pleasure, patience, determination, material security",
+          body: "Face, neck, throat, thyroid",
+        },
+        {
+          name: "Mithuna",
+          en: "Gemini",
+          sym: "♊︎",
+          elem: "Air",
+          mode: "Mutable (Dwisvabhava)",
+          ruler: "Mercury",
+          exalt: "Rahu",
+          debl: "—",
+          theme:
+            "Communication, versatility, intellectual curiosity, duality, learning, commerce, writing",
+          body: "Shoulders, arms, hands, lungs",
+        },
+        {
+          name: "Karka",
+          en: "Cancer",
+          sym: "♋︎",
+          elem: "Water",
+          mode: "Cardinal (Chara)",
+          ruler: "Moon",
+          exalt: "Jupiter",
+          debl: "Mars",
+          theme:
+            "Emotions, nurturing, home, mother, protection, intuition, sensitivity, public life",
+          body: "Chest, breasts, stomach, digestive system",
+        },
+        {
+          name: "Simha",
+          en: "Leo",
+          sym: "♌︎",
+          elem: "Fire",
+          mode: "Fixed (Sthira)",
+          ruler: "Sun",
+          exalt: "—",
+          debl: "—",
+          theme:
+            "Royalty, creativity, self-expression, authority, drama, children, dignity, power, leadership",
+          body: "Heart, spine, upper back",
+        },
+        {
+          name: "Kanya",
+          en: "Virgo",
+          sym: "♍︎",
+          elem: "Earth",
+          mode: "Mutable (Dwisvabhava)",
+          ruler: "Mercury",
+          exalt: "Mercury",
+          debl: "Venus",
+          theme:
+            "Analysis, service, health, purity, skill, discrimination, perfectionism, healing",
+          body: "Digestive system, intestines, spleen",
+        },
+        {
+          name: "Tula",
+          en: "Libra",
+          sym: "♎︎",
+          elem: "Air",
+          mode: "Cardinal (Chara)",
+          ruler: "Venus",
+          exalt: "Saturn",
+          debl: "Sun",
+          theme:
+            "Balance, relationships, harmony, justice, partnership, diplomacy, aesthetics, trade",
+          body: "Lower back, kidneys, adrenal glands",
+        },
+        {
+          name: "Vrischika",
+          en: "Scorpio",
+          sym: "♏︎",
+          elem: "Water",
+          mode: "Fixed (Sthira)",
+          ruler: "Mars",
+          exalt: "—",
+          debl: "Moon",
+          theme:
+            "Transformation, hidden depths, research, secrets, occult, intensity, death & rebirth, surgery",
+          body: "Reproductive organs, rectum, pelvic region",
+        },
+        {
+          name: "Dhanu",
+          en: "Sagittarius",
+          sym: "♐︎",
+          elem: "Fire",
+          mode: "Mutable (Dwisvabhava)",
+          ruler: "Jupiter",
+          exalt: "Ketu",
+          debl: "—",
+          theme:
+            "Wisdom, philosophy, higher learning, religion, travel, optimism, teaching, righteousness (Dharma)",
+          body: "Hips, thighs, liver, sciatic nerve",
+        },
+        {
+          name: "Makara",
+          en: "Capricorn",
+          sym: "♑︎",
+          elem: "Earth",
+          mode: "Cardinal (Chara)",
+          ruler: "Saturn",
+          exalt: "Mars",
+          debl: "Jupiter",
+          theme:
+            "Ambition, structure, discipline, career, responsibility, authority, hard work, social status",
+          body: "Knees, bones, joints, teeth, skin",
+        },
+        {
+          name: "Kumbha",
+          en: "Aquarius",
+          sym: "♒︎",
+          elem: "Air",
+          mode: "Fixed (Sthira)",
+          ruler: "Saturn",
+          exalt: "—",
+          debl: "—",
+          theme:
+            "Innovation, humanitarianism, social reform, eccentricity, groups, networks, technology, ideals",
+          body: "Calves, ankles, circulatory system",
+        },
+        {
+          name: "Meena",
+          en: "Pisces",
+          sym: "♓︎",
+          elem: "Water",
+          mode: "Mutable (Dwisvabhava)",
+          ruler: "Jupiter",
+          exalt: "Venus",
+          debl: "Mercury",
+          theme:
+            "Spirituality, compassion, imagination, escape, art, dreams, intuition, dissolution, liberation",
+          body: "Feet, lymphatic system, pineal gland",
+        },
+      ];
+
+      const BHAVAS = [
+        {
+          num: 1,
+          name: "Tanu / Lagna",
+          en: "Self & Birth",
+          theme:
+            "Physical body, appearance, personality, birth, overall health, the beginning of all things",
+          signif: [
+            "Self-identity",
+            "Physical appearance",
+            "General health",
+            "Head & face",
+            "Nature & disposition",
+            "Strengths & weaknesses",
+            "How others see you",
+          ],
+        },
+        {
+          num: 2,
+          name: "Dhana",
+          en: "Wealth & Family",
+          theme:
+            "Accumulated wealth, family, speech, food habits, early education, right eye",
+          signif: [
+            "Bank balance & savings",
+            "Family of origin",
+            "Speech & voice",
+            "Food intake",
+            "Secondary education",
+            "Value system",
+            "Ability to earn",
+          ],
+        },
+        {
+          num: 3,
+          name: "Sahaja",
+          en: "Siblings & Courage",
+          theme:
+            "Younger siblings, courage, efforts, short travels, communication skills, hobbies",
+          signif: [
+            "Younger siblings",
+            "Willpower & courage",
+            "Self-effort",
+            "Short journeys",
+            "Communication & writing",
+            "Hobbies & skills",
+            "Neighborhood",
+          ],
+          extra: "Also called Upasthana (sexual passion) and Vikrama (valor)",
+        },
+        {
+          num: 4,
+          name: "Sukha",
+          en: "Happiness & Home",
+          theme:
+            "Mother, home, property, vehicles, comfort, education, inner peace, chest",
+          signif: [
+            "Mother & maternal care",
+            "Home & homeland",
+            "Real estate & property",
+            "Vehicles & conveyances",
+            "Emotional happiness",
+            "Formal education",
+            "Chest & lungs",
+          ],
+        },
+        {
+          num: 5,
+          name: "Putra",
+          en: "Children & Intelligence",
+          theme:
+            "Children, creativity, intelligence, past life merit (Punya), romance, speculation",
+          signif: [
+            "Children & progeny",
+            "Intelligence & intellect",
+            "Creative expression",
+            "Romance & dating",
+            "Speculation & gambling",
+            "Past life merit",
+            "Mantras & spiritual practice",
+          ],
+        },
+        {
+          num: 6,
+          name: "Ripu / Shatru",
+          en: "Enemies & Disease",
+          theme:
+            "Disease, debts, enemies, obstacles, service, daily labor, litigation, maternal uncle",
+          signif: [
+            "Illness & disease",
+            "Debts & borrowing",
+            "Enemies & opposition",
+            "Obstacles & challenges",
+            "Daily employment",
+            "Litigation & divorce",
+            "Uncles & maternal relatives",
+          ],
+        },
+        {
+          num: 7,
+          name: "Kalatra",
+          en: "Marriage & Partnership",
+          theme:
+            "Spouse, marriage, business partnerships, long travels, public relations, lower abdomen",
+          signif: [
+            "Spouse & marriage",
+            "Business partnerships",
+            "Long-distance travel",
+            "Public relations",
+            "Trade & commerce",
+            "Sexual passion",
+            "Foreign residence",
+          ],
+        },
+        {
+          num: 8,
+          name: "Ayur",
+          en: "Longevity & Death",
+          theme:
+            "Death, longevity, hidden things, occult, sudden events, inheritance, chronic illness, pelvic region",
+          signif: [
+            "Life span & death",
+            "Sudden & unexpected events",
+            "Hidden wealth & inheritance",
+            "Occult & mysticism",
+            "Chronic illness",
+            "Accidents",
+            "Transformation & regeneration",
+          ],
+        },
+        {
+          num: 9,
+          name: "Dharma",
+          en: "Fortune & Father",
+          theme:
+            "Fortune, father, religion, higher learning, philosophy, teacher/guru, long travels, thighs",
+          signif: [
+            "Good fortune & luck",
+            "Father & paternal relations",
+            "Religion & spirituality",
+            "Higher education",
+            "Philosophy & wisdom",
+            "Guru / spiritual teacher",
+            "Pilgrimage & long travel",
+          ],
+        },
+        {
+          num: 10,
+          name: "Karma",
+          en: "Career & Fame",
+          theme:
+            "Career, fame, authority, public image, government, karma (action), knees",
+          signif: [
+            "Career & profession",
+            "Fame & reputation",
+            "Authority & power",
+            "Government connection",
+            "Public image",
+            "Father's career",
+            "Karmic actions in the world",
+          ],
+        },
+        {
+          num: 11,
+          name: "Labha",
+          en: "Gains & Income",
+          theme:
+            "Gains, income, elder siblings, friends, hopes & wishes, fulfillment of desires",
+          signif: [
+            "Income & gains",
+            "Elder siblings",
+            "Friends & social circles",
+            "Hopes & aspirations",
+            "Fulfillment of desires",
+            "Left ear",
+            "Network & connections",
+          ],
+        },
+        {
+          num: 12,
+          name: "Vyaya",
+          en: "Loss & Liberation",
+          theme:
+            "Losses, expenses, liberation (Moksha), sleep, foreign residence, left eye, feet, bed pleasures",
+          signif: [
+            "Expenses & losses",
+            "Liberation (Moksha)",
+            "Sleep & dreams",
+            "Foreign residence & travel",
+            "Left eye & feet",
+            "Bed pleasures",
+            "Isolation & retreat",
+            "Afterlife",
+          ],
+        },
+      ];
+
+      const NAKSHATRAS = [
+        {
+          num: 1,
+          name: "Ashwini",
+          ruler: "Ketu",
+          deity: "Ashwini Kumaras (Divine Twins)",
+          symbol: "Horse's head",
+          theme:
+            "Healing, speed, initiation, new beginnings, physicians, dawn energy",
+        },
+        {
+          num: 2,
+          name: "Bharani",
+          ruler: "Venus",
+          deity: "Yama (Lord of Death)",
+          symbol: "Yoni (vulva)",
+          theme:
+            "Birth, death, transformation, endurance, responsibility, nurturing the new, bearing the burden",
+        },
+        {
+          num: 3,
+          name: "Krittika",
+          ruler: "Sun",
+          deity: "Agni (Fire God)",
+          symbol: "Razor or axe",
+          theme:
+            "Purification by fire, courage, sharpness, cutting away illusions, motherhood (Kartikeya)",
+        },
+        {
+          num: 4,
+          name: "Rohini",
+          ruler: "Moon",
+          deity: "Brahma (Creator)",
+          symbol: "Ox cart / chariot",
+          theme:
+            'Growth, fertility, creativity, abundance, beauty, agriculture, the "star of ascent"',
+        },
+        {
+          num: 5,
+          name: "Mrigashira",
+          ruler: "Mars",
+          deity: "Soma (Moon God)",
+          symbol: "Deer's head",
+          theme:
+            "Searching, curiosity, wandering, gentle nature, pursuing desires, fragility underneath",
+        },
+        {
+          num: 6,
+          name: "Ardra",
+          ruler: "Rahu",
+          deity: "Rudra (Storm God)",
+          symbol: "Teardrop",
+          theme:
+            "Storm, destruction and renewal, intense effort, emotional turmoil, transformation through upheaval",
+        },
+        {
+          num: 7,
+          name: "Punarvasu",
+          ruler: "Jupiter",
+          deity: "Aditi (Mother of Gods)",
+          symbol: "Quiver of arrows",
+          theme:
+            "Return, renewal, abundance, victory after struggle, nurturing, philosophical depth",
+        },
+        {
+          num: 8,
+          name: "Pushya",
+          ruler: "Saturn",
+          deity: "Brihaspati (Jupiter as priest)",
+          symbol: "Cow's udder",
+          theme:
+            "Nourishment, spiritual growth, most auspicious for beginnings, satvic quality, devotion",
+        },
+        {
+          num: 9,
+          name: "Ashlesha",
+          ruler: "Mercury",
+          deity: "Nagas (Serpent deities)",
+          symbol: "Coiled serpent",
+          theme:
+            "Entanglement, occult knowledge, penetration, clinging, poison and medicine, hidden depths",
+        },
+        {
+          num: 10,
+          name: "Magha",
+          ruler: "Ketu",
+          deity: "Pitris (Ancestors)",
+          symbol: "Throne room / palanquin",
+          theme:
+            "Royalty, legacy, ancestral connection, power, tradition, pride, connection to lineage",
+        },
+        {
+          num: 11,
+          name: "Purva Phalguni",
+          ruler: "Venus",
+          deity: "Bhaga (God of wealth & marriage)",
+          symbol: "Front legs of a bed",
+          theme:
+            "Pleasure, comfort, romance, luxury, hospitality, creative indulgence, enjoyment of life",
+        },
+        {
+          num: 12,
+          name: "Uttara Phalguni",
+          ruler: "Sun",
+          deity: "Aryaman (God of patronage)",
+          symbol: "Back legs of a bed",
+          theme:
+            "Patronage, support, marriage, lasting relationships, responsibility, noble friendship",
+        },
+        {
+          num: 13,
+          name: "Hasta",
+          ruler: "Moon",
+          deity: "Savitar (Sun God of inspiration)",
+          symbol: "Hand / open palm",
+          theme:
+            "Skill, craftsmanship, artistry, intelligence, manual dexterity, persuasive speech, palmistry",
+        },
+        {
+          num: 14,
+          name: "Chitra",
+          ruler: "Mars",
+          deity: "Vishwakarma (Divine architect)",
+          symbol: "Bright jewel / pearl",
+          theme:
+            "Artistry, design, illusion (Maya), beauty, brilliance, architectural skill, magical allure",
+        },
+        {
+          num: 15,
+          name: "Swati",
+          ruler: "Rahu",
+          deity: "Vayu (Wind God)",
+          symbol: "Young shoot in wind",
+          theme:
+            "Independence, commerce, flexibility, adaptability, gentle strength, trade, self-reliance",
+        },
+        {
+          num: 16,
+          name: "Vishakha",
+          ruler: "Jupiter",
+          deity: "Indra & Agni",
+          symbol: "Decorated triumphal arch",
+          theme:
+            "Achievement through struggle, purpose-driven action, determination, forked path, goal orientation",
+        },
+        {
+          num: 17,
+          name: "Anuradha",
+          ruler: "Saturn",
+          deity: "Mitra (God of friendship)",
+          symbol: "Lotus flower / fan",
+          theme:
+            "Friendship, devotion, cooperation, success through others, balance, radial intelligence",
+        },
+        {
+          num: 18,
+          name: "Jyeshtha",
+          ruler: "Mercury",
+          deity: "Indra (King of Gods)",
+          symbol: "Circular amulet / umbrella",
+          theme:
+            "Chief, protector, seniority, occult power, confrontation, eldest, dealing with adversity",
+        },
+        {
+          num: 19,
+          name: "Mula",
+          ruler: "Ketu",
+          deity: "Nirriti (Goddess of destruction)",
+          symbol: "Bunch of roots tied together",
+          theme:
+            "Roots, foundation, destruction of the old, investigation, research, bottom of things, radical change",
+        },
+        {
+          num: 20,
+          name: "Purva Ashadha",
+          ruler: "Venus",
+          deity: "Apah (Water deities)",
+          symbol: "Elephant tusk",
+          theme:
+            "Invincibility, early victory, declaration of war, assertiveness, passion, invulnerable spirit",
+        },
+        {
+          num: 21,
+          name: "Uttara Ashadha",
+          ruler: "Sun",
+          deity: "Vishwadevas (Universal gods)",
+          symbol: "Elephant tusk / planks of bed",
+          theme:
+            "Universal significance, leadership, unwavering commitment, victory that endures, moral authority",
+        },
+        {
+          num: 22,
+          name: "Shravana",
+          ruler: "Moon",
+          deity: "Vishnu (Preserver)",
+          symbol: "Three footprints of an elephant",
+          theme:
+            'Listening, learning, devotion, pilgrimage, step-by-step progress, the "star of learning"',
+        },
+        {
+          num: 23,
+          name: "Dhanishta",
+          ruler: "Mars",
+          deity: "Vasus (Eight deities of wealth)",
+          symbol: "Drum / flute",
+          theme:
+            "Wealth, rhythm, melody, fame, charitable nature, symmetry, musical talent, abundance",
+        },
+        {
+          num: 24,
+          name: "Shatabhisha",
+          ruler: "Rahu",
+          deity: "Varuna (God of cosmic waters)",
+          symbol: "Empty circle / hundred physicians",
+          theme:
+            "Healing, isolation, mystery, secrecy, a hundred remedies, independent thinking, eccentricity",
+        },
+        {
+          num: 25,
+          name: "Purva Bhadrapada",
+          ruler: "Jupiter",
+          deity: "Aja Ekapad (Fire serpent)",
+          symbol: "Front legs of a funeral cot / two-faced man",
+          theme:
+            "Inner fire, purification, astringent nature, passion, spiritual transformation, fierce determination",
+        },
+        {
+          num: 26,
+          name: "Uttara Bhadrapada",
+          ruler: "Saturn",
+          deity: "Ahir Budhnya (Serpent of the deep)",
+          symbol: "Back legs of a funeral cot",
+          theme:
+            "Deep wisdom, tapas (austerity), cosmic consciousness, stability, sorrow leading to wisdom, universal view",
+        },
+        {
+          num: 27,
+          name: "Revati",
+          ruler: "Mercury",
+          deity: "Pushan (Nourishing Sun God)",
+          symbol: "Fish / drum",
+          theme:
+            "Nourishment, safe journey, prosperity, shepherding, protection of travelers, wealth, gentle nurturing",
+        },
+      ];
+
+      const ABHIJIT = {
+        num: "*",
+        name: "Abhijit",
+        ruler: "Brahma",
+        deity: "—",
+        symbol: "Triangle / musical drum",
+        theme:
+          "Victory, universal awareness, the \"ultimate\" nakshatra, used in Muhrata, spans 6°40'–10°53' Capricorn. Not counted in the regular 27 but highly auspicious.",
+      };
+
+      const PANCHANGA = [
+        {
+          name: "Tithi",
+          icon: "fa-moon",
+          desc: "Lunar day — the angle between Sun and Moon. 30 Tithis per lunar month divided into Shukla (waxing) and Krishna (waning) Pakshas. Determines auspiciousness of activities.",
+        },
+        {
+          name: "Vara",
+          icon: "fa-sun",
+          desc: "Weekday — Sunday (Sun) through Saturday (Saturn). Each day is ruled by a specific Graha, influencing the nature of actions performed.",
+        },
+        {
+          name: "Nakshatra",
+          icon: "fa-star",
+          desc: "The Moon's position among the 27 lunar mansions. The Nakshatra of the Moon at birth determines the starting Dasha period and core mental nature.",
+        },
+        {
+          name: "Yoga",
+          icon: "fa-link",
+          desc: "Luni-solar angle — 27 Yogas based on the combined longitudes of Sun and Moon. Each Yoga has its own quality, from auspicious (Ayushman) to challenging (Vyatipata).",
+        },
+        {
+          name: "Karana",
+          icon: "fa-circle-half-stroke",
+          desc: "Half-Tithi — 11 types of Karanas. Bava, Balava, Kaulava repeat in sequence. Vishti (Bhadra) is considered inauspicious for most activities.",
+        },
+      ];
+
+      const DASHA = [
+        { planet: "Ketu", years: 7, color: "#b07040" },
+        { planet: "Venus", years: 20, color: "#e88ab0" },
+        { planet: "Sun", years: 6, color: "#e8a33a" },
+        { planet: "Moon", years: 10, color: "#c8c8e8" },
+        { planet: "Mars", years: 7, color: "#e85d3a" },
+        { planet: "Rahu", years: 18, color: "#8a5aa0" },
+        { planet: "Jupiter", years: 16, color: "#d4a040" },
+        { planet: "Saturn", years: 19, color: "#6a7a9a" },
+        { planet: "Mercury", years: 17, color: "#6ac47a" },
+      ];
+
+      const TOOLS = [
+        {
+          title: "Ashtakavarga System",
+          icon: "fa-chart-bar",
+          content: `<p class="mb-2">A quantitative point-based system evaluating planetary transits and overall chart strength.</p><ul class="list-disc list-inside space-y-1 text-sm" style="color:var(--muted)"><li>Each of the 7 planets (excluding Rahu/Ketu) contributes bindus (points) to each sign</li><li>Total Ashtakavarga: sum of all bindus across signs (maximum <span class="mono">337</span>)</li><li>Bhinnashtakavarga: individual planet's point distribution</li><li>Signs with &gt;<span class="mono">28</span> bindus are strong; &lt;<span class="mono">25</span> are weak</li><li>Used primarily for transit (Gochara) assessment</li><li>Predicts areas of life where positive or negative results manifest during transits</li></ul>`,
+        },
+        {
+          title: "Shadbala — Six-fold Planetary Strength",
+          icon: "fa-balance-scale",
+          content: `<p class="mb-2">Comprehensive system measuring a planet's strength through six criteria:</p><ul class="list-disc list-inside space-y-1 text-sm" style="color:var(--muted)"><li><strong>Sthana Bala</strong> — Positional strength (sign, house, exaltation, etc.)</li><li><strong>Dig Bala</strong> — Directional strength (planets are strong in specific directions)</li><li><strong>Kala Bala</strong> — Temporal strength (day/night, season, year lord, etc.)</li><li><strong>Chesta Bala</strong> — Motional strength (retrogradation, speed for Sun/Moon)</li><li><strong>Naisargika Bala</strong> — Natural strength (Sun strongest, Moon weakest among the 7)</li><li><strong>Drik Bala</strong> — Aspectual strength (benefic/malefic aspects received)</li></ul><p class="mt-2 text-sm" style="color:var(--muted)">Minimum required strength varies by planet. A planet needs sufficient Shadbala to effectively deliver its results.</p>`,
+        },
+        {
+          title: "Drishti — Aspects",
+          icon: "fa-eye",
+          content: `<p class="mb-2">Planetary aspects show where a graha directs its influence.</p><ul class="list-disc list-inside space-y-1 text-sm" style="color:var(--muted)"><li>All planets cast a 7th aspect.</li><li>Mars adds 4th and 8th aspects.</li><li>Jupiter adds 5th and 9th aspects.</li><li>Saturn adds 3rd and 10th aspects.</li><li>Rahu and Ketu are often read with special or planet-specific aspect traditions.</li><li>Aspects can strengthen, pressure, or connect houses and planets.</li></ul>`,
+        },
+        {
+          title: "Dignities — Sign Strength",
+          icon: "fa-crown",
+          content: `<p class="mb-2">A planet's dignity shows how comfortably it can act in a sign.</p><ul class="list-disc list-inside space-y-1 text-sm" style="color:var(--muted)"><li><strong>Own sign</strong> and <strong>exaltation</strong> increase support and clarity.</li><li><strong>Debilitation</strong> weakens delivery or distorts expression.</li><li><strong>Moolatrikona</strong> is a powerful, structured zone of strength.</li><li>Friend, neutral, and enemy sign relationships modify the result.</li><li>Context matters: house, aspect, and Dasha can override a simple label.</li></ul>`,
+        },
+        {
+          title: "Karakas — Significators",
+          icon: "fa-user-tag",
+          content: `<p class="mb-2">Karakas are significators that point to what a planet represents in the chart.</p><ul class="list-disc list-inside space-y-1 text-sm" style="color:var(--muted)"><li><strong>Natural karakas</strong> are universal significators such as Sun for father and Moon for mind.</li><li><strong>Functional karakas</strong> arise from the chart and house rulerships.</li><li>Karakas help identify the actors behind events, not just the events themselves.</li><li>They are especially important in Jaimini-style analysis.</li></ul>`,
+        },
+        {
+          title: "Avasthas — Planetary States",
+          icon: "fa-signal",
+          content: `<p class="mb-2">Avasthas describe the condition or state in which a planet is functioning.</p><ul class="list-disc list-inside space-y-1 text-sm" style="color:var(--muted)"><li>States can reflect youth, maturity, wakefulness, rest, or activity.</li><li>They modify how fully a planet can express its promise.</li><li>A strong planet in a weak state may still underperform.</li><li>A weak planet in a strong state may still surprise with results.</li></ul>`,
+        },
+        {
+          title: "Argala — Planetary Intervention",
+          icon: "fa-puzzle-piece",
+          content: `<p class="mb-2">Argala is the blocking, supporting, or redirecting influence on a house or planet.</p><ul class="list-disc list-inside space-y-1 text-sm" style="color:var(--muted)"><li>Some placements create support and momentum.</li><li>Other placements create obstruction or delay.</li><li>Argala is read together with counter-argala to see the net effect.</li><li>It is one of the sharpest tools for understanding why results become blocked or released.</li></ul>`,
+        },
+        {
+          title: "House Dynamics — Upachaya & Dusthana",
+          icon: "fa-arrow-up",
+          content: `<p class="mb-2">House categories show where growth, strain, and transformation usually happen.</p><ul class="list-disc list-inside space-y-1 text-sm" style="color:var(--muted)"><li><strong>Upachaya</strong> houses (<span class="mono">3, 6, 10, 11</span>) tend to improve through time and effort.</li><li><strong>Dusthana</strong> houses (<span class="mono">6, 8, 12</span>) often require endurance, correction, or release.</li><li>These houses are not simply "good" or "bad" — they describe function.</li><li>Many charts become stronger when the native learns how to work with them consciously.</li></ul>`,
+        },
+      ];
+
+      const BRANCHES = [
+        {
+          name: "Jataka",
+          en: "Natal Astrology",
+          icon: "fa-baby",
+          desc: "The core branch — reading the individual's birth chart to reveal personality, life path, strengths, weaknesses, and timing of events through Dashas and transits.",
+          details:
+            "Uses D1 (Rasi) as the foundation, supported by Navamsa (D9) and other divisional charts. The most widely practiced branch.",
+        },
+        {
+          name: "Muhurta",
+          en: "Electional Astrology",
+          icon: "fa-clock",
+          desc: "Selecting auspicious moments for initiating important activities — marriage, business launch, travel, construction, mantra initiation, etc.",
+          details:
+            "Analyzes Panchanga, Tarabala (Nakshatra compatibility), Chandrabala, and other factors to find the most favorable time window.",
+        },
+        {
+          name: "Prashna",
+          en: "Horary Astrology",
+          icon: "fa-question-circle",
+          desc: "Answering specific questions based on the chart cast for the moment the question is asked — no birth data required.",
+          details:
+            "Uses the Prashna chart's Ascendant, Moon, and relevant house significators. Arudha Lagna and Chatra Rasi are key techniques.",
+        },
+        {
+          name: "Varshaphala",
+          en: "Annual Chart (Tajika)",
+          icon: "fa-calendar-alt",
+          desc: "Solar return chart analysis — predicting the year ahead from birthday to birthday using Tajika system techniques.",
+          details:
+            "Casts a chart for the exact moment the Sun returns to its natal degree. Uses Tajika Yogas, Muntha (progressed Ascendant), and Mudda Dasha.",
+        },
+        {
+          name: "Nadi Jyotisha",
+          en: "Nadi Astrology",
+          icon: "fa-scroll",
+          desc: "Ancient palm-leaf manuscript system containing life readings organized by thumbprint patterns. Claims to reveal past, present, and future.",
+          details:
+            "Originated from great sages (Agastya, Bhrigu, Sukra etc.). The native is identified by thumbprint, then corresponding leaf is read. Unique to India.",
+        },
+        {
+          name: "Ayur Jyotisha",
+          en: "Medical Astrology",
+          icon: "fa-heartbeat",
+          desc: "Diagnosing health conditions and determining treatment approaches through planetary positions and their body part significations.",
+          details:
+            "Each planet rules specific body parts, organs, and diseases (e.g., Saturn for chronic/lingering conditions, Mars for acute/inflammatory, Rahu for mysterious/untreatable). Used alongside Ayurveda.",
+        },
+        {
+          name: "Samhita",
+          en: "Mundane & Political Astrology",
+          icon: "fa-globe",
+          desc: "Predicting national and global events — elections, earthquakes, wars, economic trends, agricultural output, and natural disasters.",
+          details:
+            "Uses ingress charts (Sun into Aries), New/Full Moon charts, eclipses, and planetary conjunctions. Varahamihira's Brihat Samhita is the foundational text.",
+        },
+        {
+          name: "Kuta Milan",
+          en: "Compatibility Analysis",
+          icon: "fa-heart",
+          desc: "Evaluating marriage/partnership compatibility through a point-based system comparing the couple's Nakshatras, Rashis, and other factors.",
+          details:
+            "Assesses 8-10 factors: Varna (caste), Vashya (control), Tara (star), Yoni (nature), Graha Maitri (friendship), Gana (temperament), Bhakoota (heart), Nadi (health). Minimum 18/36 points required.",
+        },
+      ];
+
+      const TIMELINE = [
+        {
+          era: "PREHISTORIC ERA",
+          title: "Observation of Nature & Cycles",
+          desc: "Ancient observers tracked the movements of the Sun, Moon, seasons, rainfall, and stars to guide agriculture, navigation, and survival. This formed the foundation of all later astronomical traditions.",
+        },
+        {
+          era: "EARLY LUNAR ASTRONOMY",
+          title: "Birth of the Nakshatras",
+          desc: "The Moon requires approximately 27.3 days to return to the same position among the stars. Ancient astronomers divided the lunar path into 27 equal stations called Nakshatras. These became the oldest structural layer of Jyotish and remain its most distinctive feature.",
+        },
+        {
+          era: "VEDIC PERIOD",
+          title: "Sacred Timekeeping",
+          desc: "Early Jyotish was primarily concerned with calendars, ritual timing, seasonal cycles, and the determination of auspicious moments. The focus was not personal horoscopes but alignment with cosmic order.",
+        },
+        {
+          era: "CLASSICAL DEVELOPMENT",
+          title: "Grahas, Houses & Prediction",
+          desc: "Over time, astrologers developed sophisticated frameworks involving Grahas, Rashis, Bhavas, Yogas, Dashas, Vargas, and predictive techniques. Jyotish gradually evolved into a complete interpretive science of karma, timing, and life patterns.",
+        },
+        {
+          era: "MODERN UNDERSTANDING",
+          title: "Astronomy, Symbolism & Consciousness",
+          desc: "Today Jyotish is understood as a synthesis of observational astronomy, symbolic interpretation, spiritual philosophy, and predictive methodology. Whether viewed as sacred science, psychological symbolism, or karmic mapping, it remains one of the most elaborate astrological systems ever developed.",
+        },
+      ];
+
+      const ASTRO_REALITY = [
+        ["☉ Surya", "Sun", "~25–35 days*", "Solar center"],
+        ["☽ Chandra", "Moon", "27.3 days", "27.3 days around Earth"],
+        ["♂ Mangala", "Mars", "24h 37m", "687 days"],
+        ["☿ Budha", "Mercury", "58.6 days", "88 days"],
+        ["♃ Guru", "Jupiter", "9h 56m", "11.86 years"],
+        ["♀ Shukra", "Venus", "243 days", "225 days"],
+        ["♄ Shani", "Saturn", "10h 33m", "29.45 years"],
+      ];
+      const APPARENT_MOTION = [
+        ["☽ Moon", "~2.25 days", "~27.3 days", "Fastest visible transit"],
+        ["☉ Sun", "~1 month", "~1 year", "Basis of the solar year"],
+        [
+          "☿ Mercury",
+          "~14–30 days",
+          "~88 days",
+          "Varies due to retrograde motion",
+        ],
+        [
+          "♀ Venus",
+          "~23–30 days",
+          "~225 days",
+          "Can appear slower near the Sun",
+        ],
+        [
+          "♂ Mars",
+          "~45 days to months",
+          "~687 days",
+          "Strongly affected by retrograde periods",
+        ],
+        ["♃ Jupiter", "~1 year", "~12 years", "Usually one sign per year"],
+        [
+          "♄ Saturn",
+          "~2.5 years",
+          "~29.5 years",
+          "Slowest classical visible graha",
+        ],
+        ["☊ Rahu", "~18 months", "~18.6 years", "Retrograde lunar node"],
+        ["☋ Ketu", "~18 months", "~18.6 years", "Always opposite Rahu"],
+      ];
+
+      /* ============ STARFIELD ============ */
+      const canvas = document.getElementById("starfield");
+      const ctx = canvas.getContext("2d");
+      let stars = [];
+      function initStars() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        stars = [];
+        const count = Math.min(
+          300,
+          Math.floor((canvas.width * canvas.height) / 5000),
+        );
+        for (let i = 0; i < count; i++) {
+          stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: Math.random() * 1.5 + 0.3,
+            a: Math.random(),
+            speed: Math.random() * 0.005 + 0.002,
+            hue: Math.random() > 0.85 ? (Math.random() > 0.5 ? 30 : 200) : 0,
+          });
+        }
+      }
+      function drawStars() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (const s of stars) {
+          s.a += s.speed;
+          const alpha = 0.3 + 0.7 * Math.abs(Math.sin(s.a));
+          ctx.fillStyle = s.hue
+            ? `hsla(${s.hue},60%,70%,${alpha * 0.7})`
+            : `rgba(237,228,211,${alpha * 0.6})`;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        requestAnimationFrame(drawStars);
+      }
+      initStars();
+      drawStars();
+      window.addEventListener("resize", initStars);
+
+      /* ============ REVEAL ANIMATIONS ============ */
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) e.target.classList.add("visible");
+          });
+        },
+        { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
+      );
+      document
+        .querySelectorAll(".reveal,.stagger")
+        .forEach((el) => observer.observe(el));
+
+      /* ============ TIMELINE ============ */
+      document.getElementById("timelineList").innerHTML = TIMELINE.map(
+        (t) => `
+        <div class="data-card">
+          <div class="section-eyebrow" style="margin-bottom:0.4rem">${t.era}</div>
+          <h4 class="font-bold mb-2">${t.title}</h4>
+          <p class="text-sm" style="color:var(--muted)">${t.desc}</p>
+        </div>`,
+      ).join("");
+
+      /* ============ COSMIC MOTION TABLES ============ */
+      document.getElementById("astroRealityBody").innerHTML = ASTRO_REALITY.map(
+        (r) => `
+        <tr style="border-bottom:1px solid var(--border)"><td class="p-4">${r[0]}</td><td class="p-4">${r[1]}</td><td class="p-4 mono">${r[2]}</td><td class="p-4 mono">${r[3]}</td></tr>`,
+      ).join("");
+      document.getElementById("apparentMotionBody").innerHTML =
+        APPARENT_MOTION.map(
+          (r) => `
+        <tr style="border-bottom:1px solid var(--border)"><td class="p-4">${r[0]}</td><td class="p-4 mono">${r[1]}</td><td class="p-4 mono">${r[2]}</td><td class="p-4">${r[3]}</td></tr>`,
+        ).join("");
+
+      /* ============ SECTION: GRAHAS ============ */
+      let activeGraha = -1;
+      function renderGrahas() {
+        const grid = document.getElementById("grahasGrid");
+        grid.innerHTML = GRAHAS.map(
+          (g, i) => `
+    <div class="planet-card" data-idx="${i}" onclick="toggleGraha(${i})" role="button" tabindex="0" aria-expanded="false">
+      <div class="planet-symbol" style="color:${g.color}">${g.sym}</div>
+      <h3 class="mt-3 text-sm font-bold" style="font-family:var(--font-display)">${g.name}</h3>
+      <p class="text-xs mt-0.5" style="color:var(--muted)">${g.en}</p>
+      <p class="text-xs mt-1.5 mono" style="color:${g.color}">Ruler: ${g.ruler}</p>
+    </div>`,
+        ).join("");
+        grid.querySelectorAll(".planet-card").forEach((c) => {
+          c.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              toggleGraha(+c.dataset.idx);
+            }
+          });
+        });
+      }
+      window.toggleGraha = function (idx) {
+        const panel = document.getElementById("grahaDetail");
+        const cards = document.querySelectorAll(".planet-card");
+        if (activeGraha === idx) {
+          activeGraha = -1;
+          panel.classList.remove("open");
+          cards[idx].classList.remove("active");
+          cards[idx].setAttribute("aria-expanded", "false");
+          return;
+        }
+        cards.forEach((c) => {
+          c.classList.remove("active");
+          c.setAttribute("aria-expanded", "false");
+        });
+        cards[idx].classList.add("active");
+        cards[idx].setAttribute("aria-expanded", "true");
+        activeGraha = idx;
+        const g = GRAHAS[idx];
+        panel.innerHTML = `
+    <div class="flex flex-col md:flex-row gap-6">
+      <div class="flex-shrink-0 text-center md:text-left">
+        <div class="planet-symbol" style="color:${g.color};font-size:4rem">${g.sym}</div>
+        <h3 class="mt-2 text-xl font-bold" style="font-family:var(--font-display)">${g.name} <span style="color:var(--muted);font-weight:400">(${g.en})</span></h3>
+        <div class="flex flex-wrap gap-2 mt-3 justify-center md:justify-start">
+          <span class="tag" style="color:${g.color};border-color:${g.color}">${g.nature}</span>
+          <span class="tag" style="color:var(--muted);border-color:var(--border)">${g.gender}</span>
+          <span class="tag" style="color:var(--muted);border-color:var(--border)">${g.caste}</span>
+          <span class="tag" style="color:var(--muted);border-color:var(--border)">${g.day}</span>
+          <span class="tag" style="color:var(--muted);border-color:var(--border)">${g.dir}</span>
+        </div>
+      </div>
+      <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+        <div>
+          <h4 class="font-bold mb-2 section-eyebrow" style="margin-bottom:0.5rem">SIGNIFICATIONS</h4>
+          <ul class="space-y-1" style="color:var(--muted)">${g.rep.map((r) => `<li class="flex items-start gap-2"><span style="color:${g.color}">▸</span>${r}</li>`).join("")}</ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-2 section-eyebrow" style="margin-bottom:0.5rem">SIGN POSITION</h4>
+          <div class="space-y-2" style="color:var(--muted)">
+            <div><span class="text-xs font-bold" style="color:var(--cream)">Rulership:</span> ${g.ruler}</div>
+            <div><span class="text-xs font-bold" style="color:var(--cream)">Exaltation:</span> <span class="readout">${g.exalt}</span></div>
+            <div><span class="text-xs font-bold" style="color:var(--cream)">Debilitation:</span> <span class="readout">${g.debl}</span></div>
+            <div><span class="text-xs font-bold" style="color:var(--cream)">Moolatrikona:</span> <span class="readout">${g.mt}</span></div>
+          </div>
+          <h4 class="font-bold mt-4 mb-2 section-eyebrow" style="margin-bottom:0.5rem">RELATIONSHIPS</h4>
+          <div class="space-y-1 text-xs" style="color:var(--muted)">
+            <div>Friends: <span style="color:var(--earth)">${g.friends.join(", ") || "None"}</span></div>
+            <div>Enemies: <span style="color:var(--vermillion)">${g.enemies.join(", ") || "None"}</span></div>
+            <div>Neutral: ${g.neutral.join(", ") || "None"}</div>
+          </div>
+          <h4 class="font-bold mt-4 mb-2 section-eyebrow" style="margin-bottom:0.5rem">BODY PARTS</h4>
+          <p style="color:var(--muted)">${g.body.join(", ")}</p>
+        </div>
+      </div>
+    </div>`;
+        panel.classList.add("open");
+        setTimeout(
+          () => panel.scrollIntoView({ behavior: "smooth", block: "nearest" }),
+          100,
+        );
+      };
+      renderGrahas();
+
+      /* ============ SECTION: RASHIS (ZODIAC WHEEL) ============ */
+      function renderZodiacWheel() {
+        const container = document.getElementById("zodiacWheelContainer");
+        const size = Math.min(460, window.innerWidth - 40);
+        const cx = size / 2,
+          cy = size / 2,
+          outerR = size / 2 - 10,
+          innerR = outerR * 0.55;
+        const elemColors = {
+          Fire: "var(--fire)",
+          Earth: "var(--earth)",
+          Air: "var(--air)",
+          Water: "var(--water)",
+        };
+        let svg = `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" style="display:block">`;
+        svg += `<circle cx="${cx}" cy="${cy}" r="${outerR}" fill="none" stroke="var(--border)" stroke-width="1"/>`;
+        svg += `<circle cx="${cx}" cy="${cy}" r="${innerR}" fill="var(--bg)" stroke="var(--border)" stroke-width="1"/>`;
+        svg += `<circle cx="${cx}" cy="${cy}" r="${innerR * 0.6}" fill="none" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/>`;
+        for (let i = 0; i < 12; i++) {
+          const startA = ((i * 30 - 90) * Math.PI) / 180;
+          const endA = (((i + 1) * 30 - 90) * Math.PI) / 180;
+          const x1o = cx + outerR * Math.cos(startA),
+            y1o = cy + outerR * Math.sin(startA);
+          const x2o = cx + outerR * Math.cos(endA),
+            y2o = cy + outerR * Math.sin(endA);
+          const x1i = cx + innerR * Math.cos(startA),
+            y1i = cy + innerR * Math.sin(startA);
+          const x2i = cx + innerR * Math.cos(endA),
+            y2i = cy + innerR * Math.sin(endA);
+          const midA = (startA + endA) / 2,
+            midR = (outerR + innerR) / 2;
+          const tx = cx + midR * Math.cos(midA),
+            ty = cy + midR * Math.sin(midA);
+          const r = RASHIS[i];
+          const col = elemColors[r.elem];
+          const path = `M${x1i},${y1i} L${x1o},${y1o} A${outerR},${outerR} 0 0,1 ${x2o},${y2o} L${x2i},${y2i} A${innerR},${innerR} 0 0,0 ${x1i},${y1i} Z`;
+          svg += `<path d="${path}" fill="${col}" fill-opacity="0.1" stroke="${col}" stroke-width="1" stroke-opacity="0.4" class="rashi-seg" data-idx="${i}" style="cursor:pointer;transition:all 0.3s" tabindex="0" role="button" aria-label="${r.name} — ${r.en}" onmouseover="this.style.fillOpacity='0.25'" onmouseout="if(!this.classList.contains('active'))this.style.fillOpacity='0.1'" onclick="selectRashi(${i})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectRashi(${i})}"/>`;
+          svg += `<text x="${tx}" y="${ty - 8}" text-anchor="middle" dominant-baseline="middle" fill="${col}" font-size="${size > 350 ? "20" : "14"}" font-family="'Noto Sans Symbols 2','Segoe UI Symbol',serif" style="pointer-events:none;font-variant-emoji:text">${r.sym}</text>`;
+          svg += `<text x="${tx}" y="${ty + 12}" text-anchor="middle" dominant-baseline="middle" fill="var(--cream)" font-size="${size > 350 ? "9" : "7"}" font-family="Cinzel,serif" style="pointer-events:none;opacity:0.8">${r.name}</text>`;
+          svg += `<line x1="${cx + innerR * Math.cos(startA)}" y1="${cy + innerR * Math.sin(startA)}" x2="${cx + outerR * Math.cos(startA)}" y2="${cy + outerR * Math.sin(startA)}" stroke="var(--border)" stroke-width="0.5"/>`;
+        }
+        svg += `<text x="${cx}" y="${cy - 6}" text-anchor="middle" fill="var(--gold)" font-size="11" font-family="Cinzel,serif" font-weight="700">ZODIAC</text>`;
+        svg += `<text x="${cx}" y="${cy + 10}" text-anchor="middle" fill="var(--muted)" font-size="8" font-family="Cinzel,serif">RASHIS</text>`;
+        svg += `</svg>`;
+        container.innerHTML = svg;
+      }
+      let activeRashi = -1;
+      window.selectRashi = function (idx) {
+        if (activeRashi === idx) return;
+        activeRashi = idx;
+        document.querySelectorAll(".rashi-seg").forEach((s, i) => {
+          s.classList.toggle("active", i === idx);
+          s.style.fillOpacity = i === idx ? "0.3" : "0.1";
+        });
+        const r = RASHIS[idx];
+        const elemColors = {
+          Fire: "var(--fire)",
+          Earth: "var(--earth)",
+          Air: "var(--air)",
+          Water: "var(--water)",
+        };
+        const col = elemColors[r.elem];
+        document.getElementById("rashiDetail").innerHTML = `
+    <div class="p-6 rounded-2xl" style="background:var(--card);border:1px solid var(--border)">
+      <div class="flex items-center gap-4 mb-4">
+        <span style="font-size:3rem;color:${col};filter:drop-shadow(0 0 10px ${col})">${r.sym}</span>
+        <div><h3 class="text-2xl font-bold" style="font-family:var(--font-display)">${r.name}</h3><p class="text-sm" style="color:var(--muted)">${r.en}</p></div>
+      </div>
+      <div class="flex flex-wrap gap-2 mb-5">
+        <span class="tag" style="color:${col};border-color:${col}">${r.elem}</span>
+        <span class="tag" style="color:var(--cream);border-color:var(--border)">${r.mode}</span>
+        <span class="tag" style="color:var(--gold);border-color:var(--gold)">Ruler: ${r.ruler}</span>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+        <div><h4 class="font-bold mb-2 section-eyebrow" style="margin-bottom:0.5rem">KEY THEMES</h4><p style="color:var(--muted)">${r.theme}</p></div>
+        <div>
+          <h4 class="font-bold mb-2 section-eyebrow" style="margin-bottom:0.5rem">SIGN ATTRIBUTES</h4>
+          <div class="space-y-1.5" style="color:var(--muted)">
+            ${r.exalt !== "—" ? `<div>Exalted planet: <strong style="color:var(--cream)">${r.exalt}</strong></div>` : ""}
+            ${r.debl !== "—" ? `<div>Debilitated planet: <strong style="color:var(--cream)">${r.debl}</strong></div>` : ""}
+            <div>Body parts: <strong style="color:var(--cream)">${r.body}</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+      };
+      renderZodiacWheel();
+      window.addEventListener("resize", renderZodiacWheel);
+
+      /* ============ SECTION: BHAVAS ============ */
+      function renderBhavaWheel() {
+        const container = document.getElementById("bhavaWheelContainer");
+        const size = Math.min(460, window.innerWidth - 40);
+        const pad = 6;
+        const cs = size - 2 * pad;
+        const sc = cs / 480;
+        const pt = (px, py) => [
+          +(px * sc + pad).toFixed(2),
+          +(py * sc + pad).toFixed(2),
+        ];
+        const TL = pt(0, 0),
+          T = pt(240, 0),
+          TR = pt(480, 0);
+        const L = pt(0, 240),
+          C = pt(240, 240),
+          R = pt(480, 240);
+        const BL = pt(0, 480),
+          B = pt(240, 480),
+          BR = pt(480, 480);
+        const TLm = pt(120, 120),
+          TRm = pt(360, 120),
+          BRm = pt(360, 360),
+          BLm = pt(120, 360);
+        const toPS = (pts) => pts.map((p) => p.join(",")).join(" ");
+        const ctr = (pts) => [
+          pts.reduce((s, p) => s + p[0], 0) / pts.length,
+          pts.reduce((s, p) => s + p[1], 0) / pts.length,
+        ];
+        const housePolys = [
+          [T, TRm, C, TLm],
+          [TL, T, TLm],
+          [TL, TLm, L],
+          [L, BLm, C, TLm],
+          [BL, L, BLm],
+          [BL, BLm, B],
+          [B, BLm, C, BRm],
+          [BR, B, BRm],
+          [BR, BRm, R],
+          [R, BRm, C, TRm],
+          [TR, R, TRm],
+          [TR, TRm, T],
+        ];
+        const nSz = Math.max(9, Math.round(size * 0.036));
+        const lSz = Math.max(5, Math.round(size * 0.021));
+        let svg = `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" style="display:block">`;
+        svg += `<rect width="${size}" height="${size}" fill="var(--bg2)" rx="6"/>`;
+        housePolys.forEach((pts, i) => {
+          const ps = toPS(pts);
+          const [cx, cy] = ctr(pts);
+          const sName = BHAVAS[i].name.split("/")[0].trim().split(" ")[0];
+          const isKite = pts.length === 4;
+          svg += `<polygon points="${ps}" fill="var(--card)" stroke="var(--border)" stroke-width="0.75" class="bhava-node" data-idx="${i}" style="cursor:pointer;transition:all 0.3s" tabindex="0" role="button" aria-label="House ${i + 1} — ${BHAVAS[i].name}" onclick="selectBhava(${i})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectBhava(${i})}"/>`;
+          svg += `<text x="${cx}" y="${cy}" text-anchor="middle" font-family="Cinzel,serif" style="pointer-events:none">`;
+          svg += `<tspan x="${cx}" dy="-0.38em" fill="var(--teal)" font-size="${isKite ? nSz : nSz * 0.9}" font-weight="700">${i + 1}</tspan>`;
+          svg += `<tspan x="${cx}" dy="${isKite ? "1.25em" : "1.1em"}" fill="var(--muted)" font-size="${isKite ? lSz : lSz * 0.85}">${sName}</tspan>`;
+          svg += `</text>`;
+          if (i === 0)
+            svg += `<text x="${cx}" y="${+(cy + nSz * 1.7).toFixed(1)}" text-anchor="middle" fill="var(--teal)" font-size="${Math.max(5, lSz - 1)}" font-family="Cinzel,serif" opacity="0.6" style="pointer-events:none">ASC</text>`;
+        });
+        svg += `</svg>`;
+        container.innerHTML = svg;
+      }
+      let activeBhava = -1;
+      window.selectBhava = function (idx) {
+        if (activeBhava === idx) return;
+        activeBhava = idx;
+        document.querySelectorAll(".bhava-node").forEach((n, i) => {
+          const isActive = i === idx;
+          n.setAttribute("fill", isActive ? "var(--card2)" : "var(--card)");
+          n.setAttribute("stroke", isActive ? "var(--teal)" : "var(--border)");
+          n.setAttribute("stroke-width", isActive ? "2.5" : "1.5");
+        });
+        const b = BHAVAS[idx];
+        document.getElementById("bhavaDetail").innerHTML = `
+    <div class="p-6 rounded-2xl" style="background:var(--card);border:1px solid var(--border)">
+      <div class="flex items-center gap-4 mb-4">
+        <div class="w-14 h-14 rounded-full flex items-center justify-center text-xl font-bold mono" style="background:rgba(42,157,143,0.15);color:var(--teal);border:2px solid var(--teal)">${b.num}</div>
+        <div><h3 class="text-xl font-bold" style="font-family:var(--font-display)">${b.name}</h3><p class="text-sm" style="color:var(--muted)">${b.en}</p></div>
+      </div>
+      <p class="text-sm mb-4" style="color:var(--cream);opacity:0.9">${b.theme}</p>
+      ${b.extra ? `<p class="text-xs mb-4 italic" style="color:var(--teal)">${b.extra}</p>` : ""}
+      <h4 class="font-bold mb-2 section-eyebrow" style="margin-bottom:0.5rem;color:var(--teal)">KEY SIGNIFICATIONS</h4>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        ${b.signif.map((s) => `<div class="flex items-start gap-2 text-sm" style="color:var(--muted)"><span style="color:var(--teal)">▸</span>${s}</div>`).join("")}
+      </div>
+    </div>`;
+      };
+      renderBhavaWheel();
+      window.addEventListener("resize", renderBhavaWheel);
+
+      /* ============ SECTION: NAKSHATRAS ============ */
+      function renderNakshatras() {
+        const grid = document.getElementById("nakshatraGrid");
+        const rulerColors = {
+          Ketu: "#b07040",
+          Venus: "#e88ab0",
+          Sun: "#e8a33a",
+          Moon: "#c8c8e8",
+          Mars: "#e85d3a",
+          Rahu: "#8a5aa0",
+          Jupiter: "#d4a040",
+          Saturn: "#6a7a9a",
+          Mercury: "#6ac47a",
+          Brahma: "#e8a33a",
+        };
+        let html = NAKSHATRAS.map(
+          (n, i) => `
+    <div class="nakshatra-card" onclick="toggleNakshatra(this,${i})" role="button" tabindex="0" aria-expanded="false" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleNakshatra(this,${i})}">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="text-xs font-bold px-2 py-0.5 rounded mono" style="background:rgba(163,59,110,0.15);color:var(--rose)">${n.num}</span>
+          <div><h4 class="text-sm font-bold" style="font-family:var(--font-display)">${n.name}</h4><p class="text-xs" style="color:var(--muted)">${n.deity.split("(")[0].trim()}</p></div>
+        </div>
+        <span class="text-xs px-2 py-0.5 rounded mono" style="color:${rulerColors[n.ruler] || "var(--muted)"};background:${rulerColors[n.ruler] || "var(--muted)"}15;border:1px solid ${rulerColors[n.ruler] || "var(--muted)"}30">${n.ruler}</span>
+      </div>
+      <div class="nakshatra-detail">
+        <div class="text-xs space-y-1.5 pt-2" style="border-top:1px solid var(--border);color:var(--muted)">
+          <div><strong style="color:var(--cream)">Deity:</strong> ${n.deity}</div>
+          <div><strong style="color:var(--cream)">Symbol:</strong> ${n.symbol}</div>
+          <div><strong style="color:var(--cream)">Theme:</strong> ${n.theme}</div>
+        </div>
+      </div>
+    </div>`,
+        ).join("");
+        html += `
+    <div class="nakshatra-card" onclick="toggleNakshatra(this,27)" style="border-color:rgba(212,148,58,0.3)" role="button" tabindex="0" aria-expanded="false" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleNakshatra(this,27)}">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="text-xs font-bold px-2 py-0.5 rounded mono" style="background:rgba(212,148,58,0.15);color:var(--gold)">*</span>
+          <div><h4 class="text-sm font-bold" style="font-family:var(--font-display)">${ABHIJIT.name}</h4><p class="text-xs" style="color:var(--gold)">The 28th — Intercalary</p></div>
+        </div>
+        <span class="text-xs px-2 py-0.5 rounded mono" style="color:var(--gold);background:rgba(212,148,58,0.1);border:1px solid rgba(212,148,58,0.3)">${ABHIJIT.ruler}</span>
+      </div>
+      <div class="nakshatra-detail">
+        <div class="text-xs space-y-1.5 pt-2" style="border-top:1px solid var(--border);color:var(--muted)">
+          <div><strong style="color:var(--cream)">Symbol:</strong> ${ABHIJIT.symbol}</div>
+          <div><strong style="color:var(--cream)">Theme:</strong> ${ABHIJIT.theme}</div>
+        </div>
+      </div>
+    </div>`;
+        grid.innerHTML = html;
+      }
+      window.toggleNakshatra = function (el, idx) {
+        const detail = el.querySelector(".nakshatra-detail");
+        const wasOpen = detail.classList.contains("open");
+        document
+          .querySelectorAll(".nakshatra-detail")
+          .forEach((d) => d.classList.remove("open"));
+        document.querySelectorAll(".nakshatra-card").forEach((c) => {
+          c.classList.remove("active");
+          c.setAttribute("aria-expanded", "false");
+        });
+        if (!wasOpen) {
+          detail.classList.add("open");
+          el.classList.add("active");
+          el.setAttribute("aria-expanded", "true");
+        }
+      };
+      renderNakshatras();
+
+      /* ============ SECTION: KALA ============ */
+      function renderPanchanga() {
+        document.getElementById("panchangaGrid").innerHTML = PANCHANGA.map(
+          (p) => `
+    <div class="p-5 rounded-xl text-center data-card">
+      <i class="fas ${p.icon} text-2xl mb-3" style="color:var(--gold2)"></i>
+      <h4 class="text-sm font-bold mb-2" style="font-family:var(--font-display);color:var(--cream)">${p.name}</h4>
+      <p class="text-xs leading-relaxed" style="color:var(--muted)">${p.desc}</p>
+    </div>`,
+        ).join("");
+      }
+      function renderDasha() {
+        const container = document.getElementById("dashaTimeline");
+        const total = 120;
+        let html = `<div class="flex rounded-lg overflow-hidden" style="height:32px">`;
+        DASHA.forEach((d) => {
+          const pct = (d.years / total) * 100;
+          html += `<div class="dasha-bar flex items-center justify-center text-xs font-bold mono" style="width:${pct}%;background:${d.color};color:#fff;text-shadow:0 1px 2px rgba(0,0,0,0.5)" title="${d.planet}: ${d.years} years">${d.years > 8 ? d.planet : ""}</div>`;
+        });
+        html += `</div>`;
+        html += `<div class="flex justify-between mt-2 text-xs mono" style="color:var(--muted)"><span>0 years</span><span>120 years total</span></div>`;
+        html += `<div class="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-9 gap-2 mt-4">`;
+        DASHA.forEach((d) => {
+          html += `<div class="p-2 rounded text-center data-card">
+      <div class="w-3 h-3 rounded-full mx-auto mb-1" style="background:${d.color}"></div>
+      <div class="text-xs font-bold" style="color:var(--cream)">${d.planet}</div>
+      <div class="text-xs mono" style="color:var(--muted)">${d.years} yrs</div>
+    </div>`;
+        });
+        html += `</div>`;
+        html += `<p class="text-xs mt-4" style="color:var(--muted-dim)">The order follows the Nakshatra sequence: Ketu → Venus → Sun → Moon → Mars → Rahu → Jupiter → Saturn → Mercury. The starting planet is determined by the Moon's birth Nakshatra.</p>`;
+        container.innerHTML = html;
+      }
+      renderPanchanga();
+      renderDasha();
+
+      /* ============ SECTION: TOOLS ============ */
+      function renderTools() {
+        document.getElementById("toolsAccordion").innerHTML = TOOLS.map(
+          (t, i) => `
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(${i})" role="button" tabindex="0" aria-expanded="false" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAccordion(${i})}">
+        <i class="fas ${t.icon}" style="color:var(--sage);width:20px;text-align:center"></i>
+        <span class="flex-1 font-bold text-sm" style="font-family:var(--font-display)">${t.title}</span>
+        <i class="fas fa-chevron-down text-xs transition-transform duration-300" style="color:var(--muted)" id="toolIcon${i}"></i>
+      </div>
+      <div class="accordion-body" id="toolBody${i}"><div class="px-5 pb-5 text-sm" style="color:var(--muted)">${t.content}</div></div>
+    </div>`,
+        ).join("");
+      }
+      window.toggleAccordion = function (idx) {
+        const body = document.getElementById("toolBody" + idx);
+        const icon = document.getElementById("toolIcon" + idx);
+        const wasOpen = body.classList.contains("open");
+        document
+          .querySelectorAll(".accordion-body")
+          .forEach((b) => b.classList.remove("open"));
+        document
+          .querySelectorAll('[id^="toolIcon"]')
+          .forEach((i) => (i.style.transform = "rotate(0deg)"));
+        document
+          .querySelectorAll(".accordion-header")
+          .forEach((h) => h.setAttribute("aria-expanded", "false"));
+        if (!wasOpen) {
+          body.classList.add("open");
+          icon.style.transform = "rotate(180deg)";
+          icon
+            .closest(".accordion-item")
+            .querySelector(".accordion-header")
+            .setAttribute("aria-expanded", "true");
+        }
+      };
+      renderTools();
+
+      /* ============ SECTION: BRANCHES ============ */
+      function renderBranches() {
+        document.getElementById("branchesGrid").innerHTML = BRANCHES.map(
+          (b) => `
+    <div class="branch-card">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background:rgba(184,115,51,0.12)"><i class="fas ${b.icon}" style="color:var(--copper)"></i></div>
+        <div><h4 class="text-sm font-bold" style="font-family:var(--font-display)">${b.name}</h4><p class="text-xs" style="color:var(--muted)">${b.en}</p></div>
+      </div>
+      <p class="text-sm leading-relaxed" style="color:var(--muted)">${b.desc}</p>
+      <p class="text-xs mt-3 leading-relaxed" style="color:var(--cream);opacity:0.6">${b.details}</p>
+    </div>`,
+        ).join("");
+      }
+      renderBranches();
+
+      /* ============ RE-OBSERVE DYNAMIC CONTENT ============ */
+      setTimeout(() => {
+        document
+          .querySelectorAll(".reveal,.stagger")
+          .forEach((el) => observer.observe(el));
+      }, 100);
+    </script>
+  </body>
+</html>

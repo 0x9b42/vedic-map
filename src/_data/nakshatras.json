@@ -1,0 +1,218 @@
+[
+  {
+    "num": 1,
+    "name": "Ashwini",
+    "ruler": "Ketu",
+    "deity": "Ashwini Kumaras (Divine Twins)",
+    "symbol": "Horse's head",
+    "theme": "Healing, speed, initiation, new beginnings, physicians, dawn energy"
+  },
+  {
+    "num": 2,
+    "name": "Bharani",
+    "ruler": "Venus",
+    "deity": "Yama (Lord of Death)",
+    "symbol": "Yoni (vulva)",
+    "theme": "Birth, death, transformation, endurance, responsibility, nurturing the new, bearing the burden"
+  },
+  {
+    "num": 3,
+    "name": "Krittika",
+    "ruler": "Sun",
+    "deity": "Agni (Fire God)",
+    "symbol": "Razor or axe",
+    "theme": "Purification by fire, courage, sharpness, cutting away illusions, motherhood (Kartikeya)"
+  },
+  {
+    "num": 4,
+    "name": "Rohini",
+    "ruler": "Moon",
+    "deity": "Brahma (Creator)",
+    "symbol": "Ox cart / chariot",
+    "theme": "Growth, fertility, creativity, abundance, beauty, agriculture, the \"star of ascent\""
+  },
+  {
+    "num": 5,
+    "name": "Mrigashira",
+    "ruler": "Mars",
+    "deity": "Soma (Moon God)",
+    "symbol": "Deer's head",
+    "theme": "Searching, curiosity, wandering, gentle nature, pursuing desires, fragility underneath"
+  },
+  {
+    "num": 6,
+    "name": "Ardra",
+    "ruler": "Rahu",
+    "deity": "Rudra (Storm God)",
+    "symbol": "Teardrop",
+    "theme": "Storm, destruction and renewal, intense effort, emotional turmoil, transformation through upheaval"
+  },
+  {
+    "num": 7,
+    "name": "Punarvasu",
+    "ruler": "Jupiter",
+    "deity": "Aditi (Mother of Gods)",
+    "symbol": "Quiver of arrows",
+    "theme": "Return, renewal, abundance, victory after struggle, nurturing, philosophical depth"
+  },
+  {
+    "num": 8,
+    "name": "Pushya",
+    "ruler": "Saturn",
+    "deity": "Brihaspati (Jupiter as priest)",
+    "symbol": "Cow's udder",
+    "theme": "Nourishment, spiritual growth, most auspicious for beginnings, satvic quality, devotion"
+  },
+  {
+    "num": 9,
+    "name": "Ashlesha",
+    "ruler": "Mercury",
+    "deity": "Nagas (Serpent deities)",
+    "symbol": "Coiled serpent",
+    "theme": "Entanglement, occult knowledge, penetration, clinging, poison and medicine, hidden depths"
+  },
+  {
+    "num": 10,
+    "name": "Magha",
+    "ruler": "Ketu",
+    "deity": "Pitris (Ancestors)",
+    "symbol": "Throne room / palanquin",
+    "theme": "Royalty, legacy, ancestral connection, power, tradition, pride, connection to lineage"
+  },
+  {
+    "num": 11,
+    "name": "Purva Phalguni",
+    "ruler": "Venus",
+    "deity": "Bhaga (God of wealth & marriage)",
+    "symbol": "Front legs of a bed",
+    "theme": "Pleasure, comfort, romance, luxury, hospitality, creative indulgence, enjoyment of life"
+  },
+  {
+    "num": 12,
+    "name": "Uttara Phalguni",
+    "ruler": "Sun",
+    "deity": "Aryaman (God of patronage)",
+    "symbol": "Back legs of a bed",
+    "theme": "Patronage, support, marriage, lasting relationships, responsibility, noble friendship"
+  },
+  {
+    "num": 13,
+    "name": "Hasta",
+    "ruler": "Moon",
+    "deity": "Savitar (Sun God of inspiration)",
+    "symbol": "Hand / open palm",
+    "theme": "Skill, craftsmanship, artistry, intelligence, manual dexterity, persuasive speech, palmistry"
+  },
+  {
+    "num": 14,
+    "name": "Chitra",
+    "ruler": "Mars",
+    "deity": "Vishwakarma (Divine architect)",
+    "symbol": "Bright jewel / pearl",
+    "theme": "Artistry, design, illusion (Maya), beauty, brilliance, architectural skill, magical allure"
+  },
+  {
+    "num": 15,
+    "name": "Swati",
+    "ruler": "Rahu",
+    "deity": "Vayu (Wind God)",
+    "symbol": "Young shoot in wind",
+    "theme": "Independence, commerce, flexibility, adaptability, gentle strength, trade, self-reliance"
+  },
+  {
+    "num": 16,
+    "name": "Vishakha",
+    "ruler": "Jupiter",
+    "deity": "Indra & Agni",
+    "symbol": "Decorated triumphal arch",
+    "theme": "Achievement through struggle, purpose-driven action, determination, forked path, goal orientation"
+  },
+  {
+    "num": 17,
+    "name": "Anuradha",
+    "ruler": "Saturn",
+    "deity": "Mitra (God of friendship)",
+    "symbol": "Lotus flower / fan",
+    "theme": "Friendship, devotion, cooperation, success through others, balance, radial intelligence"
+  },
+  {
+    "num": 18,
+    "name": "Jyeshtha",
+    "ruler": "Mercury",
+    "deity": "Indra (King of Gods)",
+    "symbol": "Circular amulet / umbrella",
+    "theme": "Chief, protector, seniority, occult power, confrontation, eldest, dealing with adversity"
+  },
+  {
+    "num": 19,
+    "name": "Mula",
+    "ruler": "Ketu",
+    "deity": "Nirriti (Goddess of destruction)",
+    "symbol": "Bunch of roots tied together",
+    "theme": "Roots, foundation, destruction of the old, investigation, research, bottom of things, radical change"
+  },
+  {
+    "num": 20,
+    "name": "Purva Ashadha",
+    "ruler": "Venus",
+    "deity": "Apah (Water deities)",
+    "symbol": "Elephant tusk",
+    "theme": "Invincibility, early victory, declaration of war, assertiveness, passion, invulnerable spirit"
+  },
+  {
+    "num": 21,
+    "name": "Uttara Ashadha",
+    "ruler": "Sun",
+    "deity": "Vishwadevas (Universal gods)",
+    "symbol": "Elephant tusk / planks of bed",
+    "theme": "Universal significance, leadership, unwavering commitment, victory that endures, moral authority"
+  },
+  {
+    "num": 22,
+    "name": "Shravana",
+    "ruler": "Moon",
+    "deity": "Vishnu (Preserver)",
+    "symbol": "Three footprints of an elephant",
+    "theme": "Listening, learning, devotion, pilgrimage, step-by-step progress, the \"star of learning\""
+  },
+  {
+    "num": 23,
+    "name": "Dhanishta",
+    "ruler": "Mars",
+    "deity": "Vasus (Eight deities of wealth)",
+    "symbol": "Drum / flute",
+    "theme": "Wealth, rhythm, melody, fame, charitable nature, symmetry, musical talent, abundance"
+  },
+  {
+    "num": 24,
+    "name": "Shatabhisha",
+    "ruler": "Rahu",
+    "deity": "Varuna (God of cosmic waters)",
+    "symbol": "Empty circle / hundred physicians",
+    "theme": "Healing, isolation, mystery, secrecy, a hundred remedies, independent thinking, eccentricity"
+  },
+  {
+    "num": 25,
+    "name": "Purva Bhadrapada",
+    "ruler": "Jupiter",
+    "deity": "Aja Ekapad (Fire serpent)",
+    "symbol": "Front legs of a funeral cot / two-faced man",
+    "theme": "Inner fire, purification, astringent nature, passion, spiritual transformation, fierce determination"
+  },
+  {
+    "num": 26,
+    "name": "Uttara Bhadrapada",
+    "ruler": "Saturn",
+    "deity": "Ahir Budhnya (Serpent of the deep)",
+    "symbol": "Back legs of a funeral cot",
+    "theme": "Deep wisdom, tapas (austerity), cosmic consciousness, stability, sorrow leading to wisdom, universal view"
+  },
+  {
+    "num": 27,
+    "name": "Revati",
+    "ruler": "Mercury",
+    "deity": "Pushan (Nourishing Sun God)",
+    "symbol": "Fish / drum",
+    "theme": "Nourishment, safe journey, prosperity, shepherding, protection of travelers, wealth, gentle nurturing"
+  }
+]

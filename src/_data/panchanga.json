@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Tithi",
+    "icon": "fa-moon",
+    "desc": "Lunar day — the angle between Sun and Moon. 30 Tithis per lunar month divided into Shukla (waxing) and Krishna (waning) Pakshas. Determines auspiciousness of activities."
+  },
+  {
+    "name": "Vara",
+    "icon": "fa-sun",
+    "desc": "Weekday — Sunday (Sun) through Saturday (Saturn). Each day is ruled by a specific Graha, influencing the nature of actions performed."
+  },
+  {
+    "name": "Nakshatra",
+    "icon": "fa-star",
+    "desc": "The Moon's position among the 27 lunar mansions. The Nakshatra of the Moon at birth determines the starting Dasha period and core mental nature."
+  },
+  {
+    "name": "Yoga",
+    "icon": "fa-link",
+    "desc": "Luni-solar angle — 27 Yogas based on the combined longitudes of Sun and Moon. Each Yoga has its own quality, from auspicious (Ayushman) to challenging (Vyatipata)."
+  },
+  {
+    "name": "Karana",
+    "icon": "fa-circle-half-stroke",
+    "desc": "Half-Tithi — 11 types of Karanas. Bava, Balava, Kaulava repeat in sequence. Vishti (Bhadra) is considered inauspicious for most activities."
+  }
+]

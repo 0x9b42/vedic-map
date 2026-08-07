@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ site.title }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/assets/css/main.css" />
+  </head>
+  <body>
+    {% include "starfield-canvas.njk" %}
+    {% include "topbar.njk" %}
+    {% include "nav.njk" %}
+
+    <main class="z-content app-main">
+      {{ content | safe }}
+    </main>
+
+    {#
+      Data injection: every JSON / .11tydata.js file under src/_data/ becomes a
+      property of `{{ <filename> }}` in Nunjucks. We serialize each one verbatim
+      into a single `window.__DATA__` object so the modular JS files (under
+      /assets/js/) can read from it without making HTTP requests.
+    #}
+    <script>
+      window.__DATA__ = {
+        GRAHAS: {{ grahas | dump | safe }},
+        RASHIS: {{ rashis | dump | safe }},
+        BHAVAS: {{ bhavas | dump | safe }},
+        NAKSHATRAS: {{ nakshatras | dump | safe }},
+        ABHIJIT: {{ abhijit | dump | safe }},
+        PANCHANGA: {{ panchanga | dump | safe }},
+        DASHA: {{ dasha | dump | safe }},
+        TOOLS: {{ tools | dump | safe }},
+        BRANCHES: {{ branches | dump | safe }},
+        TIMELINE: {{ timeline | dump | safe }},
+        ASTRO_REALITY: {{ astroReality | dump | safe }},
+        APPARENT_MOTION: {{ apparentMotion | dump | safe }}
+      };
+    </script>
+
+    {#
+      Re-expose every data array as a top-level `var` so the extracted JS modules
+      (which reference `GRAHAS`, `RASHIS`, etc. directly) work unchanged.
+      Each `var` is just an alias for `window.__DATA__.<NAME>`.
+    #}
+    <script>
+      var GRAHAS        = window.__DATA__.GRAHAS;
+      var RASHIS        = window.__DATA__.RASHIS;
+      var BHAVAS        = window.__DATA__.BHAVAS;
+      var NAKSHATRAS    = window.__DATA__.NAKSHATRAS;
+      var ABHIJIT       = window.__DATA__.ABHIJIT;
+      var PANCHANGA     = window.__DATA__.PANCHANGA;
+      var DASHA         = window.__DATA__.DASHA;
+      var TOOLS         = window.__DATA__.TOOLS;
+      var BRANCHES      = window.__DATA__.BRANCHES;
+      var TIMELINE      = window.__DATA__.TIMELINE;
+      var ASTRO_REALITY = window.__DATA__.ASTRO_REALITY;
+      var APPARENT_MOTION = window.__DATA__.APPARENT_MOTION;
+    </script>
+
+    {#
+      Load JS modules in the original execution order.
+      Each module attaches its functions to `window.*` so the inline
+      `onclick=` attributes continue to work without modification.
+    #}
+    <script src="/assets/js/tabs.js" defer></script>
+    <script src="/assets/js/starfield.js" defer></script>
+    <script src="/assets/js/reveal.js" defer></script>
+    <script src="/assets/js/timeline.js" defer></script>
+    <script src="/assets/js/cosmicMotion.js" defer></script>
+    <script src="/assets/js/grahas.js" defer></script>
+    <script src="/assets/js/rashis.js" defer></script>
+    <script src="/assets/js/bhavas.js" defer></script>
+    <script src="/assets/js/nakshatras.js" defer></script>
+    <script src="/assets/js/kala.js" defer></script>
+    <script src="/assets/js/toolsAccordion.js" defer></script>
+    <script src="/assets/js/branches.js" defer></script>
+    <script src="/assets/js/reObserve.js" defer></script>
+  </body>
+</html>
