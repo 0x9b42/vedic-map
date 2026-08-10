@@ -10,7 +10,7 @@ module.exports = function (eleventyConfig) {
       layouts: "_layouts",
       data: "_data",
     },
-    pathPrefix: "/CW6-notes/",
+    pathPrefix: "/vedic-map/",
     passthroughFileCopy: true,
   };
 };

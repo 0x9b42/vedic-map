@@ -13,7 +13,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
-    <link rel="stylesheet" href="/assets/css/main.css" />
+    <link rel="stylesheet" href="/vedic-map/assets/css/main.css" />
   </head>
   <body>
     {% include "starfield-canvas.njk" %}
@@ -28,7 +28,7 @@
       Data injection: every JSON / .11tydata.js file under src/_data/ becomes a
       property of `{{ <filename> }}` in Nunjucks. We serialize each one verbatim
       into a single `window.__DATA__` object so the modular JS files (under
-      /assets/js/) can read from it without making HTTP requests.
+      /vedic-map/assets/js/) can read from it without making HTTP requests.
     #}
     <script>
       window.__DATA__ = {
@@ -72,18 +72,18 @@
       Each module attaches its functions to `window.*` so the inline
       `onclick=` attributes continue to work without modification.
     #}
-    <script src="/assets/js/tabs.js" defer></script>
-    <script src="/assets/js/starfield.js" defer></script>
-    <script src="/assets/js/reveal.js" defer></script>
-    <script src="/assets/js/timeline.js" defer></script>
-    <script src="/assets/js/cosmicMotion.js" defer></script>
-    <script src="/assets/js/grahas.js" defer></script>
-    <script src="/assets/js/rashis.js" defer></script>
-    <script src="/assets/js/bhavas.js" defer></script>
-    <script src="/assets/js/nakshatras.js" defer></script>
-    <script src="/assets/js/kala.js" defer></script>
-    <script src="/assets/js/toolsAccordion.js" defer></script>
-    <script src="/assets/js/branches.js" defer></script>
-    <script src="/assets/js/reObserve.js" defer></script>
+    <script src="/vedic-map/assets/js/tabs.js" defer></script>
+    <script src="/vedic-map/assets/js/starfield.js" defer></script>
+    <script src="/vedic-map/assets/js/reveal.js" defer></script>
+    <script src="/vedic-map/assets/js/timeline.js" defer></script>
+    <script src="/vedic-map/assets/js/cosmicMotion.js" defer></script>
+    <script src="/vedic-map/assets/js/grahas.js" defer></script>
+    <script src="/vedic-map/assets/js/rashis.js" defer></script>
+    <script src="/vedic-map/assets/js/bhavas.js" defer></script>
+    <script src="/vedic-map/assets/js/nakshatras.js" defer></script>
+    <script src="/vedic-map/assets/js/kala.js" defer></script>
+    <script src="/vedic-map/assets/js/toolsAccordion.js" defer></script>
+    <script src="/vedic-map/assets/js/branches.js" defer></script>
+    <script src="/vedic-map/assets/js/reObserve.js" defer></script>
   </body>
 </html>

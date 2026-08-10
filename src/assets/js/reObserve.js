@@ -5,7 +5,7 @@
 // Data is injected by the page template into `window.__DATA__` (see _layouts/base.njk).
 
 setTimeout(() => {
-        document
-          .querySelectorAll(".reveal,.stagger")
-          .forEach((el) => observer.observe(el));
-      }, 100);
+  document
+    .querySelectorAll(".reveal,.stagger")
+    .forEach((el) => observer.observe(el));
+}, 100);

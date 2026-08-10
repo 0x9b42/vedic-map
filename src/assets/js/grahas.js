@@ -5,45 +5,45 @@
 // Data is injected by the page template into `window.__DATA__` (see _layouts/base.njk).
 
 let activeGraha = -1;
-      function renderGrahas() {
-        const grid = document.getElementById("grahasGrid");
-        grid.innerHTML = GRAHAS.map(
-          (g, i) => `
+function renderGrahas() {
+  const grid = document.getElementById("grahasGrid");
+  grid.innerHTML = GRAHAS.map(
+    (g, i) => `
     <div class="planet-card" data-idx="${i}" onclick="toggleGraha(${i})" role="button" tabindex="0" aria-expanded="false">
       <div class="planet-symbol" style="color:${g.color}">${g.sym}</div>
       <h3 class="mt-3 text-sm font-bold" style="font-family:var(--font-display)">${g.name}</h3>
       <p class="text-xs mt-0.5" style="color:var(--muted)">${g.en}</p>
       <p class="text-xs mt-1.5 mono" style="color:${g.color}">Ruler: ${g.ruler}</p>
     </div>`,
-        ).join("");
-        grid.querySelectorAll(".planet-card").forEach((c) => {
-          c.addEventListener("keydown", (e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              toggleGraha(+c.dataset.idx);
-            }
-          });
-        });
+  ).join("");
+  grid.querySelectorAll(".planet-card").forEach((c) => {
+    c.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        toggleGraha(+c.dataset.idx);
       }
-      window.toggleGraha = function (idx) {
-        const panel = document.getElementById("grahaDetail");
-        const cards = document.querySelectorAll(".planet-card");
-        if (activeGraha === idx) {
-          activeGraha = -1;
-          panel.classList.remove("open");
-          cards[idx].classList.remove("active");
-          cards[idx].setAttribute("aria-expanded", "false");
-          return;
-        }
-        cards.forEach((c) => {
-          c.classList.remove("active");
-          c.setAttribute("aria-expanded", "false");
-        });
-        cards[idx].classList.add("active");
-        cards[idx].setAttribute("aria-expanded", "true");
-        activeGraha = idx;
-        const g = GRAHAS[idx];
-        panel.innerHTML = `
+    });
+  });
+}
+window.toggleGraha = function (idx) {
+  const panel = document.getElementById("grahaDetail");
+  const cards = document.querySelectorAll(".planet-card");
+  if (activeGraha === idx) {
+    activeGraha = -1;
+    panel.classList.remove("open");
+    cards[idx].classList.remove("active");
+    cards[idx].setAttribute("aria-expanded", "false");
+    return;
+  }
+  cards.forEach((c) => {
+    c.classList.remove("active");
+    c.setAttribute("aria-expanded", "false");
+  });
+  cards[idx].classList.add("active");
+  cards[idx].setAttribute("aria-expanded", "true");
+  activeGraha = idx;
+  const g = GRAHAS[idx];
+  panel.innerHTML = `
     <div class="flex flex-col md:flex-row gap-6">
       <div class="flex-shrink-0 text-center md:text-left">
         <div class="planet-symbol" style="color:${g.color};font-size:4rem">${g.sym}</div>
@@ -80,10 +80,10 @@ let activeGraha = -1;
         </div>
       </div>
     </div>`;
-        panel.classList.add("open");
-        setTimeout(
-          () => panel.scrollIntoView({ behavior: "smooth", block: "nearest" }),
-          100,
-        );
-      };
-      renderGrahas();
+  panel.classList.add("open");
+  setTimeout(
+    () => panel.scrollIntoView({ behavior: "smooth", block: "nearest" }),
+    100,
+  );
+};
+renderGrahas();
