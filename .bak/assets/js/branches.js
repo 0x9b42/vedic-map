@@ -5,8 +5,8 @@
 // Data is injected by the page template into `window.__DATA__` (see _layouts/base.njk).
 
 function renderBranches() {
-        document.getElementById("branchesGrid").innerHTML = BRANCHES.map(
-          (b) => `
+  document.getElementById("branchesGrid").innerHTML = BRANCHES.map(
+    (b) => `
     <div class="branch-card">
       <div class="flex items-center gap-3 mb-3">
         <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background:rgba(184,115,51,0.12)"><i class="fas ${b.icon}" style="color:var(--copper)"></i></div>
@@ -15,6 +15,6 @@ function renderBranches() {
       <p class="text-sm leading-relaxed" style="color:var(--muted)">${b.desc}</p>
       <p class="text-xs mt-3 leading-relaxed" style="color:var(--cream);opacity:0.6">${b.details}</p>
     </div>`,
-        ).join("");
-      }
-      renderBranches();
+  ).join("");
+}
+renderBranches();

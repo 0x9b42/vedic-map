@@ -5,21 +5,21 @@
 // Data is injected by the page template into `window.__DATA__` (see _layouts/base.njk).
 
 function renderNakshatras() {
-        const grid = document.getElementById("nakshatraGrid");
-        const rulerColors = {
-          Ketu: "#b07040",
-          Venus: "#e88ab0",
-          Sun: "#e8a33a",
-          Moon: "#c8c8e8",
-          Mars: "#e85d3a",
-          Rahu: "#8a5aa0",
-          Jupiter: "#d4a040",
-          Saturn: "#6a7a9a",
-          Mercury: "#6ac47a",
-          Brahma: "#e8a33a",
-        };
-        let html = NAKSHATRAS.map(
-          (n, i) => `
+  const grid = document.getElementById("nakshatraGrid");
+  const rulerColors = {
+    Ketu: "#b07040",
+    Venus: "#e88ab0",
+    Sun: "#e8a33a",
+    Moon: "#c8c8e8",
+    Mars: "#e85d3a",
+    Rahu: "#8a5aa0",
+    Jupiter: "#d4a040",
+    Saturn: "#6a7a9a",
+    Mercury: "#6ac47a",
+    Brahma: "#e8a33a",
+  };
+  let html = NAKSHATRAS.map(
+    (n, i) => `
     <div class="nakshatra-card" onclick="toggleNakshatra(this,${i})" role="button" tabindex="0" aria-expanded="false" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleNakshatra(this,${i})}">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
@@ -36,8 +36,8 @@ function renderNakshatras() {
         </div>
       </div>
     </div>`,
-        ).join("");
-        html += `
+  ).join("");
+  html += `
     <div class="nakshatra-card" onclick="toggleNakshatra(this,27)" style="border-color:rgba(212,148,58,0.3)" role="button" tabindex="0" aria-expanded="false" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleNakshatra(this,27)}">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
@@ -53,22 +53,22 @@ function renderNakshatras() {
         </div>
       </div>
     </div>`;
-        grid.innerHTML = html;
-      }
-      window.toggleNakshatra = function (el, idx) {
-        const detail = el.querySelector(".nakshatra-detail");
-        const wasOpen = detail.classList.contains("open");
-        document
-          .querySelectorAll(".nakshatra-detail")
-          .forEach((d) => d.classList.remove("open"));
-        document.querySelectorAll(".nakshatra-card").forEach((c) => {
-          c.classList.remove("active");
-          c.setAttribute("aria-expanded", "false");
-        });
-        if (!wasOpen) {
-          detail.classList.add("open");
-          el.classList.add("active");
-          el.setAttribute("aria-expanded", "true");
-        }
-      };
-      renderNakshatras();
+  grid.innerHTML = html;
+}
+window.toggleNakshatra = function (el, idx) {
+  const detail = el.querySelector(".nakshatra-detail");
+  const wasOpen = detail.classList.contains("open");
+  document
+    .querySelectorAll(".nakshatra-detail")
+    .forEach((d) => d.classList.remove("open"));
+  document.querySelectorAll(".nakshatra-card").forEach((c) => {
+    c.classList.remove("active");
+    c.setAttribute("aria-expanded", "false");
+  });
+  if (!wasOpen) {
+    detail.classList.add("open");
+    el.classList.add("active");
+    el.setAttribute("aria-expanded", "true");
+  }
+};
+renderNakshatras();

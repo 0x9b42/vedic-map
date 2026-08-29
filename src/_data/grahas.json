@@ -8,18 +8,9 @@
     "exalt": "Aries 10°",
     "debl": "Libra 10°",
     "mt": "Leo 0–20°",
-    "friends": [
-      "Moon",
-      "Mars",
-      "Jupiter"
-    ],
-    "enemies": [
-      "Saturn",
-      "Venus"
-    ],
-    "neutral": [
-      "Mercury"
-    ],
+    "friends": ["Moon", "Mars", "Jupiter"],
+    "enemies": ["Saturn", "Venus"],
+    "neutral": ["Mercury"],
     "nature": "Krura (Cruel)",
     "gender": "Male",
     "caste": "Kshatriya",
@@ -33,13 +24,7 @@
       "Right Eye",
       "Daytime"
     ],
-    "body": [
-      "Heart",
-      "Eyes",
-      "Brain",
-      "Bones",
-      "Stomach"
-    ],
+    "body": ["Heart", "Eyes", "Brain", "Bones", "Stomach"],
     "day": "Sunday",
     "dir": "East"
   },
@@ -52,17 +37,9 @@
     "exalt": "Taurus 3°",
     "debl": "Scorpio 3°",
     "mt": "Taurus 3–30°",
-    "friends": [
-      "Sun",
-      "Mercury"
-    ],
+    "friends": ["Sun", "Mercury"],
     "enemies": [],
-    "neutral": [
-      "Mars",
-      "Jupiter",
-      "Venus",
-      "Saturn"
-    ],
+    "neutral": ["Mars", "Jupiter", "Venus", "Saturn"],
     "nature": "Saumya (Gentle)",
     "gender": "Female",
     "caste": "Vaishya",
@@ -76,12 +53,7 @@
       "Water & Liquids",
       "Females in General"
     ],
-    "body": [
-      "Mind",
-      "Blood",
-      "Breast",
-      "Lungs"
-    ],
+    "body": ["Mind", "Blood", "Breast", "Lungs"],
     "day": "Monday",
     "dir": "Northwest"
   },
@@ -94,20 +66,9 @@
     "exalt": "Capricorn 28°",
     "debl": "Cancer 28°",
     "mt": "Aries 0–12°",
-    "friends": [
-      "Sun",
-      "Moon",
-      "Jupiter"
-    ],
-    "enemies": [
-      "Mercury",
-      "Ketu"
-    ],
-    "neutral": [
-      "Venus",
-      "Saturn",
-      "Rahu"
-    ],
+    "friends": ["Sun", "Moon", "Jupiter"],
+    "enemies": ["Mercury", "Ketu"],
+    "neutral": ["Venus", "Saturn", "Rahu"],
     "nature": "Krura (Cruel)",
     "gender": "Male",
     "caste": "Kshatriya",
@@ -121,12 +82,7 @@
       "Blood",
       "Muscular System"
     ],
-    "body": [
-      "Blood",
-      "Bone Marrow",
-      "Muscles",
-      "Bile"
-    ],
+    "body": ["Blood", "Bone Marrow", "Muscles", "Bile"],
     "day": "Tuesday",
     "dir": "South"
   },
@@ -139,20 +95,9 @@
     "exalt": "Virgo 15°",
     "debl": "Pisces 15°",
     "mt": "Virgo 15–20°",
-    "friends": [
-      "Sun",
-      "Venus"
-    ],
-    "enemies": [
-      "Moon"
-    ],
-    "neutral": [
-      "Mars",
-      "Jupiter",
-      "Saturn",
-      "Rahu",
-      "Ketu"
-    ],
+    "friends": ["Sun", "Venus"],
+    "enemies": ["Moon"],
+    "neutral": ["Mars", "Jupiter", "Saturn", "Rahu", "Ketu"],
     "nature": "Saumya (Gentle)",
     "gender": "Neuter",
     "caste": "Vaishya",
@@ -166,12 +111,7 @@
       "Skin",
       "Nervous System"
     ],
-    "body": [
-      "Nervous System",
-      "Skin",
-      "Lungs",
-      "Intestines"
-    ],
+    "body": ["Nervous System", "Skin", "Lungs", "Intestines"],
     "day": "Wednesday",
     "dir": "North"
   },
@@ -184,20 +124,9 @@
     "exalt": "Cancer 5°",
     "debl": "Capricorn 5°",
     "mt": "Sagittarius 0–10°",
-    "friends": [
-      "Sun",
-      "Moon",
-      "Mars"
-    ],
-    "enemies": [
-      "Mercury",
-      "Venus"
-    ],
-    "neutral": [
-      "Saturn",
-      "Rahu",
-      "Ketu"
-    ],
+    "friends": ["Sun", "Moon", "Mars"],
+    "enemies": ["Mercury", "Venus"],
+    "neutral": ["Saturn", "Rahu", "Ketu"],
     "nature": "Saumya (Gentle)",
     "gender": "Male",
     "caste": "Brahmin",
@@ -211,12 +140,7 @@
       "Liver",
       "Fat Tissue"
     ],
-    "body": [
-      "Liver",
-      "Fat",
-      "Pancreas",
-      "Ears"
-    ],
+    "body": ["Liver", "Fat", "Pancreas", "Ears"],
     "day": "Thursday",
     "dir": "Northeast"
   },
@@ -229,20 +153,9 @@
     "exalt": "Pisces 27°",
     "debl": "Virgo 27°",
     "mt": "Libra 0–15°",
-    "friends": [
-      "Mercury",
-      "Saturn"
-    ],
-    "enemies": [
-      "Sun",
-      "Moon"
-    ],
-    "neutral": [
-      "Mars",
-      "Jupiter",
-      "Rahu",
-      "Ketu"
-    ],
+    "friends": ["Mercury", "Saturn"],
+    "enemies": ["Sun", "Moon"],
+    "neutral": ["Mars", "Jupiter", "Rahu", "Ketu"],
     "nature": "Saumya (Gentle)",
     "gender": "Female",
     "caste": "Brahmin",
@@ -256,12 +169,7 @@
       "Fine Arts & Music",
       "Reproductive System"
     ],
-    "body": [
-      "Reproductive Organs",
-      "Semen",
-      "Kidneys",
-      "Eyes"
-    ],
+    "body": ["Reproductive Organs", "Semen", "Kidneys", "Eyes"],
     "day": "Friday",
     "dir": "Southeast"
   },
@@ -274,20 +182,9 @@
     "exalt": "Libra 20°",
     "debl": "Aries 20°",
     "mt": "Aquarius 0–20°",
-    "friends": [
-      "Mercury",
-      "Venus"
-    ],
-    "enemies": [
-      "Sun",
-      "Moon",
-      "Mars"
-    ],
-    "neutral": [
-      "Jupiter",
-      "Rahu",
-      "Ketu"
-    ],
+    "friends": ["Mercury", "Venus"],
+    "enemies": ["Sun", "Moon", "Mars"],
+    "neutral": ["Jupiter", "Rahu", "Ketu"],
     "nature": "Krura (Cruel)",
     "gender": "Neuter",
     "caste": "Shudra",
@@ -301,13 +198,7 @@
       "Foreign Lands",
       "Lower Classes"
     ],
-    "body": [
-      "Bones",
-      "Teeth",
-      "Hair",
-      "Nails",
-      "Joints"
-    ],
+    "body": ["Bones", "Teeth", "Hair", "Nails", "Joints"],
     "day": "Saturday",
     "dir": "West"
   },
@@ -320,19 +211,9 @@
     "exalt": "Taurus / Gemini",
     "debl": "Scorpio / Sagittarius",
     "mt": "—",
-    "friends": [
-      "Mercury",
-      "Saturn",
-      "Venus"
-    ],
-    "enemies": [
-      "Sun",
-      "Moon",
-      "Mars"
-    ],
-    "neutral": [
-      "Jupiter"
-    ],
+    "friends": ["Mercury", "Saturn", "Venus"],
+    "enemies": ["Sun", "Moon", "Mars"],
+    "neutral": ["Jupiter"],
     "nature": "Krura (Cruel)",
     "gender": "Female",
     "caste": "Outcaste",
@@ -346,11 +227,7 @@
       "Insanity",
       "Unconventional Paths"
     ],
-    "body": [
-      "Lungs",
-      "Legs",
-      "Skin Diseases"
-    ],
+    "body": ["Lungs", "Legs", "Skin Diseases"],
     "day": "—",
     "dir": "Southwest"
   },
@@ -363,20 +240,9 @@
     "exalt": "Scorpio / Sagittarius",
     "debl": "Taurus / Gemini",
     "mt": "—",
-    "friends": [
-      "Sun",
-      "Moon",
-      "Mars",
-      "Jupiter"
-    ],
-    "enemies": [
-      "Mercury",
-      "Venus",
-      "Saturn"
-    ],
-    "neutral": [
-      "Rahu"
-    ],
+    "friends": ["Sun", "Moon", "Mars", "Jupiter"],
+    "enemies": ["Mercury", "Venus", "Saturn"],
+    "neutral": ["Rahu"],
     "nature": "Krura (Cruel)",
     "gender": "Male",
     "caste": "Outcaste",
@@ -390,11 +256,7 @@
       "Shadow Self",
       "Sudden Events"
     ],
-    "body": [
-      "Feet",
-      "Brain",
-      "Navel"
-    ],
+    "body": ["Feet", "Brain", "Navel"],
     "day": "—",
     "dir": "Northwest"
   }

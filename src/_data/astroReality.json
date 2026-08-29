@@ -1,44 +1,9 @@
 [
-  [
-    "☉ Surya",
-    "Sun",
-    "~25–35 days*",
-    "Solar center"
-  ],
-  [
-    "☽ Chandra",
-    "Moon",
-    "27.3 days",
-    "27.3 days around Earth"
-  ],
-  [
-    "♂ Mangala",
-    "Mars",
-    "24h 37m",
-    "687 days"
-  ],
-  [
-    "☿ Budha",
-    "Mercury",
-    "58.6 days",
-    "88 days"
-  ],
-  [
-    "♃ Guru",
-    "Jupiter",
-    "9h 56m",
-    "11.86 years"
-  ],
-  [
-    "♀ Shukra",
-    "Venus",
-    "243 days",
-    "225 days"
-  ],
-  [
-    "♄ Shani",
-    "Saturn",
-    "10h 33m",
-    "29.45 years"
-  ]
+  ["☉ Surya", "Sun", "~25–35 days*", "Solar center"],
+  ["☽ Chandra", "Moon", "27.3 days", "27.3 days around Earth"],
+  ["♂ Mangala", "Mars", "24h 37m", "687 days"],
+  ["☿ Budha", "Mercury", "58.6 days", "88 days"],
+  ["♃ Guru", "Jupiter", "9h 56m", "11.86 years"],
+  ["♀ Shukra", "Venus", "243 days", "225 days"],
+  ["♄ Shani", "Saturn", "10h 33m", "29.45 years"]
 ]

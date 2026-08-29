@@ -20,9 +20,7 @@
     {% include "topbar.njk" %}
     {% include "nav.njk" %}
 
-    <main class="z-content app-main">
-      {{ content | safe }}
-    </main>
+    <main class="z-content app-main">{{ content | safe }}</main>
 
     {#
       Data injection: every JSON / .11tydata.js file under src/_data/ becomes a
@@ -43,7 +41,7 @@
         BRANCHES: {{ branches | dump | safe }},
         TIMELINE: {{ timeline | dump | safe }},
         ASTRO_REALITY: {{ astroReality | dump | safe }},
-        APPARENT_MOTION: {{ apparentMotion | dump | safe }}
+        APPARENT_MOTION: {{ apparentMotion | dump | safe }},
       };
     </script>
 
@@ -53,16 +51,16 @@
       Each `var` is just an alias for `window.__DATA__.<NAME>`.
     #}
     <script>
-      var GRAHAS        = window.__DATA__.GRAHAS;
-      var RASHIS        = window.__DATA__.RASHIS;
-      var BHAVAS        = window.__DATA__.BHAVAS;
-      var NAKSHATRAS    = window.__DATA__.NAKSHATRAS;
-      var ABHIJIT       = window.__DATA__.ABHIJIT;
-      var PANCHANGA     = window.__DATA__.PANCHANGA;
-      var DASHA         = window.__DATA__.DASHA;
-      var TOOLS         = window.__DATA__.TOOLS;
-      var BRANCHES      = window.__DATA__.BRANCHES;
-      var TIMELINE      = window.__DATA__.TIMELINE;
+      var GRAHAS = window.__DATA__.GRAHAS;
+      var RASHIS = window.__DATA__.RASHIS;
+      var BHAVAS = window.__DATA__.BHAVAS;
+      var NAKSHATRAS = window.__DATA__.NAKSHATRAS;
+      var ABHIJIT = window.__DATA__.ABHIJIT;
+      var PANCHANGA = window.__DATA__.PANCHANGA;
+      var DASHA = window.__DATA__.DASHA;
+      var TOOLS = window.__DATA__.TOOLS;
+      var BRANCHES = window.__DATA__.BRANCHES;
+      var TIMELINE = window.__DATA__.TIMELINE;
       var ASTRO_REALITY = window.__DATA__.ASTRO_REALITY;
       var APPARENT_MOTION = window.__DATA__.APPARENT_MOTION;
     </script>
