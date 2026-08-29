@@ -1,0 +1,184 @@
+[
+  {
+    "num": 1,
+    "name": "Tanu / Lagna",
+    "en": "Self & Birth",
+    "theme": "Physical body, appearance, personality, birth, overall health, the beginning of all things",
+    "signif": [
+      "Self-identity",
+      "Physical appearance",
+      "General health",
+      "Head & face",
+      "Nature & disposition",
+      "Strengths & weaknesses",
+      "How others see you"
+    ]
+  },
+  {
+    "num": 2,
+    "name": "Dhana",
+    "en": "Wealth & Family",
+    "theme": "Accumulated wealth, family, speech, food habits, early education, right eye",
+    "signif": [
+      "Bank balance & savings",
+      "Family of origin",
+      "Speech & voice",
+      "Food intake",
+      "Secondary education",
+      "Value system",
+      "Ability to earn"
+    ]
+  },
+  {
+    "num": 3,
+    "name": "Sahaja",
+    "en": "Siblings & Courage",
+    "theme": "Younger siblings, courage, efforts, short travels, communication skills, hobbies",
+    "signif": [
+      "Younger siblings",
+      "Willpower & courage",
+      "Self-effort",
+      "Short journeys",
+      "Communication & writing",
+      "Hobbies & skills",
+      "Neighborhood"
+    ],
+    "extra": "Also called Upasthana (sexual passion) and Vikrama (valor)"
+  },
+  {
+    "num": 4,
+    "name": "Sukha",
+    "en": "Happiness & Home",
+    "theme": "Mother, home, property, vehicles, comfort, education, inner peace, chest",
+    "signif": [
+      "Mother & maternal care",
+      "Home & homeland",
+      "Real estate & property",
+      "Vehicles & conveyances",
+      "Emotional happiness",
+      "Formal education",
+      "Chest & lungs"
+    ]
+  },
+  {
+    "num": 5,
+    "name": "Putra",
+    "en": "Children & Intelligence",
+    "theme": "Children, creativity, intelligence, past life merit (Punya), romance, speculation",
+    "signif": [
+      "Children & progeny",
+      "Intelligence & intellect",
+      "Creative expression",
+      "Romance & dating",
+      "Speculation & gambling",
+      "Past life merit",
+      "Mantras & spiritual practice"
+    ]
+  },
+  {
+    "num": 6,
+    "name": "Ripu / Shatru",
+    "en": "Enemies & Disease",
+    "theme": "Disease, debts, enemies, obstacles, service, daily labor, litigation, maternal uncle",
+    "signif": [
+      "Illness & disease",
+      "Debts & borrowing",
+      "Enemies & opposition",
+      "Obstacles & challenges",
+      "Daily employment",
+      "Litigation & divorce",
+      "Uncles & maternal relatives"
+    ]
+  },
+  {
+    "num": 7,
+    "name": "Kalatra",
+    "en": "Marriage & Partnership",
+    "theme": "Spouse, marriage, business partnerships, long travels, public relations, lower abdomen",
+    "signif": [
+      "Spouse & marriage",
+      "Business partnerships",
+      "Long-distance travel",
+      "Public relations",
+      "Trade & commerce",
+      "Sexual passion",
+      "Foreign residence"
+    ]
+  },
+  {
+    "num": 8,
+    "name": "Ayur",
+    "en": "Longevity & Death",
+    "theme": "Death, longevity, hidden things, occult, sudden events, inheritance, chronic illness, pelvic region",
+    "signif": [
+      "Life span & death",
+      "Sudden & unexpected events",
+      "Hidden wealth & inheritance",
+      "Occult & mysticism",
+      "Chronic illness",
+      "Accidents",
+      "Transformation & regeneration"
+    ]
+  },
+  {
+    "num": 9,
+    "name": "Dharma",
+    "en": "Fortune & Father",
+    "theme": "Fortune, father, religion, higher learning, philosophy, teacher/guru, long travels, thighs",
+    "signif": [
+      "Good fortune & luck",
+      "Father & paternal relations",
+      "Religion & spirituality",
+      "Higher education",
+      "Philosophy & wisdom",
+      "Guru / spiritual teacher",
+      "Pilgrimage & long travel"
+    ]
+  },
+  {
+    "num": 10,
+    "name": "Karma",
+    "en": "Career & Fame",
+    "theme": "Career, fame, authority, public image, government, karma (action), knees",
+    "signif": [
+      "Career & profession",
+      "Fame & reputation",
+      "Authority & power",
+      "Government connection",
+      "Public image",
+      "Father's career",
+      "Karmic actions in the world"
+    ]
+  },
+  {
+    "num": 11,
+    "name": "Labha",
+    "en": "Gains & Income",
+    "theme": "Gains, income, elder siblings, friends, hopes & wishes, fulfillment of desires",
+    "signif": [
+      "Income & gains",
+      "Elder siblings",
+      "Friends & social circles",
+      "Hopes & aspirations",
+      "Fulfillment of desires",
+      "Left ear",
+      "Network & connections"
+    ]
+  },
+  {
+    "num": 12,
+    "name": "Vyaya",
+    "en": "Loss & Liberation",
+    "theme": "Losses, expenses, liberation (Moksha), sleep, foreign residence, left eye, feet, bed pleasures",
+    "signif": [
+      "Expenses & losses",
+      "Liberation (Moksha)",
+      "Sleep & dreams",
+      "Foreign residence & travel",
+      "Left eye & feet",
+      "Bed pleasures",
+      "Isolation & retreat",
+      "Afterlife"
+    ]
+  }
+]
